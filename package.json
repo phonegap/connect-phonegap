@@ -1,0 +1,38 @@
+{
+  "name": "phonegap-soundwave",
+  "description": "Steam app content to a device.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/phonegap/node-phonegap-soundwave",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:phonegap/node-phonegap-soundwave.git"
+  },
+  "keywords": [
+    "phonegap"
+  ],
+  "preferGlobal": "false",
+  "main": "./lib/soundwave/index.js",
+  "scripts": {
+    "test": "jasmine-node --color spec"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jasmine-node": "1.8.0"
+  },
+  "optionalDependencies": {
+  },
+  "contributors": [
+    {
+      "name": "Tim Kim"
+    },
+    {
+      "name": "Michael Brooks",
+      "email": "michael@michaelbrooks.ca",
+      "url": "http://michaelbrooks.ca/"
+    }
+  ]
+}
