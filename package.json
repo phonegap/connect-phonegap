@@ -11,7 +11,7 @@
     "phonegap"
   ],
   "preferGlobal": "false",
-  "main": "./lib/soundwave/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "jasmine-node --color spec"
   },
