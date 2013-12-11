@@ -1,7 +1,7 @@
 {
   "name": "phonegap-soundwave",
   "description": "Stream a PhoneGap app to any device.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "homepage": "https://github.com/phonegap/node-phonegap-soundwave",
   "repository": {
     "type": "git",
