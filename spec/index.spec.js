@@ -110,15 +110,14 @@ describe('soundwave.serve(options, [callback])', function() {
             });
             serverSpy.emit('error', new Error('port in use'));
         });
-/*
+
         it('should fire "error" event', function(done) {
-            phonegap.on('error', function(e) {
+            soundwave.on('error', function(e) {
                 expect(e).toEqual(jasmine.any(Error));
                 done();
             });
-            phonegap.serve(options);
+            soundwave.serve(options);
             serverSpy.emit('error', new Error('port in use'));
         });
-*/
     });
 });
