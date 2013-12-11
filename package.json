@@ -1,6 +1,6 @@
 {
   "name": "phonegap-soundwave",
-  "description": "Steam a PhoneGap app to any device.",
+  "description": "Stream a PhoneGap app to any device.",
   "version": "0.0.2",
   "homepage": "https://github.com/phonegap/node-phonegap-soundwave",
   "repository": {
