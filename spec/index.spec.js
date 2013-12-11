@@ -89,18 +89,16 @@ describe('soundwave.serve(options, [callback])', function() {
                 expect(serveSpy).toHaveBeenCalled();
             });
 
-/*
             it('should emit a "log" event', function(done) {
                 serveSpy.andCallFake(function(request, response, callback) {
                     callback(null, { status: 200 });
                 });
-                phonegap.on('log', function(request, response) {
+                soundwave.on('log', function(request, response) {
                     done();
                 });
-                phonegap.serve(options);
+                soundwave.serve(options);
                 request.emit('end');
             });
-*/
         });
     });
 
