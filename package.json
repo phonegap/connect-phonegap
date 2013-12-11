@@ -19,6 +19,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "node-static": "0.7.0"
   },
   "devDependencies": {
     "jasmine-node": "1.8.0"
