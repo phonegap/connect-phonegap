@@ -10,6 +10,16 @@ var soundwave = require('../lib'),
     options;
 
 /*!
+ * Specification: soundwave
+ */
+
+describe('soundwave', function() {
+    it('should be the request listener / middleware function', function() {
+        expect(soundwave).toEqual(middleware);
+    });
+});
+
+/*!
  * Specification: soundwave.listen([options])
  */
 
