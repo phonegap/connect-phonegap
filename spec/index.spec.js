@@ -32,14 +32,18 @@ describe('soundwave.listen([options])', function() {
         });
     });
 
-    it('should create server with our middleware', function() {
+    it('should create server using the middleware', function() {
         soundwave.listen();
         expect(http.createServer).toHaveBeenCalledWith(middleware);
     });
 
     it('should pass arguments into Server.listen', function() {
-        soundwave.listen(3000);
-        expect(serverSpy.listen).toHaveBeenCalledWith(3000);
+        soundwave.listen(1, 2, 3, 4, 5);
+        expect(serverSpy.listen).toHaveBeenCalledWith(1, 2, 3, 4, 5);
+    });
+
+    it('should return the server instance', function() {
+        expect(soundwave.listen()).toEqual(serverSpy);
     });
 });
 
@@ -50,7 +54,6 @@ describe('soundwave.listen([options])', function() {
 describe('soundwave.serve(options, [callback])', function() {
     beforeEach(function() {
         options = {};
-
         // mock the http.createServer
         spyOn(http, 'createServer').andCallFake(function() {
             serverSpy = new events.EventEmitter();
@@ -79,12 +82,12 @@ describe('soundwave.serve(options, [callback])', function() {
         }).not.toThrow();
     });
 
-    it('should try to serve the project', function() {
+    it('should try to create the server', function() {
         soundwave.serve(options);
         expect(http.createServer).toHaveBeenCalled();
     });
 
-    describe('when successfully started server', function() {
+    describe('when successfully created server', function() {
         it('should listen on the default port (3000)', function() {
             soundwave.serve(options);
             expect(serverSpy.listen).toHaveBeenCalledWith(3000);
@@ -127,7 +130,7 @@ describe('soundwave.serve(options, [callback])', function() {
         //});
     });
 
-    describe('when failed to start server', function() {
+    describe('when failed to create server', function() {
         it('should trigger callback with an error', function(done) {
             soundwave.serve(options, function(e) {
                 expect(e).toEqual(jasmine.any(Error));
