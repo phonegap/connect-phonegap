@@ -19,6 +19,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "connect": "2.12.0",
     "node-static": "0.7.0"
   },
   "devDependencies": {
