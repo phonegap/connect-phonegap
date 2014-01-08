@@ -3,10 +3,35 @@
  */
 
 var soundwave = require('../lib'),
+    middleware = require('../lib/middleware'),
     http = require('http'),
     events = require('events'),
     serverSpy,
     options;
+
+/*!
+ * Specification: soundwave.listen([options])
+ */
+
+describe('soundwave.listen([options])', function() {
+    beforeEach(function() {
+        spyOn(http, 'createServer').andCallFake(function() {
+            serverSpy = new events.EventEmitter();
+            serverSpy.listen = jasmine.createSpy().andReturn(serverSpy);
+            return serverSpy;
+        });
+    });
+
+    it('should create server with our middleware', function() {
+        soundwave.listen();
+        expect(http.createServer).toHaveBeenCalledWith(middleware);
+    });
+
+    it('should pass arguments into Server.listen', function() {
+        soundwave.listen(3000);
+        expect(serverSpy.listen).toHaveBeenCalledWith(3000);
+    });
+});
 
 /*!
  * Specification: soundwave.serve(options, [callback])
