@@ -1,6 +1,6 @@
 {
   "name": "phonegap-soundwave",
-  "description": "Stream a PhoneGap app to any device.",
+  "description": "Connect middleware to stream a PhoneGap app.",
   "version": "0.1.0",
   "homepage": "https://github.com/phonegap/node-phonegap-soundwave",
   "repository": {
