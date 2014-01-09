@@ -38,8 +38,8 @@ describe('soundwave.listen(port, [options])', function() {
     });
 
     it('should pass arguments into Server.listen', function() {
-        soundwave.listen(3000, function(){});
-        expect(serverSpy.listen).toHaveBeenCalledWith(3000, jasmine.any(Function));
+        soundwave.listen(1, 2, 3);
+        expect(serverSpy.listen).toHaveBeenCalledWith(1, 2, 3);
     });
 
     it('should return the server instance', function() {
@@ -108,24 +108,17 @@ describe('soundwave.serve(options, [callback])', function() {
             serverSpy.emit('listening');
         });
 
-        //describe('on request', function() {
-        //    it('should serve a response', function() {
-        //        soundwave.serve(options, function(e) {});
-        //        request.emit('end');
-        //        expect(serveSpy).toHaveBeenCalled();
-        //    });
-
-        //    it('should emit a "log" event', function(done) {
-        //        serveSpy.andCallFake(function(request, response, callback) {
-        //            callback(null, { status: 200 });
-        //        });
-        //        soundwave.on('log', function(request, response) {
-        //            done();
-        //        });
-        //        soundwave.serve(options);
-        //        request.emit('end');
-        //    });
-        //});
+        describe('on request', function() {
+            it('should emit a "log" event', function(done) {
+                soundwave.on('log', function(request, response) {
+                    expect(request).toEqual({ req: 'data' });
+                    expect(response).toEqual({ res: 'data' });
+                    done();
+                });
+                soundwave.serve(options);
+                serverSpy.emit('request', { req: 'data' }, { res: 'data' });
+            });
+        });
     });
 
     describe('when failed to create server', function() {
