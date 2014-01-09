@@ -18,7 +18,6 @@ describe('static()', function() {
                 .get('/')
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    console.log(res.text);
                     expect(res.text).toMatch('<title>Hello World</title>');
                     this.app.close();
                     done();
