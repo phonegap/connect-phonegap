@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var middleware = require('../lib/middleware'),
+var middleware = require('../../lib/middleware'),
     request = require('supertest'),
     chdir = require('chdir');
 
@@ -18,7 +18,8 @@ describe('static()', function() {
                 .get('/')
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(res.text).toEqual('Hello World\n');
+                    console.log(res.text);
+                    expect(res.text).toMatch('<title>Hello World</title>');
                     this.app.close();
                     done();
                 });
