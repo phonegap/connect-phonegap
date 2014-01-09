@@ -14,7 +14,7 @@ var soundwave = require('../lib'),
  */
 
 describe('soundwave', function() {
-    it('should be the request listener / middleware function', function() {
+    it('should be the middleware generator function', function() {
         expect(soundwave).toEqual(middleware);
     });
 });
@@ -34,7 +34,7 @@ describe('soundwave.listen([options])', function() {
 
     it('should create server using the middleware', function() {
         soundwave.listen();
-        expect(http.createServer).toHaveBeenCalledWith(middleware);
+        expect(http.createServer).toHaveBeenCalledWith(jasmine.any(Function));
     });
 
     it('should pass arguments into Server.listen', function() {
