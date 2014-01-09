@@ -23,6 +23,7 @@
     "node-static": "0.7.0"
   },
   "devDependencies": {
+    "chdir": "0.0.0",
     "jasmine-node": "1.8.0",
     "supertest": "0.8.3"
   },
