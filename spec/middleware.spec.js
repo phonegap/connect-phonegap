@@ -11,7 +11,7 @@ var middleware = require('../lib/middleware'),
  */
 
 describe('middleware()', function() {
-    it('should accept a request', function(done) {
+    it('should be a request listener', function(done) {
         request(middleware())
             .get('/')
             .end(function(e, res) {
