@@ -20,10 +20,10 @@ describe('soundwave', function() {
 });
 
 /*!
- * Specification: soundwave.listen([options])
+ * Specification: soundwave.listen(port, [options])
  */
 
-describe('soundwave.listen([options])', function() {
+describe('soundwave.listen(port, [options])', function() {
     beforeEach(function() {
         spyOn(http, 'createServer').andCallFake(function() {
             serverSpy = new events.EventEmitter();
@@ -33,17 +33,17 @@ describe('soundwave.listen([options])', function() {
     });
 
     it('should create server using the middleware', function() {
-        soundwave.listen();
+        soundwave.listen(3000);
         expect(http.createServer).toHaveBeenCalledWith(jasmine.any(Function));
     });
 
     it('should pass arguments into Server.listen', function() {
-        soundwave.listen(1, 2, 3, 4, 5);
-        expect(serverSpy.listen).toHaveBeenCalledWith(1, 2, 3, 4, 5);
+        soundwave.listen(3000, function(){});
+        expect(serverSpy.listen).toHaveBeenCalledWith(3000, jasmine.any(Function));
     });
 
     it('should return the server instance', function() {
-        expect(soundwave.listen()).toEqual(serverSpy);
+        expect(soundwave.listen(3000)).toEqual(serverSpy);
     });
 });
 
