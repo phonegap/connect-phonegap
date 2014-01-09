@@ -110,13 +110,13 @@ describe('soundwave.serve(options, [callback])', function() {
 
         describe('on request', function() {
             it('should emit a "log" event', function(done) {
-                soundwave.on('log', function(request, response) {
-                    expect(request).toEqual({ req: 'data' });
-                    expect(response).toEqual({ res: 'data' });
+                soundwave.on('log', function(statusCode, url) {
+                    expect(statusCode).toEqual(200);
+                    expect(url).toEqual('/a/file');
                     done();
                 });
                 soundwave.serve(options);
-                serverSpy.emit('request', { req: 'data' }, { res: 'data' });
+                serverSpy.emit('request', { url: '/a/file' }, { statusCode: 200 });
             });
         });
     });
