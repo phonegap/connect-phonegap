@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var middleware = require('../lib/middleware'),
+var soundwave = require('../lib'),
     request = require('supertest');
 
 
@@ -12,7 +12,7 @@ var middleware = require('../lib/middleware'),
 
 describe('middleware()', function() {
     it('should be a request listener', function(done) {
-        request(middleware())
+        request(soundwave())
             .get('/')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(404);
