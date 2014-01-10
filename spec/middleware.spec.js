@@ -5,7 +5,6 @@
 var soundwave = require('../lib'),
     request = require('supertest');
 
-
 /*!
  * Specification: middleware
  */
