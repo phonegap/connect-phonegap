@@ -6,7 +6,6 @@ var soundwave = require('../../lib'),
     request = require('supertest'),
     chdir = require('chdir');
 
-
 /*!
  * Specification: serve cordovajs
  */
@@ -24,7 +23,7 @@ describe('cordova()', function() {
                         done();
                     });
             });
-        });    
+        });
     });
 
     describe('when cordova.js not exists', function (){
@@ -34,7 +33,7 @@ describe('cordova()', function() {
                     .get('/cordova.js')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('Platform: ios');
+                        expect(res.text).toMatch('// Platform: ios');
                         this.app.close();
                         done();
                     });
