@@ -1,4 +1,4 @@
-# phonegap-soundwave
+# phonegap-soundwave [![Build Status][travis-ci-img]][travis-ci-url]
 
 > Connect middleware to stream a PhoneGap app.
 
@@ -78,3 +78,7 @@ Events:
 
   - `error` is emitted when an error occurs.
   - `log` is emitted with server log info.
+
+[travis-ci-img]: https://travis-ci.org/phonegap/node-phonegap-soundwave.png?branch=master
+[travis-ci-url]: http://travis-ci.org/phonegap/node-phonegap-soundwave
+
