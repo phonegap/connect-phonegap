@@ -13,7 +13,7 @@ var middleware = require('../../lib/middleware'),
 
 describe('static()', function() {
     it('should serve www/', function(done) {
-        chdir('spec/fixture', function() {
+        chdir('spec/fixture/app-without-cordova', function() {
             request(middleware())
                 .get('/')
                 .end(function(e, res) {
