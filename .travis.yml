@@ -4,3 +4,6 @@ node_js:
 branches:
   only:
     - master
+notifications:
+  email:
+    - phonegap-mx@googlegroups.com
