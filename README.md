@@ -70,9 +70,10 @@ Options:
     - `port` {Number} to listen on (Default: 3000).
   - `callback` {Function}
     - `e` {Error} is null unless there is an error.
-    - `server` {Object}
-      - `address` {String} is the server address.
-      - `port` {Number} is the server port.
+      - `data` {Object}
+        - `server` {http.Server} is the server running.
+        - `address` {String} is the server address.
+        - `port` {Number} is the server port.
 
 Events:
 

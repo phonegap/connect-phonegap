@@ -97,9 +97,10 @@ describe('soundwave.serve(options, [callback])', function() {
             expect(soundwave.listen).toHaveBeenCalledWith(1337);
         });
 
-        it('should trigger callback with server object', function(done) {
-            soundwave.serve(options, function(e, server) {
-                expect(server).toEqual({
+        it('should trigger callback with data object', function(done) {
+            soundwave.serve(options, function(e, data) {
+                expect(data).toEqual({
+                    server: serverSpy,
                     address: '127.0.0.1',
                     port: 3000
                 });
