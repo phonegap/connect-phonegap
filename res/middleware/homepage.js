@@ -1,4 +1,9 @@
 <script type="text/javascript">
+//
+// Go to app's homepage on a three-finger tap.
+//
+(function() {
+
     function loadConfig(callback) {
         readFile('config.json', function(e, text) {
             var config = parseAsJSON(text);
@@ -39,12 +44,9 @@
         );
     }
 
-    function touchStart(event){
-        console.log('should I go home?');
-        // go home
-        if(event.touches.length == 3){
-            console.log('yup');
-            document.body.removeEventListener('touchstart', touchStart, false);
+    function ontouchstart(event){
+        if (event.touches.length === 3) {
+            document.body.removeEventListener('touchstart', ontouchstart, false);
             window.history.back(window.history.length);
 
             // cannot reliably use the config to load the homepage URL
@@ -63,8 +65,9 @@
             //    }
             //});
         }
-        console.log('noop');
     }
 
-    document.body.addEventListener('touchstart', touchStart, false);
+    document.body.addEventListener('touchstart', ontouchstart, false);
+
+})(window);
 </script>

@@ -1,11 +1,17 @@
 <script type="text/javascript">
-    function touchStart(event){
-        // reload
-        if(event.touches.length == 4){
-            document.body.removeEventListener('touchstart', touchStart, false);
+//
+// Refresh the app on a four-finger tap.
+//
+(function() {
+
+    function ontouchstart(event) {
+        if (event.touches.length === 4) {
+            document.body.removeEventListener('touchstart', ontouchstart, false);
             window.location.reload(true);
         }
     }
 
-    document.body.addEventListener('touchstart', touchStart, false);
+    document.body.addEventListener('touchstart', ontouchstart, false);
+
+})(window);
 </script>
