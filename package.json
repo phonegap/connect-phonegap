@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "connect": "2.12.0",
-    "node-static": "0.7.0"
+    "node-static": "0.7.0",
+    "connect-inject": "0.3.2"
   },
   "devDependencies": {
     "chdir": "0.0.0",
