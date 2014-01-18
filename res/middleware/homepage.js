@@ -11,6 +11,14 @@
         });
     }
 
+    function parseAsJSON(text) {
+        try {
+            return JSON.parse(text);
+        } catch(e) {
+            return {};
+        }
+    }
+
     function readFile(filepath, callback) {
         window.requestFileSystem(
             LocalFileSystem.PERSISTENT,
@@ -47,23 +55,19 @@
     function ontouchstart(event){
         if (event.touches.length === 3) {
             document.body.removeEventListener('touchstart', ontouchstart, false);
-            window.history.back(window.history.length);
 
-            // cannot reliably use the config to load the homepage URL
-            // because it requires the FileReader API. The native code is
-            // guaranteed to exist on the target app, but we will need to
-            // inject the File API's JavaScript.
-            //
-            //loadConfig(function(e, config) {
-            //    console.log('go home:', config.address);
-            //    if (config.address) {
-            //        window.document = config.address;
-            //    }
-            //    else {
-            //        // address not saved, try fallback approach
-            //        window.history.back(window.history.length);
-            //    }
-            //});
+            loadConfig(function(e, config) {
+                //
+                // bug: security prevents us from navigating to the file URL
+                //
+                //if (config.address) {
+                //    window.location = config.URL;
+                //}
+                //else {
+                    // address not saved, try fallback approach
+                    window.history.back(window.history.length);
+                //}
+            });
         }
     }
 
