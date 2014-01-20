@@ -5,13 +5,13 @@
 (function() {
 
     function ontouchstart(event) {
-        if (event.touches.length === 4) {
-            document.body.removeEventListener('touchstart', ontouchstart, false);
+        if (event.gesture.touches.length === 4) {
+            Hammer(document.body).off('touch', ontouchstart, false);
             window.location.reload(true);
         }
     }
 
-    document.body.addEventListener('touchstart', ontouchstart, false);
+    Hammer(document.body).on('touch', ontouchstart, false);
 
 })(window);
 </script>

@@ -53,8 +53,8 @@
     }
 
     function ontouchstart(event){
-        if (event.touches.length === 3) {
-            document.body.removeEventListener('touchstart', ontouchstart, false);
+        if (event.gesture.touches.length === 3) {
+            Hammer(document.body).off('touch', ontouchstart, false);
 
             loadConfig(function(e, config) {
                 //
@@ -70,8 +70,8 @@
             });
         }
     }
-
-    document.body.addEventListener('touchstart', ontouchstart, false);
+    
+    Hammer(document.body).on('touch', ontouchstart, false);
 
 })(window);
 </script>
