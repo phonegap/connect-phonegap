@@ -21,6 +21,7 @@
   "dependencies": {
     "connect": "2.12.0",
     "connect-inject": "0.3.2",
+    "gaze" : "0.4.3",
     "home-dir": "0.1.2",
     "node-static": "0.7.0",
     "request": "2.33.0",
