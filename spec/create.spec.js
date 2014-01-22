@@ -161,7 +161,7 @@ describe('soundwave.create.validateProjectPath(options, callback)', function() {
             path: 'path/to/app'
         };
         spyOn(fs, 'existsSync');
-        spyOn(fs, 'readdir');
+        spyOn(fs, 'readdirSync');
     });
 
     describe('path does not exist', function() {
@@ -177,7 +177,7 @@ describe('soundwave.create.validateProjectPath(options, callback)', function() {
     describe('path is empty directory', function() {
         it('should be valid', function(done) {
             fs.existsSync.andReturn(true);
-            fs.readdir.andReturn(['.', '..']);
+            fs.readdirSync.andReturn(['.', '..']);
             soundwave.create.validateProjectPath(options, function(e) {
                 expect(e).toBeNull();
                 done();
@@ -188,7 +188,7 @@ describe('soundwave.create.validateProjectPath(options, callback)', function() {
     describe('path contains files', function() {
         it('should be invalid', function(done) {
             fs.existsSync.andReturn(true);
-            fs.readdir.andReturn(['.', '..', 'file.js']);
+            fs.readdirSync.andReturn(['.', '..', 'file.js']);
             soundwave.create.validateProjectPath(options, function(e) {
                 expect(e).toEqual(jasmine.any(Error));
                 done();
