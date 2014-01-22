@@ -6,12 +6,11 @@
 
     function checkForReload() {
         var xhr = new XMLHttpRequest;
-        xhr.open('get', 'http://' + document.location.host + '/cordova_live_reload', true);
+        xhr.open('get', 'http://' + document.location.host + '/autoreload', true);
         xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
                 var reload = JSON.parse(this.responseText).reload;
-                console.log('reload' + reload);
                 if (reload) window.location.reload();
             }
         }
