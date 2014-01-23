@@ -7,7 +7,7 @@
 ### Standalone
 
     var soundwave = require('phonegap-soundwave');
-    soundwave.listen(3000);
+    soundwave.serve();
 
 ### Express
 
@@ -48,26 +48,17 @@ Returns:
 
   - {Function} request listener
 
-### soundwave.listen(port, [options])
-
-Create an `http.Server` and listen on the specified port.
-All arguments are passed directly into `http.listen(...)`.
-
-See [http.listen](http://nodejs.org/api/http.html#http_server_listen_path_callback)
-for details.
-
-Returns:
-
-  - {Object} that is an `http.Server` instance.
-
 ### soundwave.serve(options, [callback])
 
-Convenience method to `soundwave.listen(...)` that supports PhoneGap CLI events.
+Creates a local server to serve up the project. The intended
+receiver is the PhoneGap App but any browser can consume the
+content.
 
 Options:
 
   - `options`
     - `port` {Number} to listen on (Default: 3000).
+    - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
   - `callback` {Function}
     - `e` {Error} is null unless there is an error.
       - `data` {Object}
