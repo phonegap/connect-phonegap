@@ -4,8 +4,11 @@
 
 var middleware = require('../../lib/middleware'),
     gaze = require('gaze'),
+    http = require('http'),
     request = require('supertest'),
-    chdir = require('chdir');
+    soundwave = require('../../lib'),
+    chdir = require('chdir'),
+    options;
 
 /*!
  * Specification: auto-reloader middleware
@@ -26,6 +29,36 @@ describe('auto-reloader()', function() {
                 this.app.close();
                 done();
             });
+        });
+    });
+
+    describe('options', function() {
+        describe('auto-reload', function() {
+            it('should be enabled by default', function() {
+                middleware();
+                expect(gaze.Gaze).toHaveBeenCalled();
+            });
+
+            it('should be enabled when true', function() {
+                middleware({ autoreload: true });
+                expect(gaze.Gaze).toHaveBeenCalled();
+            });
+
+            it('should be disabled when false', function() {
+                middleware({ autoreload: false });
+                expect(gaze.Gaze).not.toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('soundwave.serve', function() {
+        it('should pass the auto-reload option', function() {
+            spyOn(http, 'createServer').andReturn({
+                on: function() {},
+                listen: function() {}
+            });
+            soundwave.serve({ autoreload: true });
+            expect(gaze.Gaze).toHaveBeenCalled();
         });
     });
 });

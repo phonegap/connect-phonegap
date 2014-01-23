@@ -54,8 +54,9 @@ describe('soundwave.listen(port, [options])', function() {
 describe('soundwave.serve(options, [callback])', function() {
     beforeEach(function() {
         options = {};
-        spyOn(soundwave, 'listen').andCallFake(function() {
+        spyOn(http, 'createServer').andCallFake(function() {
             serverSpy = new events.EventEmitter();
+            serverSpy.listen = jasmine.createSpy('listen');
             return serverSpy;
         });
     });
@@ -82,19 +83,19 @@ describe('soundwave.serve(options, [callback])', function() {
 
     it('should try to create the server', function() {
         soundwave.serve(options);
-        expect(soundwave.listen).toHaveBeenCalled();
+        expect(serverSpy.listen).toHaveBeenCalled();
     });
 
     describe('when successfully created server', function() {
         it('should listen on the default port (3000)', function() {
             soundwave.serve(options);
-            expect(soundwave.listen).toHaveBeenCalledWith(3000);
+            expect(serverSpy.listen).toHaveBeenCalledWith(3000);
         });
 
         it('should listen on the specified port', function() {
             options.port = 1337;
             soundwave.serve(options);
-            expect(soundwave.listen).toHaveBeenCalledWith(1337);
+            expect(serverSpy.listen).toHaveBeenCalledWith(1337);
         });
 
         it('should trigger callback with data object', function(done) {
