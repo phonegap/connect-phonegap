@@ -11,10 +11,10 @@ var middleware = require('../../lib/middleware'),
     options;
 
 /*!
- * Specification: auto-reloader middleware
+ * Specification: AutoReload middleware.
  */
 
-describe('auto-reloader()', function() {
+describe('autoreload()', function() {
     beforeEach(function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
     });
@@ -33,7 +33,7 @@ describe('auto-reloader()', function() {
     });
 
     describe('options', function() {
-        describe('auto-reload', function() {
+        describe('autoreload', function() {
             it('should be enabled by default', function() {
                 middleware();
                 expect(gaze.Gaze).toHaveBeenCalled();
@@ -52,7 +52,7 @@ describe('auto-reloader()', function() {
     });
 
     describe('soundwave.serve', function() {
-        it('should pass the auto-reload option', function() {
+        it('should pass the autoreload option', function() {
             spyOn(http, 'createServer').andReturn({
                 on: function() {},
                 listen: function() {}
