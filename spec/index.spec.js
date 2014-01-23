@@ -20,34 +20,6 @@ describe('soundwave', function() {
 });
 
 /*!
- * Specification: soundwave.listen(port, [options])
- */
-
-describe('soundwave.listen(port, [options])', function() {
-    beforeEach(function() {
-        spyOn(http, 'createServer').andCallFake(function() {
-            serverSpy = new events.EventEmitter();
-            serverSpy.listen = jasmine.createSpy().andReturn(serverSpy);
-            return serverSpy;
-        });
-    });
-
-    it('should create server using the middleware', function() {
-        soundwave.listen(3000);
-        expect(http.createServer).toHaveBeenCalledWith(jasmine.any(Function));
-    });
-
-    it('should pass arguments into Server.listen', function() {
-        soundwave.listen(1, 2, 3);
-        expect(serverSpy.listen).toHaveBeenCalledWith(1, 2, 3);
-    });
-
-    it('should return the server instance', function() {
-        expect(soundwave.listen(3000)).toEqual(serverSpy);
-    });
-});
-
-/*!
  * Specification: soundwave.serve(options, [callback])
  */
 
