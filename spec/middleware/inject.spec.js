@@ -57,4 +57,18 @@ describe('inject()', function() {
             });
         });
     });
+
+    it('should inject autoreload logic', function(done) {
+        chdir('spec/fixture/app-with-cordova', function() {
+            request(middleware())
+            .get('/')
+            .set('accept', 'text/html')
+            .end(function(e, res) {
+                expect(res.statusCode).toEqual(200);
+                expect(res.text).toMatch('// Reload');
+                this.app.close();
+                done();
+            });
+        });
+    });
 });
