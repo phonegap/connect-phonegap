@@ -3,8 +3,9 @@
  */
 
 var middleware = require('../../lib/middleware'),
-    request = require('supertest'),
-    chdir = require('chdir');
+    chdir = require('chdir'),
+    gaze = require('gaze'),
+    request = require('supertest');
 
 
 /*!
@@ -12,6 +13,10 @@ var middleware = require('../../lib/middleware'),
  */
 
 describe('static()', function() {
+    beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+    });
+
     it('should serve www/', function(done) {
         chdir('spec/fixture/app-without-cordova', function() {
             request(middleware()).get('/').end(function(e, res) {

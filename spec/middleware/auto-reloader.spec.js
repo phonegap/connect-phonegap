@@ -3,6 +3,7 @@
  */
 
 var middleware = require('../../lib/middleware'),
+    gaze = require('gaze'),
     request = require('supertest'),
     chdir = require('chdir');
 
@@ -11,6 +12,10 @@ var middleware = require('../../lib/middleware'),
  */
 
 describe('auto-reloader()', function() {
+    beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+    });
+
     it('should get a JSON response', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
             request(middleware())

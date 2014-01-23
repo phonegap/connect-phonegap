@@ -3,14 +3,19 @@
  */
 
 var soundwave = require('../../lib'),
-    request = require('supertest'),
-    chdir = require('chdir');
+    chdir = require('chdir'),
+    gaze = require('gaze'),
+    request = require('supertest');
 
 /*!
  * Specification: serve cordovajs
  */
 
 describe('cordova()', function() {
+    beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+    });
+
     describe('when cordova.js exists', function (){
         it('should do nothing', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {

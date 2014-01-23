@@ -3,14 +3,19 @@
  */
 
 var middleware = require('../../lib/middleware'),
-    request = require('supertest'),
-    chdir = require('chdir');
+    chdir = require('chdir'),
+    gaze = require('gaze'),
+    request = require('supertest');
 
 /*!
  * Specification: inject middleware
  */
 
 describe('inject()', function() {
+    beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+    });
+
     it('should inject hammer.js', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
             request(middleware())
