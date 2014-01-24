@@ -19,7 +19,7 @@
         xhr.send();
     }
 
-    setInterval(checkForReload, 1000*5);
+    setInterval(checkForReload, 1000 * 3);
 
 })(window);
 </script>
