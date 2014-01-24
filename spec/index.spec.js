@@ -6,6 +6,7 @@ var soundwave = require('../lib'),
     middleware = require('../lib/middleware'),
     http = require('http'),
     events = require('events'),
+    address = require('address'),
     serverSpy,
     options;
 
@@ -74,7 +75,7 @@ describe('soundwave.serve(options, [callback])', function() {
             soundwave.serve(options, function(e, data) {
                 expect(data).toEqual({
                     server: serverSpy,
-                    address: '127.0.0.1',
+                    address: address.ip(),
                     port: 3000
                 });
                 done();
