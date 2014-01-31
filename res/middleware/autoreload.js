@@ -10,8 +10,6 @@
         xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
-                // do we need to read the response?
-                var response = JSON.parse(this.responseText);
             }
         }
         xhr.send();
@@ -32,7 +30,6 @@
         }
         xhr.send();
     }
-
 
     setInterval(checkForReload, 1000 * 3);
 

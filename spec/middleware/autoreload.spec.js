@@ -19,10 +19,23 @@ describe('autoreload()', function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
     });
 
-    it('should get a JSON response', function(done) {
+    it('should get a JSON response using a get request', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
             request(middleware())
             .get('/autoreload')
+            .end(function(e, res) {
+                expect(res.statusCode).toEqual(200);
+                expect(res.text).toMatch('{"outdated":false}');
+                this.app.close();
+                done();
+            });
+        });
+    });
+
+    it('should get a JSON response using a post request', function(done) {
+        chdir('spec/fixture/app-with-cordova', function() {
+            request(middleware())
+            .post('/autoreload')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('{"outdated":false}');
