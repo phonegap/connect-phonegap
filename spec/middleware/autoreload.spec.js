@@ -4,11 +4,13 @@
 
 var middleware = require('../../lib/middleware'),
     gaze = require('gaze'),
+    events = require('events'),
     http = require('http'),
     request = require('supertest'),
     soundwave = require('../../lib'),
     chdir = require('chdir'),
-    options;
+    options,
+    watchSpy;
 
 /*!
  * Specification: AutoReload middleware.
@@ -16,33 +18,8 @@ var middleware = require('../../lib/middleware'),
 
 describe('autoreload()', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
-    });
-
-    it('should get a JSON response using a get request', function(done) {
-        chdir('spec/fixture/app-with-cordova', function() {
-            request(middleware())
-            .get('/autoreload')
-            .end(function(e, res) {
-                expect(res.statusCode).toEqual(200);
-                expect(res.text).toMatch('{"outdated":false}');
-                this.app.close();
-                done();
-            });
-        });
-    });
-
-    it('should get a JSON response using a post request', function(done) {
-        chdir('spec/fixture/app-with-cordova', function() {
-            request(middleware())
-            .post('/autoreload')
-            .end(function(e, res) {
-                expect(res.statusCode).toEqual(200);
-                expect(res.text).toMatch('{"outdated":false}');
-                this.app.close();
-                done();
-            });
-        });
+        watchSpy = new events.EventEmitter();
+        spyOn(gaze, 'Gaze').andReturn(watchSpy);
     });
 
     describe('options', function() {
@@ -72,6 +49,79 @@ describe('autoreload()', function() {
             });
             soundwave.serve({ autoreload: true });
             expect(gaze.Gaze).toHaveBeenCalled();
+        });
+    });
+
+    describe('when up-to-date', function() {
+        describe('GET /autoreload', function() {
+            it('should return false', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(middleware())
+                    .get('/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":false}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('POST /autoreload', function() {
+            it('should return false', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(middleware())
+                    .post('/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":false}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    describe('when outdated', function() {
+        beforeEach(function() {
+            gaze.Gaze.andCallFake(function() {
+                process.nextTick(function() {
+                    watchSpy.emit('all');
+                });
+                return watchSpy;
+            });
+        });
+
+        describe('GET /autoreload', function() {
+            it('should return true', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(middleware())
+                    .get('/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":true}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('POST /autoreload', function() {
+            it('should return false', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(middleware())
+                    .post('/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":false}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
         });
     });
 });
