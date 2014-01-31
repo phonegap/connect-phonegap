@@ -42,11 +42,14 @@ describe('autoreload()', function() {
     });
 
     describe('soundwave.serve', function() {
-        it('should pass the autoreload option', function() {
+        beforeEach(function() {
             spyOn(http, 'createServer').andReturn({
                 on: function() {},
                 listen: function() {}
             });
+        });
+
+        it('should pass the autoreload option', function() {
             soundwave.serve({ autoreload: true });
             expect(gaze.Gaze).toHaveBeenCalled();
         });
@@ -88,9 +91,24 @@ describe('autoreload()', function() {
         beforeEach(function() {
             gaze.Gaze.andCallFake(function() {
                 process.nextTick(function() {
-                    watchSpy.emit('all');
+                    watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 });
                 return watchSpy;
+            });
+        });
+
+        it('should emit log event', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                var emitter = new events.EventEmitter();
+                emitter.on('log', function() {
+                    expect(arguments[1]).toMatch('/path/to/file.js');
+                    done();
+                });
+                request(middleware({ emitter: emitter }))
+                .post('/autoreload')
+                .end(function(e, res) {
+                    this.app.close();
+                });
             });
         });
 
