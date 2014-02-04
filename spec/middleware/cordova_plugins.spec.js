@@ -5,7 +5,8 @@
 var soundwave = require('../../lib'),
     chdir = require('chdir'),
     gaze = require('gaze'),
-    request = require('supertest');
+    request = require('supertest'),
+    useragent = require('../../lib/middleware/ext/useragent');
 
 /*!
  * Specification: serve cordova_plugin js
@@ -14,6 +15,7 @@ var soundwave = require('../../lib'),
 describe('cordova_plugins()', function() {
     beforeEach(function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });
     });
 
     describe('when cordova_plugins.js exists', function (){
@@ -30,13 +32,32 @@ describe('cordova_plugins()', function() {
     });
 
     describe('when cordova_plugins.js not exists', function (){
-        it('should serve cordova_plugins.js', function(done) {
-            chdir('spec/fixture/app-without-cordova', function() {
-                request(soundwave()).get('/cordova_plugins.js').end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(res.text).toMatch('cordova.define');
-                    this.app.close();
-                    done();
+        describe('on Android', function() {
+            beforeEach(function() {
+                useragent.parse.andReturn({ android: true, platform: 'android' });
+            });
+
+            it('should serve cordova_plugins.js', function(done) {
+                chdir('spec/fixture/app-without-cordova', function() {
+                    request(soundwave()).get('/cordova_plugins.js').end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('www/android');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('on iOS', function() {
+            it('should serve cordova_plugins.js', function(done) {
+                chdir('spec/fixture/app-without-cordova', function() {
+                    request(soundwave()).get('/cordova_plugins.js').end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('www/ios');
+                        this.app.close();
+                        done();
+                    });
                 });
             });
         });

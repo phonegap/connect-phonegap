@@ -1,5 +1,5 @@
 // Platform: android
-// 3.4.0-dev-8f301f8
+// 3.2.0
 /*
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,8 +19,8 @@
  under the License.
 */
 ;(function() {
-var CORDOVA_JS_BUILD_LABEL = '3.4.0-dev-8f301f8';
-// file: src/scripts/require.js
+var CORDOVA_JS_BUILD_LABEL = '3.2.0';
+// file: lib/scripts/require.js
 
 /*jshint -W079 */
 /*jshint -W020 */
@@ -34,7 +34,7 @@ var require,
         requireStack = [],
     // Map of module ID -> index into requireStack of modules currently being built.
         inProgressModules = {},
-        SEPARATOR = ".";
+        SEPERATOR = ".";
 
 
 
@@ -44,7 +44,7 @@ var require,
                 var resultantId = id;
                 //Its a relative path, so lop off the last portion and add the id (minus "./")
                 if (id.charAt(0) === ".") {
-                    resultantId = module.id.slice(0, module.id.lastIndexOf(SEPARATOR)) + SEPARATOR + id.slice(2);
+                    resultantId = module.id.slice(0, module.id.lastIndexOf(SEPERATOR)) + SEPERATOR + id.slice(2);
                 }
                 return require(resultantId);
             };
@@ -98,7 +98,7 @@ if (typeof module === "object" && typeof require === "function") {
     module.exports.define = define;
 }
 
-// file: src/cordova.js
+// file: lib/cordova.js
 define("cordova", function(require, exports, module) {
 
 
@@ -316,7 +316,7 @@ module.exports = cordova;
 
 });
 
-// file: src/android/android/nativeapiprovider.js
+// file: lib/android/android/nativeapiprovider.js
 define("cordova/android/nativeapiprovider", function(require, exports, module) {
 
 /**
@@ -339,7 +339,7 @@ module.exports = {
 
 });
 
-// file: src/android/android/promptbasednativeapi.js
+// file: lib/android/android/promptbasednativeapi.js
 define("cordova/android/promptbasednativeapi", function(require, exports, module) {
 
 /**
@@ -361,7 +361,7 @@ module.exports = {
 
 });
 
-// file: src/common/argscheck.js
+// file: lib/common/argscheck.js
 define("cordova/argscheck", function(require, exports, module) {
 
 var exec = require('cordova/exec');
@@ -427,7 +427,7 @@ moduleExports.enableChecks = true;
 
 });
 
-// file: src/common/base64.js
+// file: lib/common/base64.js
 define("cordova/base64", function(require, exports, module) {
 
 var base64 = exports;
@@ -483,7 +483,7 @@ function uint8ToBase64(rawData) {
 
 });
 
-// file: src/common/builder.js
+// file: lib/common/builder.js
 define("cordova/builder", function(require, exports, module) {
 
 var utils = require('cordova/utils');
@@ -552,7 +552,7 @@ function include(parent, objects, clobber, merge) {
                 include(result, obj.children, clobber, merge);
             }
         } catch(e) {
-            utils.alert('Exception building Cordova JS globals: ' + e + ' for key "' + key + '"');
+            utils.alert('Exception building cordova JS globals: ' + e + ' for key "' + key + '"');
         }
     });
 }
@@ -596,7 +596,7 @@ exports.replaceHookForTesting = function() {};
 
 });
 
-// file: src/common/channel.js
+// file: lib/common/channel.js
 define("cordova/channel", function(require, exports, module) {
 
 var utils = require('cordova/utils'),
@@ -837,7 +837,7 @@ module.exports = channel;
 
 });
 
-// file: src/android/exec.js
+// file: lib/android/exec.js
 define("cordova/exec", function(require, exports, module) {
 
 /**
@@ -1074,7 +1074,7 @@ module.exports = androidExec;
 
 });
 
-// file: src/common/exec/proxy.js
+// file: lib/common/exec/proxy.js
 define("cordova/exec/proxy", function(require, exports, module) {
 
 
@@ -1104,7 +1104,7 @@ module.exports = {
 };
 });
 
-// file: src/common/init.js
+// file: lib/common/init.js
 define("cordova/init", function(require, exports, module) {
 
 var channel = require('cordova/channel');
@@ -1218,7 +1218,7 @@ channel.join(function() {
 
 });
 
-// file: src/common/modulemapper.js
+// file: lib/common/modulemapper.js
 define("cordova/modulemapper", function(require, exports, module) {
 
 var builder = require('cordova/builder'),
@@ -1319,7 +1319,7 @@ exports.reset();
 
 });
 
-// file: src/android/platform.js
+// file: lib/android/platform.js
 define("cordova/platform", function(require, exports, module) {
 
 module.exports = {
@@ -1360,7 +1360,7 @@ module.exports = {
 
 });
 
-// file: src/android/plugin/android/app.js
+// file: lib/android/plugin/android/app.js
 define("cordova/plugin/android/app", function(require, exports, module) {
 
 var exec = require('cordova/exec');
@@ -1437,11 +1437,10 @@ module.exports = {
 
 });
 
-// file: src/common/pluginloader.js
+// file: lib/common/pluginloader.js
 define("cordova/pluginloader", function(require, exports, module) {
 
 var modulemapper = require('cordova/modulemapper');
-var urlutil = require('cordova/urlutil');
 
 // Helper function to inject a <script> tag.
 function injectScript(url, onload, onerror) {
@@ -1510,14 +1509,11 @@ function handlePluginsObject(path, moduleList, finishPluginLoading) {
 }
 
 function injectPluginScript(pathPrefix, finishPluginLoading) {
-    var pluginPath = pathPrefix + 'cordova_plugins.js';
-
-    injectScript(pluginPath, function() {
+    injectScript(pathPrefix + 'cordova_plugins.js', function(){
         try {
             var moduleList = require("cordova/plugin_list");
             handlePluginsObject(pathPrefix, moduleList, finishPluginLoading);
-        }
-        catch (e) {
+        } catch (e) {
             // Error loading cordova_plugins.js, file not found or something
             // this is an acceptable error, pre-3.0.0, so we just move on.
             finishPluginLoading();
@@ -1554,24 +1550,24 @@ exports.load = function(callback) {
 
 });
 
-// file: src/common/urlutil.js
+// file: lib/common/urlutil.js
 define("cordova/urlutil", function(require, exports, module) {
 
+var urlutil = exports;
+var anchorEl = document.createElement('a');
 
 /**
  * For already absolute URLs, returns what is passed in.
  * For relative URLs, converts them to absolute ones.
  */
-exports.makeAbsolute = function makeAbsolute(url) {
-    var anchorEl = document.createElement('a');
+urlutil.makeAbsolute = function(url) {
     anchorEl.href = url;
     return anchorEl.href;
 };
 
-
 });
 
-// file: src/common/utils.js
+// file: lib/common/utils.js
 define("cordova/utils", function(require, exports, module) {
 
 var utils = exports;
@@ -1742,7 +1738,7 @@ function UUIDcreatePart(length) {
 });
 
 window.cordova = require('cordova');
-// file: src/scripts/bootstrap.js
+// file: lib/scripts/bootstrap.js
 
 require('cordova/init');
 
