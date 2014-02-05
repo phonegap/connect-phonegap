@@ -1,10 +1,9 @@
 /*!
  * Module dependencies.
  */
-
-var phonegap = require('../../lib'),
-    chdir = require('chdir'),
+var chdir = require('chdir'),
     gaze = require('gaze'),
+    phonegap = require('../../lib'),
     request = require('supertest'),
     useragent = require('../../lib/middleware/ext/useragent');
 

@@ -2,13 +2,13 @@
  * Module dependencies.
  */
 
-var phonegap = require('../lib'),
-    middleware = require('../lib/middleware'),
-    http = require('http'),
+var address = require('address'),
     events = require('events'),
-    address = require('address'),
-    serverSpy,
-    options;
+    http = require('http'),
+    middleware = require('../lib/middleware'),
+    phonegap = require('../lib'),
+    options,
+    serverSpy;
 
 /*!
  * Specification: phonegap

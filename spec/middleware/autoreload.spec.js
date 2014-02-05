@@ -2,13 +2,13 @@
  * Module dependencies.
  */
 
-var middleware = require('../../lib/middleware'),
-    gaze = require('gaze'),
+var chdir = require('chdir'),
     events = require('events'),
+    gaze = require('gaze'),
     http = require('http'),
-    request = require('supertest'),
+    middleware = require('../../lib/middleware'),
     phonegap = require('../../lib'),
-    chdir = require('chdir'),
+    request = require('supertest'),
     options,
     watchSpy;
 

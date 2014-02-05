@@ -2,15 +2,15 @@
  * Module dependencies.
  */
 
-var phonegap = require('../lib'),
-    events = require('events'),
+var events = require('events'),
     fs = require('fs'),
     path = require('path'),
+    phonegap = require('../lib'),
     request = require('request'),
     shell = require('shelljs'),
-    options,
     callSuccess,
-    callError;
+    callError,
+    options;
 
 /*!
  * Specification: phonegap.create(options)

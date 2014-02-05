@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var middleware = require('../../lib/middleware'),
-    chdir = require('chdir'),
+var chdir = require('chdir'),
     gaze = require('gaze'),
+    middleware = require('../../lib/middleware'),
     request = require('supertest');
 
 
