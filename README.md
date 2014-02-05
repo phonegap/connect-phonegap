@@ -61,10 +61,10 @@ Options:
     - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
   - `callback` {Function}
     - `e` {Error} is null unless there is an error.
-      - `data` {Object}
-        - `server` {http.Server} is the server running.
-        - `address` {String} is the server address.
-        - `port` {Number} is the server port.
+    - `data` {Object}
+      - `server` {http.Server} is the server running.
+      - `address` {String} is the server address.
+      - `port` {Number} is the server port.
 
 Events:
 
