@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var soundwave = require('../lib'),
+var phonegap = require('../lib'),
     request = require('supertest');
 
 /*!
@@ -11,7 +11,7 @@ var soundwave = require('../lib'),
 
 describe('middleware()', function() {
     it('should be a request listener', function(done) {
-        request(soundwave()).get('/').end(function(e, res) {
+        request(phonegap()).get('/').end(function(e, res) {
             expect(res.statusCode).toEqual(404);
             this.app.close();
             done();

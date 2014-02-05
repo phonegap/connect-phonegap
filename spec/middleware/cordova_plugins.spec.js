@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var soundwave = require('../../lib'),
+var phonegap = require('../../lib'),
     chdir = require('chdir'),
     gaze = require('gaze'),
     request = require('supertest'),
@@ -21,7 +21,7 @@ describe('cordova_plugins()', function() {
     describe('when cordova_plugins.js exists', function (){
         it('should do nothing', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
-                request(soundwave()).get('/cordova_plugins.js').end(function(e, res) {
+                request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('i am cordova plugins');
                     this.app.close();
@@ -39,7 +39,7 @@ describe('cordova_plugins()', function() {
 
             it('should serve cordova_plugins.js', function(done) {
                 chdir('spec/fixture/app-without-cordova', function() {
-                    request(soundwave()).get('/cordova_plugins.js').end(function(e, res) {
+                    request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('www/android');
                         this.app.close();
@@ -52,7 +52,7 @@ describe('cordova_plugins()', function() {
         describe('on iOS', function() {
             it('should serve cordova_plugins.js', function(done) {
                 chdir('spec/fixture/app-without-cordova', function() {
-                    request(soundwave()).get('/cordova_plugins.js').end(function(e, res) {
+                    request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('www/ios');
                         this.app.close();

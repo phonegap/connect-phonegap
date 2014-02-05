@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var soundwave = require('../lib'),
+var phonegap = require('../lib'),
     middleware = require('../lib/middleware'),
     http = require('http'),
     events = require('events'),
@@ -11,20 +11,20 @@ var soundwave = require('../lib'),
     options;
 
 /*!
- * Specification: soundwave
+ * Specification: phonegap
  */
 
-describe('soundwave', function() {
+describe('phonegap', function() {
     it('should be the middleware generator function', function() {
-        expect(soundwave).toEqual(middleware);
+        expect(phonegap).toEqual(middleware);
     });
 });
 
 /*!
- * Specification: soundwave.serve(options, [callback])
+ * Specification: phonegap.serve(options, [callback])
  */
 
-describe('soundwave.serve(options, [callback])', function() {
+describe('phonegap.serve(options, [callback])', function() {
     beforeEach(function() {
         options = {};
         spyOn(http, 'createServer').andCallFake(function() {
@@ -37,42 +37,42 @@ describe('soundwave.serve(options, [callback])', function() {
     it('should require options', function() {
         expect(function() {
             options = undefined;
-            soundwave.serve(options, function(e) {});
+            phonegap.serve(options, function(e) {});
         }).toThrow();
     });
 
     it('should not require options.port', function() {
         expect(function() {
             options.port = undefined;
-            soundwave.serve(options, function(e) {});
+            phonegap.serve(options, function(e) {});
         }).not.toThrow();
     });
 
     it('should not require callback', function() {
         expect(function() {
-            soundwave.serve(options);
+            phonegap.serve(options);
         }).not.toThrow();
     });
 
     it('should try to create the server', function() {
-        soundwave.serve(options);
+        phonegap.serve(options);
         expect(serverSpy.listen).toHaveBeenCalled();
     });
 
     describe('when successfully created server', function() {
         it('should listen on the default port (3000)', function() {
-            soundwave.serve(options);
+            phonegap.serve(options);
             expect(serverSpy.listen).toHaveBeenCalledWith(3000);
         });
 
         it('should listen on the specified port', function() {
             options.port = 1337;
-            soundwave.serve(options);
+            phonegap.serve(options);
             expect(serverSpy.listen).toHaveBeenCalledWith(1337);
         });
 
         it('should trigger callback with data object', function(done) {
-            soundwave.serve(options, function(e, data) {
+            phonegap.serve(options, function(e, data) {
                 expect(data).toEqual({
                     server: serverSpy,
                     address: address.ip(),
@@ -85,12 +85,12 @@ describe('soundwave.serve(options, [callback])', function() {
 
         describe('on request', function() {
             it('should emit a "log" event', function(done) {
-                soundwave.on('log', function(statusCode, url) {
+                phonegap.on('log', function(statusCode, url) {
                     expect(statusCode).toEqual(200);
                     expect(url).toEqual('/a/file');
                     done();
                 });
-                soundwave.serve(options);
+                phonegap.serve(options);
                 serverSpy.emit('request', { url: '/a/file' }, { statusCode: 200 });
             });
         });
@@ -98,7 +98,7 @@ describe('soundwave.serve(options, [callback])', function() {
 
     describe('when failed to create server', function() {
         it('should trigger callback with an error', function(done) {
-            soundwave.serve(options, function(e) {
+            phonegap.serve(options, function(e) {
                 expect(e).toEqual(jasmine.any(Error));
                 done();
             });
@@ -106,11 +106,11 @@ describe('soundwave.serve(options, [callback])', function() {
         });
 
         it('should fire "error" event', function(done) {
-            soundwave.on('error', function(e) {
+            phonegap.on('error', function(e) {
                 expect(e).toEqual(jasmine.any(Error));
                 done();
             });
-            soundwave.serve(options);
+            phonegap.serve(options);
             serverSpy.emit('error', new Error('port in use'));
         });
     });

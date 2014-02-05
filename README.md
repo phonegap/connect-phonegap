@@ -1,45 +1,45 @@
-# phonegap-soundwave [![Build Status][travis-ci-img]][travis-ci-url]
+# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url]
 
-> Connect middleware to stream a PhoneGap app.
+> Connect middleware to serve a PhoneGap app.
 
 ## Examples
 
 ### Standalone
 
-    var soundwave = require('phonegap-soundwave');
-    soundwave.serve();
+    var phonegap = require('connect-phonegap');
+    phonegap.serve();
 
 ### Express
 
-    var soundwave = require('phonegap-soundwave'),
+    var phonegap = require('connect-phonegap'),
         express = require('express'),
         app = express();
 
-    app.use(soundwave());
+    app.use(phonegap());
     app.listen(3000);
 
 ### Connect
 
-    var soundwave = require('phonegap-soundwave'),
+    var phonegap = require('connect-phonegap'),
         connect = require('connect'),
         app = connect();
 
-    app.use(soundwave());
+    app.use(phonegap());
     app.listen(3000);
 
 ### HTTP
 
-    var soundwave = require('phonegap-soundwave'),
+    var phonegap = require('connect-phonegap'),
         http = require('http');
 
-    var server = http.createServer(soundwave());
+    var server = http.createServer(phonegap());
     server.listen(3000);
 
 ## API
 
-    var soundwave = require('phonegap-soundwave');
+    var phonegap = require('connect-phonegap');
 
-### soundwave()
+### phonegap()
 
 Returns a `http.Server` request listener that is also a compatible
 `connect` middleware function.
@@ -48,7 +48,7 @@ Returns:
 
   - {Function} request listener
 
-### soundwave.serve(options, [callback])
+### phonegap.serve(options, [callback])
 
 Creates a local server to serve up the project. The intended
 receiver is the PhoneGap App but any browser can consume the
@@ -71,7 +71,7 @@ Events:
   - `error` is emitted when an error occurs.
   - `log` is emitted with server log info.
 
-### soundwave.create(options)
+### phonegap.create(options)
 
 The project is created from the same app template used by the PhoneGap CLI
 and Cordova CLI. When a template does not exist, it is fetched and saved
@@ -96,7 +96,7 @@ Events:
 
 Example:
 
-    soundwave.create({
+    phonegap.create({
         path: 'path/to/app',
         version: '3.3.0'
     })
@@ -116,6 +116,6 @@ Example:
         console.log('created project at: ' + data.path);
     });
 
-[travis-ci-img]: https://travis-ci.org/phonegap/node-phonegap-soundwave.png?branch=master
-[travis-ci-url]: http://travis-ci.org/phonegap/node-phonegap-soundwave
+[travis-ci-img]: https://travis-ci.org/phonegap/connect-phonegap.png?branch=master
+[travis-ci-url]: http://travis-ci.org/phonegap/connect-phonegap
 

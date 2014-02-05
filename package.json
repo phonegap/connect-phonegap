@@ -1,13 +1,16 @@
 {
-  "name": "phonegap-soundwave",
-  "description": "Connect middleware to stream a PhoneGap app.",
+  "name": "connect-phonegap",
+  "description": "Connect middleware to serve a PhoneGap app.",
   "version": "0.7.0",
-  "homepage": "https://github.com/phonegap/node-phonegap-soundwave",
+  "homepage": "https://github.com/phonegap/connect-phonegap",
   "repository": {
     "type": "git",
-    "url": "git@github.com:phonegap/node-phonegap-soundwave.git"
+    "url": "git@github.com:phonegap/connect-phonegap.git"
   },
   "keywords": [
+    "connect",
+    "express",
+    "middleware",
     "phonegap"
   ],
   "preferGlobal": "false",

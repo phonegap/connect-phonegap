@@ -7,7 +7,7 @@ var middleware = require('../../lib/middleware'),
     events = require('events'),
     http = require('http'),
     request = require('supertest'),
-    soundwave = require('../../lib'),
+    phonegap = require('../../lib'),
     chdir = require('chdir'),
     options,
     watchSpy;
@@ -41,7 +41,7 @@ describe('autoreload()', function() {
         });
     });
 
-    describe('soundwave.serve', function() {
+    describe('phonegap.serve', function() {
         beforeEach(function() {
             spyOn(http, 'createServer').andReturn({
                 on: function() {},
@@ -50,7 +50,7 @@ describe('autoreload()', function() {
         });
 
         it('should pass the autoreload option', function() {
-            soundwave.serve({ autoreload: true });
+            phonegap.serve({ autoreload: true });
             expect(gaze.Gaze).toHaveBeenCalled();
         });
     });
