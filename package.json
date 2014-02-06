@@ -1,7 +1,7 @@
 {
   "name": "connect-phonegap",
   "description": "Connect middleware to serve a PhoneGap app.",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "homepage": "https://github.com/phonegap/connect-phonegap",
   "repository": {
     "type": "git",
