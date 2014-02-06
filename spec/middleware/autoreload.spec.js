@@ -6,7 +6,6 @@ var chdir = require('chdir'),
     events = require('events'),
     gaze = require('gaze'),
     http = require('http'),
-    middleware = require('../../lib/middleware'),
     phonegap = require('../../lib'),
     request = require('supertest'),
     options,
@@ -25,17 +24,17 @@ describe('autoreload()', function() {
     describe('options', function() {
         describe('autoreload', function() {
             it('should be enabled by default', function() {
-                middleware();
+                phonegap();
                 expect(gaze.Gaze).toHaveBeenCalled();
             });
 
             it('should be enabled when true', function() {
-                middleware({ autoreload: true });
+                phonegap({ autoreload: true });
                 expect(gaze.Gaze).toHaveBeenCalled();
             });
 
             it('should be disabled when false', function() {
-                middleware({ autoreload: false });
+                phonegap({ autoreload: false });
                 expect(gaze.Gaze).not.toHaveBeenCalled();
             });
         });
@@ -59,7 +58,7 @@ describe('autoreload()', function() {
         describe('GET /autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(middleware())
+                    request(phonegap())
                     .get('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
@@ -74,7 +73,7 @@ describe('autoreload()', function() {
         describe('POST /autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(middleware())
+                    request(phonegap())
                     .post('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
@@ -104,7 +103,7 @@ describe('autoreload()', function() {
                     expect(arguments[1]).toMatch('/path/to/file.js');
                     done();
                 });
-                request(middleware({ emitter: emitter }))
+                request(phonegap({ emitter: emitter }))
                 .post('/autoreload')
                 .end(function(e, res) {
                     this.app.close();
@@ -115,7 +114,7 @@ describe('autoreload()', function() {
         describe('GET /autoreload', function() {
             it('should return true', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(middleware())
+                    request(phonegap())
                     .get('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
@@ -130,7 +129,7 @@ describe('autoreload()', function() {
         describe('POST /autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(middleware())
+                    request(phonegap())
                     .post('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);

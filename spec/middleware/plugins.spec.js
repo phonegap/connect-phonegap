@@ -3,7 +3,7 @@
  */
 
 var chdir = require('chdir'),
-    middleware = require('../../lib/middleware'),
+    phonegap = require('../../lib'),
     request = require('supertest'),
     useragent = require('../../lib/middleware/ext/useragent');
 
@@ -17,7 +17,7 @@ describe('plugins()', function() {
     });
 
     it('should load a plugin given a valid path', function(done) {
-        request(middleware())
+        request(phonegap())
         .get('/plugins/org.apache.cordova.file/www/DirectoryEntry.js')
         .end(function(e, res) {
             expect(res.statusCode).toEqual(200);
@@ -33,7 +33,7 @@ describe('plugins()', function() {
         });
 
         it('should serve android-specific files', function(done) {
-            request(middleware())
+            request(phonegap())
             .get('/plugins/org.apache.cordova.dialogs/www/android/notification.js')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
@@ -49,7 +49,7 @@ describe('plugins()', function() {
         });
 
         it('should serve ios-specific files', function(done) {
-            request(middleware())
+            request(phonegap())
             .get('/plugins/org.apache.cordova.file/www/ios/Entry.js')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);

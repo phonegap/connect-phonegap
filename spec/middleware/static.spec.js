@@ -4,7 +4,7 @@
 
 var chdir = require('chdir'),
     gaze = require('gaze'),
-    middleware = require('../../lib/middleware'),
+    phonegap = require('../../lib'),
     request = require('supertest');
 
 
@@ -19,7 +19,7 @@ describe('static()', function() {
 
     it('should serve www/', function(done) {
         chdir('spec/fixture/app-without-cordova', function() {
-            request(middleware()).get('/').end(function(e, res) {
+            request(phonegap()).get('/').end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('<title>Hello World</title>');
                 this.app.close();

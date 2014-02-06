@@ -4,7 +4,7 @@
 
 var chdir = require('chdir'),
     gaze = require('gaze'),
-    middleware = require('../../lib/middleware'),
+    phonegap = require('../../lib'),
     request = require('supertest');
 
 /*!
@@ -18,7 +18,7 @@ describe('inject()', function() {
 
     it('should inject hammer.js', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(middleware())
+            request(phonegap())
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
@@ -32,7 +32,7 @@ describe('inject()', function() {
 
     it('should inject homepage logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(middleware())
+            request(phonegap())
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
@@ -46,7 +46,7 @@ describe('inject()', function() {
 
     it('should inject refresh logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(middleware())
+            request(phonegap())
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
@@ -60,7 +60,7 @@ describe('inject()', function() {
 
     it('should inject autoreload logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(middleware())
+            request(phonegap())
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {

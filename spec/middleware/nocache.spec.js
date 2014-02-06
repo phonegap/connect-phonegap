@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var middleware = require('../../lib/middleware'),
+var phonegap = require('../../lib'),
     request = require('supertest');
 
 
@@ -12,7 +12,7 @@ var middleware = require('../../lib/middleware'),
 
 describe('nocache()', function() {
     it('should set Cache-Control Header', function(done) {
-        request(middleware()).get('/').end(function(e, res) {
+        request(phonegap()).get('/').end(function(e, res) {
             expect(res.headers['cache-control']).toMatch('no-cache');
             this.app.close();
             done();
