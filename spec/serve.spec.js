@@ -62,6 +62,14 @@ describe('phonegap.serve(options, [callback])', function() {
             expect(serverSpy.listen).toHaveBeenCalledWith(1337);
         });
 
+        it('should emit a "log" event when listening', function(done) {
+            phonegap.serve(options).on('log', function(message) {
+                expect(message).toMatch('listening on');
+                done();
+            });
+            serverSpy.emit('listening', 'listening on 10.0.1.195:1337');
+        });
+
         it('should trigger callback with data object', function(done) {
             phonegap.serve(options, function(e, data) {
                 expect(data).toEqual({
@@ -76,13 +84,34 @@ describe('phonegap.serve(options, [callback])', function() {
 
         describe('on request', function() {
             it('should emit a "log" event', function(done) {
-                phonegap.on('log', function(statusCode, url) {
+                phonegap.serve(options).on('log', function(statusCode, url) {
                     expect(statusCode).toEqual(200);
                     expect(url).toEqual('/a/file');
                     done();
                 });
-                phonegap.serve(options);
                 serverSpy.emit('request', { url: '/a/file' }, { statusCode: 200 });
+            });
+        });
+
+        describe('on middleware event', function() {
+            beforeEach(function() {
+                options.emitter = new events.EventEmitter();
+            });
+
+            it('should forward "log" events', function(done) {
+                phonegap.serve(options).on('log', function(message) {
+                    expect(message).toEqual('some file change');
+                    done();
+                });
+                options.emitter.emit('log', 'some file change');
+            });
+
+            it('should forward "error" events', function(done) {
+                phonegap.serve(options).on('error', function(message) {
+                    expect(message).toEqual('internal middleware error');
+                    done();
+                });
+                options.emitter.emit('error', 'internal middleware error');
             });
         });
     });
@@ -97,11 +126,10 @@ describe('phonegap.serve(options, [callback])', function() {
         });
 
         it('should fire "error" event', function(done) {
-            phonegap.on('error', function(e) {
+            phonegap.serve(options).on('error', function(e) {
                 expect(e).toEqual(jasmine.any(Error));
                 done();
             });
-            phonegap.serve(options);
             serverSpy.emit('error', new Error('port in use'));
         });
     });

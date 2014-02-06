@@ -41,12 +41,15 @@
 
 ### phonegap()
 
-Returns a `http.Server` request listener that is also a compatible
-`connect` middleware function.
+Options:
 
-Returns:
+  - `[options]` {Object}
+    - `[emitter]` {EventEmitter} to subscribe to notifications.
 
-  - {Function} request listener
+Return:
+
+  - {Function} request listener that can be provided to `http.Server` or
+    used as `connect` middleware.
 
 ### phonegap.serve(options, [callback])
 
@@ -59,6 +62,7 @@ Options:
   - `options`
     - `port` {Number} to listen on (Default: 3000).
     - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
+    - `[emitter]` {EventEmitter} allows event notification.
   - `callback` {Function}
     - `e` {Error} is null unless there is an error.
     - `data` {Object}
@@ -70,6 +74,10 @@ Events:
 
   - `error` is emitted when an error occurs.
   - `log` is emitted with server log info.
+
+Return:
+
+  - {http.Server} instance that is also an event emitter.
 
 ### phonegap.create(options)
 
