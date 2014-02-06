@@ -23,11 +23,11 @@ describe('phonegap.serve(options, [callback])', function() {
         spyOn(http, 'createServer').andReturn(serverSpy);
     });
 
-    it('should require options', function() {
+    it('should not require options', function() {
         expect(function() {
             options = undefined;
             phonegap.serve(options, function(e) {});
-        }).toThrow();
+        }).not.toThrow();
     });
 
     it('should not require options.port', function() {

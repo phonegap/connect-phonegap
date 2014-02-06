@@ -82,8 +82,8 @@ content.
 
 Options:
 
-  - `options`
-    - `port` {Number} to listen on (Default: 3000).
+  - `[options]`
+    - `[port]` {Number} to listen on (Default: 3000).
     - all options available to phonegap() middleware.
   - `callback` {Function}
     - `e` {Error} is null unless there is an error.
