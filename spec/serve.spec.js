@@ -4,10 +4,12 @@
 
 var address = require('address'),
     events = require('events'),
+    gaze = require('gaze'),
     http = require('http'),
     phonegap = require('../lib'),
     options,
-    serverSpy;
+    serverSpy,
+    watchSpy;
 
 /*!
  * Specification: phonegap.serve(options, [callback])
@@ -95,23 +97,29 @@ describe('phonegap.serve(options, [callback])', function() {
 
         describe('on middleware event', function() {
             beforeEach(function() {
-                options.emitter = new events.EventEmitter();
+                watchSpy = new events.EventEmitter();
+                // use gaze as tester but can be any event-emitting middleware
+                spyOn(gaze, 'Gaze').andCallFake(function() {
+                    process.nextTick(function() {
+                        watchSpy.emit('all', 'eventType', '/path/to/file.js');
+                        watchSpy.emit('error', new Error('an error'));
+                    });
+                    return watchSpy;
+                });
             });
 
-            it('should forward "log" events', function(done) {
-                phonegap.serve(options).on('log', function(message) {
-                    expect(message).toEqual('some file change');
+            it('should receive log event', function(done) {
+                var server = phonegap.serve(options).on('log', function() {
+                    expect(arguments[1]).toMatch('/path/to/file.js');
                     done();
                 });
-                options.emitter.emit('log', 'some file change');
             });
 
-            it('should forward "error" events', function(done) {
-                phonegap.serve(options).on('error', function(message) {
-                    expect(message).toEqual('internal middleware error');
+            it('should receive error event', function(done) {
+                var server = phonegap.serve(options).on('error', function(e) {
+                    expect(e).toEqual(jasmine.any(Error));
                     done();
                 });
-                options.emitter.emit('error', 'internal middleware error');
             });
         });
     });

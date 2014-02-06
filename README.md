@@ -44,12 +44,35 @@
 Options:
 
   - `[options]` {Object}
-    - `[emitter]` {EventEmitter} to subscribe to notifications.
+  - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
+
+Events:
+
+  - `error` is emitted when an error occurs.
+  - `log` is emitted with log info.
 
 Return:
 
   - {Function} request listener that can be provided to `http.Server` or
     used as `connect` middleware.
+
+Example:
+
+    var phonegap = require('connect-phonegap')(),
+        middleware = phonegap();
+
+    // subscribe to events
+    middleware.on('log', function() {
+        console.log.apply(this, arguments);
+    });
+
+    // use as middleware
+    app.use(middleware);
+
+    // or
+
+    // use as request listener
+    http.createServer(middleware).listen(3000);
 
 ### phonegap.serve(options, [callback])
 
@@ -61,8 +84,7 @@ Options:
 
   - `options`
     - `port` {Number} to listen on (Default: 3000).
-    - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
-    - `[emitter]` {EventEmitter} allows event notification.
+    - all options available to phonegap() middleware.
   - `callback` {Function}
     - `e` {Error} is null unless there is an error.
     - `data` {Object}
@@ -72,8 +94,8 @@ Options:
 
 Events:
 
-  - `error` is emitted when an error occurs.
-  - `log` is emitted with server log info.
+  - all events available to phonegap() middleware.
+  - all events available to `http.Server`
 
 Return:
 

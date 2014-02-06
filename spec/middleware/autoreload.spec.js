@@ -98,12 +98,11 @@ describe('autoreload middleware', function() {
 
         it('should emit log event', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
-                var emitter = new events.EventEmitter();
-                emitter.on('log', function() {
+                var pg = phonegap().on('log', function() {
                     expect(arguments[1]).toMatch('/path/to/file.js');
                     done();
                 });
-                request(phonegap({ emitter: emitter }))
+                request(pg)
                 .post('/autoreload')
                 .end(function(e, res) {
                     this.app.close();
