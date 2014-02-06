@@ -25,4 +25,10 @@ describe('connect-phonegap', function() {
             expect(phonegap.serve).toEqual(jasmine.any(Function));
         });
     });
+
+    describe('.listen(...)', function() {
+        it('should be an alias for .serve(...)', function() {
+            expect(phonegap.listen).toEqual(phonegap.serve);
+        });
+    });
 });

@@ -7,7 +7,7 @@
 ### Standalone
 
     var phonegap = require('connect-phonegap');
-    phonegap.serve();
+    phonegap.listen();
 
 ### Express
 
@@ -74,6 +74,7 @@ Example:
     // use as request listener
     http.createServer(middleware).listen(3000);
 
+### phonegap.listen(options, [callback])
 ### phonegap.serve(options, [callback])
 
 Creates a local server to serve up the project. The intended
