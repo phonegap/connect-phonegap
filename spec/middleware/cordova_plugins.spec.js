@@ -11,7 +11,7 @@ var chdir = require('chdir'),
  * Specification: serve cordova_plugin js
  */
 
-describe('cordova_plugins()', function() {
+describe('cordova_plugins.js middleware', function() {
     beforeEach(function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
         spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });

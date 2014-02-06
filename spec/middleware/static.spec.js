@@ -12,7 +12,7 @@ var chdir = require('chdir'),
  * Specification: static middleware
  */
 
-describe('static()', function() {
+describe('static middleware', function() {
     beforeEach(function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
     });

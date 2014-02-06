@@ -11,7 +11,7 @@ var chdir = require('chdir'),
  * Specification: plugins middleware
  */
 
-describe('plugins()', function() {
+describe('plugins/**/*.js middleware', function() {
     beforeEach(function() {
         spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });
     });

@@ -11,7 +11,7 @@ var chdir = require('chdir'),
  * Specification: inject middleware
  */
 
-describe('inject()', function() {
+describe('inject middleware', function() {
     beforeEach(function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
     });
