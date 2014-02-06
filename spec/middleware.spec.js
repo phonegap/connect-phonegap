@@ -6,10 +6,10 @@ var phonegap = require('../lib'),
     request = require('supertest');
 
 /*!
- * Specification: middleware
+ * Specification: phonegap-connect middleware
  */
 
-describe('middleware()', function() {
+describe('phonegap-connect()', function() {
     it('should be a request listener', function(done) {
         request(phonegap()).get('/').end(function(e, res) {
             expect(res.statusCode).toEqual(404);
