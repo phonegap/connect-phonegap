@@ -16,11 +16,9 @@ var address = require('address'),
 describe('phonegap.serve(options, [callback])', function() {
     beforeEach(function() {
         options = {};
-        spyOn(http, 'createServer').andCallFake(function() {
-            serverSpy = new events.EventEmitter();
-            serverSpy.listen = jasmine.createSpy('listen');
-            return serverSpy;
-        });
+        serverSpy = new events.EventEmitter();
+        serverSpy.listen = jasmine.createSpy('listen').andReturn(serverSpy);
+        spyOn(http, 'createServer').andReturn(serverSpy);
     });
 
     it('should require options', function() {
@@ -41,6 +39,10 @@ describe('phonegap.serve(options, [callback])', function() {
         expect(function() {
             phonegap.serve(options);
         }).not.toThrow();
+    });
+
+    it('should return server instance', function() {
+        expect(phonegap.serve(options)).toEqual(serverSpy);
     });
 
     it('should try to create the server', function() {
