@@ -85,15 +85,16 @@ Options:
   - `[options]`
     - `[port]` {Number} to listen on (Default: 3000).
     - all options available to phonegap() middleware.
-  - `callback` {Function}
-    - `e` {Error} is null unless there is an error.
+
+Events:
+
+   - `complete` is triggered when server starts.
     - `data` {Object}
       - `server` {http.Server} is the server running.
       - `address` {String} is the server address.
       - `port` {Number} is the server port.
-
-Events:
-
+  - `error` trigger when there is an error with the server or request.
+    - `e` {Error} is null unless there is an error.
   - all events available to phonegap() middleware.
   - all events available to `http.Server`
 

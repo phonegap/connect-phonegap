@@ -25,20 +25,13 @@ describe('phonegap.serve(options, [callback])', function() {
 
     it('should not require options', function() {
         expect(function() {
-            options = undefined;
-            phonegap.serve(options, function(e) {});
+            phonegap.serve();
         }).not.toThrow();
     });
 
     it('should not require options.port', function() {
         expect(function() {
             options.port = undefined;
-            phonegap.serve(options, function(e) {});
-        }).not.toThrow();
-    });
-
-    it('should not require callback', function() {
-        expect(function() {
             phonegap.serve(options);
         }).not.toThrow();
     });
@@ -69,11 +62,11 @@ describe('phonegap.serve(options, [callback])', function() {
                 expect(message).toMatch('listening on');
                 done();
             });
-            serverSpy.emit('listening', 'listening on 10.0.1.195:1337');
+            serverSpy.emit('listening');
         });
 
-        it('should trigger callback with data object', function(done) {
-            phonegap.serve(options, function(e, data) {
+        it('should emit a "complete" event', function(done) {
+            phonegap.serve(options).on('complete', function(data) {
                 expect(data).toEqual({
                     server: serverSpy,
                     address: address.ip(),
@@ -125,14 +118,6 @@ describe('phonegap.serve(options, [callback])', function() {
     });
 
     describe('when failed to create server', function() {
-        it('should trigger callback with an error', function(done) {
-            phonegap.serve(options, function(e) {
-                expect(e).toEqual(jasmine.any(Error));
-                done();
-            });
-            serverSpy.emit('error', new Error('port in use'));
-        });
-
         it('should fire "error" event', function(done) {
             phonegap.serve(options).on('error', function(e) {
                 expect(e).toEqual(jasmine.any(Error));
