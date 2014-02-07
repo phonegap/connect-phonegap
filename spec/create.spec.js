@@ -213,7 +213,7 @@ describe('phonegap.create.templateExists(options)', function() {
             options.path
         );
         // has the full path
-        expect(fs.existsSync.calls[0].args[0]).toMatch(
+        expect(fs.existsSync.calls[0].args[0]).toEqual(
             phonegap.create.templatePath(options)
         );
     });
@@ -252,7 +252,7 @@ describe('phonegap.create.createProject(options, callback)', function() {
         phonegap.create.createProject(options);
         expect(shell.cp.calls[0].args[0]).toEqual('-R');
         // trailing-slash is important
-        expect(shell.cp.calls[0].args[1]).toMatch(
+        expect(shell.cp.calls[0].args[1]).toEqual(
             path.join(phonegap.create.templatePath(options), '/')
         );
         expect(shell.cp.calls[0].args[2]).toEqual(path.resolve(options.path));
