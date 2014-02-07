@@ -214,7 +214,7 @@ describe('phonegap.create.templateExists(options)', function() {
         );
         // has the full path
         expect(fs.existsSync.calls[0].args[0]).toMatch(
-            '/.cordova/lib/www/phonegap/' + options.version
+            phonegap.create.templatePath(options)
         );
     });
 
@@ -253,9 +253,9 @@ describe('phonegap.create.createProject(options, callback)', function() {
         expect(shell.cp.calls[0].args[0]).toEqual('-R');
         // trailing-slash is important
         expect(shell.cp.calls[0].args[1]).toMatch(
-            '/.cordova/lib/www/phonegap/' + options.version + '/'
+            path.join(phonegap.create.templatePath(options), '/')
         );
-        expect(shell.cp.calls[0].args[2]).toMatch(path.resolve(options.path));
+        expect(shell.cp.calls[0].args[2]).toEqual(path.resolve(options.path));
     });
 
     describe('successfully create project', function() {
