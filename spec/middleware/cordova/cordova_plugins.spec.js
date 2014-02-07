@@ -3,9 +3,9 @@
  */
 var chdir = require('chdir'),
     gaze = require('gaze'),
-    phonegap = require('../../lib'),
+    phonegap = require('../../../lib'),
     request = require('supertest'),
-    useragent = require('../../lib/middleware/ext/useragent');
+    useragent = require('../../../lib/middleware/ext/useragent');
 
 /*!
  * Specification: serve cordova_plugin js

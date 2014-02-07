@@ -3,9 +3,9 @@
  */
 
 var chdir = require('chdir'),
-    phonegap = require('../../lib'),
+    phonegap = require('../../../lib'),
     request = require('supertest'),
-    useragent = require('../../lib/middleware/ext/useragent');
+    useragent = require('../../../lib/middleware/ext/useragent');
 
 /*!
  * Specification: plugins middleware
