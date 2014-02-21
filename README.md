@@ -103,6 +103,16 @@ Return:
 
   - {http.Server} instance that is also an event emitter.
 
+Example:
+
+    phonegap.listen()
+            .on('complete', function(data) {
+                // server is now running
+            })
+            .on('error', function(e) {
+                // an error occured
+            });
+
 ### phonegap.create(options)
 
 The project is created from the same app template used by the PhoneGap CLI
