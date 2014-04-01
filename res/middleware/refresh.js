@@ -4,14 +4,24 @@
 //
 (function() {
 
-    function ontouchstart(event) {
-        if (event.gesture.touches.length === 4) {
-            Hammer(document.body).off('touch', ontouchstart, false);
+    var currentTouches = {};
+
+    document.addEventListener('touchstart', function(e) {
+        var touch;
+        for(var i = 0, l = e.touches.length; i < l; i++) {
+            touch = e.touches[i];
+            currentTouches[touch.identifier] = touch;
+        }
+    });
+
+    document.addEventListener('touchend', function(e) {
+        var touchCount = Object.keys(currentTouches).length;
+        currentTouches = {};
+        if (touchCount === 4) {
+            e.preventDefault();
             window.location.reload(true);
         }
-    }
-
-    Hammer(document.body).on('touch', ontouchstart, false);
+    }, false);
 
 })(window);
 </script>
