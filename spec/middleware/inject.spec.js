@@ -16,14 +16,14 @@ describe('inject middleware', function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
     });
 
-    it('should inject hammer.js', function(done) {
+    it('should not inject hammer.js', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
             request(phonegap())
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
-                expect(res.text).toMatch('Hammer.JS');
+                expect(res.text).not.toMatch('Hammer.JS');
                 this.app.close();
                 done();
             });
