@@ -32,7 +32,7 @@
     "request-progress": "0.3.1",
     "shelljs": "0.2.6",
     "tar": "0.1.19",
-    "useragent": "2.0.7"
+    "useragent": "2.0.8"
   },
   "devDependencies": {
     "chdir": "0.0.0",
