@@ -4,21 +4,27 @@
 //
 (function() {
 
-    var currentTouches = {};
+    var currentTouches = {},
+        eventName = { touchstart: 'touchstart', touchend: 'touchend' };
 
-    document.addEventListener('touchstart', function(e) {
-        var touch;
-        for(var i = 0, l = e.touches.length; i < l; i++) {
-            touch = e.touches[i];
-            currentTouches[touch.identifier] = touch;
+    if (window.navigator.msPointerEnabled) {
+        eventName = { touchstart: 'MSPointerDown', touchend: 'MSPointerUp' };
+    }
+
+    document.addEventListener(eventName.touchstart, function(evt) {
+        var touches = evt.touches || [evt],
+            touch;
+        for(var i = 0, l = touches.length; i < l; i++) {
+            touch = touches[i];
+            currentTouches[touch.identifier || touch.pointerId] = touch;
         }
-    });
+    }, false);
 
-    document.addEventListener('touchend', function(e) {
+    document.addEventListener(eventName.touchend, function(evt) {
         var touchCount = Object.keys(currentTouches).length;
         currentTouches = {};
         if (touchCount === 3) {
-            e.preventDefault();
+            evt.preventDefault();
             window.history.back(window.history.length);
         }
     }, false);
