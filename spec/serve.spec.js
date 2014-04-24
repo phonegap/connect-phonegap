@@ -67,11 +67,8 @@ describe('phonegap.serve(options, [callback])', function() {
 
         it('should emit a "complete" event', function(done) {
             phonegap.serve(options).on('complete', function(data) {
-                expect(data).toEqual({
-                    server: serverSpy,
-                    address: address.ip(),
-                    port: 3000
-                });
+                expect(data.port).toEqual(3000);
+                expect(data.server).toEqual(serverSpy);
                 done();
             });
             serverSpy.emit('listening');
