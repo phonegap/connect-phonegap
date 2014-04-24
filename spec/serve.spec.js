@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var address = require('address'),
-    events = require('events'),
+var events = require('events'),
     gaze = require('gaze'),
     http = require('http'),
     phonegap = require('../lib'),
+    getIP = require('../lib/getIP'),
     options,
     serverSpy,
     watchSpy;
@@ -67,9 +67,13 @@ describe('phonegap.serve(options, [callback])', function() {
 
         it('should emit a "complete" event', function(done) {
             phonegap.serve(options).on('complete', function(data) {
-                expect(data.port).toEqual(3000);
-                expect(data.server).toEqual(serverSpy);
-                done();
+                getIP(function(err,ip) {
+                    expect(err).toEqual(null);
+                    expect(data.port).toEqual(3000);
+                    expect(data.server).toEqual(serverSpy);
+                    expect(data.address).toEqual(ip);
+                    done();
+                });
             });
             serverSpy.emit('listening');
         });
