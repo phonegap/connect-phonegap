@@ -1,7 +1,7 @@
 <script type="text/javascript">
 //
 // Proxy
-//
+///
 // Intercept XHR calls that would violate single-origin policy.
 // These requests will be proxied through the server.
 //
@@ -16,7 +16,6 @@
         // proxy the cross-origin request
         if (!parser.hostname.match(window.location.hostname)) {
             url = '/proxy/' + encodeURIComponent(url);
-            alert(url);
         }
 
         xhr.open.apply(this, arguments);
