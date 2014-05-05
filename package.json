@@ -42,13 +42,17 @@
   },
   "contributors": [
     {
+      "name": "Michael Brooks",
+      "email": "michael@michaelbrooks.ca",
+      "url": "http://michaelbrooks.ca/"
+    },
+    {
       "name": "Tim Kim",
       "email": "timk@adobe.com"
     },
     {
-      "name": "Michael Brooks",
-      "email": "michael@michaelbrooks.ca",
-      "url": "http://michaelbrooks.ca/"
+      "name": "Jesse MacFadyen",
+      "url": "http://risingj.com"
     }
   ]
 }
