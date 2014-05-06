@@ -13,6 +13,11 @@
         var parser = document.createElement('a');
         parser.href = url;
 
+        // WP8 does not set hostname on some XHRs
+        if (!parser.hostname) {
+            parser.hostname = window.location.hostname;
+        }
+
         // proxy the cross-origin request
         if (!parser.hostname.match(window.location.hostname)) {
             url = '/proxy/' + encodeURIComponent(url);
