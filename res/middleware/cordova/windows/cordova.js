@@ -1,5 +1,6 @@
 ﻿// Platform: windowsphone
-// 3.5.0-dev-81f9a00
+// 3.2.0
+// Patched with 3.5.0-dev-799eed5
 /*
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,7 +20,7 @@
  under the License.
 */
 ;(function() {
-var CORDOVA_JS_BUILD_LABEL = '3.5.0-dev-81f9a00';
+var CORDOVA_JS_BUILD_LABEL = '3.2.0';
 // file: src/scripts/require.js
 
 /*jshint -W079 */
@@ -824,7 +825,7 @@ module.exports = function(success, fail, service, action, args) {
     for(var n = 0; n < args.length; n++)
     {
         // special case for ArrayBuffer which could not be stringified out of the box
-        if(typeof ArrayBuffer !== "undefined" && args[n] instanceof ArrayBuffer)
+        if(args[n] instanceof ArrayBuffer)
         {
             args[n] = base64.fromArrayBuffer(args[n]);
         }
@@ -969,13 +970,9 @@ modulemapper.clobbers('cordova/exec', 'Cordova.exec');
 // Call the platform-specific initialization.
 platform.bootstrap && platform.bootstrap();
 
-// Wrap in a setTimeout to support the use-case of having plugin JS appended to cordova.js.
-// The delay allows the attached modules to be defined before the plugin loader looks for them.
-setTimeout(function() {
-    pluginloader.load(function() {
-        channel.onPluginsReady.fire();
-    });
-}, 0);
+pluginloader.load(function() {
+    channel.onPluginsReady.fire();
+});
 
 /**
  * Create all cordova objects once native side is ready.
@@ -1127,50 +1124,42 @@ var modulemapper = require('cordova/modulemapper');
 var urlutil = require('cordova/urlutil');
 
 // Helper function to inject a <script> tag.
-// Exported for testing.
-exports.injectScript = function(url, onload, onerror) {
+function injectScript(url, onload, onerror) {
     var script = document.createElement("script");
     // onload fires even when script fails loads with an error.
     script.onload = onload;
-    // onerror fires for malformed URLs.
-    script.onerror = onerror;
+    script.onerror = onerror || onload;
     script.src = url;
     document.head.appendChild(script);
-};
-
-function injectIfNecessary(id, url, onload, onerror) {
-    onerror = onerror || onload;
-    if (id in define.moduleMap) {
-        onload();
-    } else {
-        exports.injectScript(url, function() {
-            if (id in define.moduleMap) {
-                onload();
-            } else {
-                onerror();
-            }
-        }, onerror);
-    }
 }
 
 function onScriptLoadingComplete(moduleList, finishPluginLoading) {
     // Loop through all the plugins and then through their clobbers and merges.
     for (var i = 0, module; module = moduleList[i]; i++) {
-        if (module.clobbers && module.clobbers.length) {
-            for (var j = 0; j < module.clobbers.length; j++) {
-                modulemapper.clobbers(module.id, module.clobbers[j]);
-            }
-        }
+        if (module) {
+            try {
+                if (module.clobbers && module.clobbers.length) {
+                    for (var j = 0; j < module.clobbers.length; j++) {
+                        modulemapper.clobbers(module.id, module.clobbers[j]);
+                    }
+                }
 
-        if (module.merges && module.merges.length) {
-            for (var k = 0; k < module.merges.length; k++) {
-                modulemapper.merges(module.id, module.merges[k]);
-            }
-        }
+                if (module.merges && module.merges.length) {
+                    for (var k = 0; k < module.merges.length; k++) {
+                        modulemapper.merges(module.id, module.merges[k]);
+                    }
+                }
 
-        // Finally, if runs is truthy we want to simply require() the module.
-        if (module.runs) {
-            modulemapper.runs(module.id);
+                // Finally, if runs is truthy we want to simply require() the module.
+                // This can be skipped if it had any merges or clobbers, though,
+                // since the mapper will already have required the module.
+                if (module.runs && !(module.clobbers && module.clobbers.length) && !(module.merges && module.merges.length)) {
+                    modulemapper.runs(module.id);
+                }
+            }
+            catch(err) {
+                // error with module, most likely clobbers, should we continue?
+            }
         }
     }
 
@@ -1196,8 +1185,24 @@ function handlePluginsObject(path, moduleList, finishPluginLoading) {
     }
 
     for (var i = 0; i < moduleList.length; i++) {
-        injectIfNecessary(moduleList[i].id, path + moduleList[i].file, scriptLoadedCallback);
+        injectScript(path + moduleList[i].file, scriptLoadedCallback);
     }
+}
+
+function injectPluginScript(pathPrefix, finishPluginLoading) {
+    var pluginPath = pathPrefix + 'cordova_plugins.js';
+
+    injectScript(pluginPath, function() {
+        try {
+            var moduleList = require("cordova/plugin_list");
+            handlePluginsObject(pathPrefix, moduleList, finishPluginLoading);
+        }
+        catch (e) {
+            // Error loading cordova_plugins.js, file not found or something
+            // this is an acceptable error, pre-3.0.0, so we just move on.
+            finishPluginLoading();
+        }
+    }, finishPluginLoading); // also, add script load error handler for file not found
 }
 
 function findCordovaPath() {
@@ -1223,10 +1228,7 @@ exports.load = function(callback) {
         console.log('Could not find cordova.js script tag. Plugin loading may fail.');
         pathPrefix = '';
     }
-    injectIfNecessary('cordova/plugin_list', pathPrefix + 'cordova_plugins.js', function() {
-        var moduleList = require("cordova/plugin_list");
-        handlePluginsObject(pathPrefix, moduleList, callback);
-    }, callback);
+    injectPluginScript(pathPrefix, callback);
 };
 
 
