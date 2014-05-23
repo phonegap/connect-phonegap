@@ -35,7 +35,7 @@ describe('proxy middleware', function() {
     // better to mock the requests but this is awkward with request lib.
     //
     describe('cross-origin request', function() {
-        it('should proxy http:', function() {
+        it('should proxy http:', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap())
                 .get('/proxy/http%3A%2F%2Fphonegap.com')
@@ -48,7 +48,7 @@ describe('proxy middleware', function() {
             });
         });
 
-        it('should proxy https:', function() {
+        it('should proxy https:', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap())
                 .get('/proxy/https%3A%2F%2Fajax.googleapis.com%2Fajax%2Fservices%2Fsearch%2Fweb%3Fv%3D1.0%26q%3DAdobe%2520PhoneGap')
