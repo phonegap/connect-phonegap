@@ -70,11 +70,41 @@ describe('autoreload middleware', function() {
             });
         });
 
+        describe('GET /__api__/autoreload', function() {
+            it('should return false', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(phonegap())
+                    .get('/__api__/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":false}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
         describe('POST /autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
                     request(phonegap())
                     .post('/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":false}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('POST /__api__/autoreload', function() {
+            it('should return false', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(phonegap())
+                    .post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('{"outdated":false}');
@@ -125,11 +155,41 @@ describe('autoreload middleware', function() {
             });
         });
 
+        describe('GET /__api__/autoreload', function() {
+            it('should return true', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(phonegap())
+                    .get('/__api__/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":true}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
         describe('POST /autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
                     request(phonegap())
                     .post('/autoreload')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('{"outdated":false}');
+                        this.app.close();
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('POST /__api__/autoreload', function() {
+            it('should return false', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    request(phonegap())
+                    .post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('{"outdated":false}');
