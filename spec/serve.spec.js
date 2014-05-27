@@ -78,14 +78,27 @@ describe('phonegap.serve(options, [callback])', function() {
             serverSpy.emit('listening');
         });
 
-        describe('on response', function() {
+        describe('on request', function() {
             it('should emit a "log" event', function(done) {
+                // test the log event
                 phonegap.serve(options).on('log', function(statusCode, url) {
                     expect(statusCode).toEqual(200);
                     expect(url).toEqual('/a/file');
                     done();
                 });
-                serverSpy.emit('response', { url: '/a/file' }, { statusCode: 200 });
+
+                // setup the request and response objects
+                var req = { url: '/a/file' },
+                    res = new events.EventEmitter();
+
+                // create a fake server request
+                serverSpy.emit('request', req, res);
+
+                // wait a moment then fake the response
+                process.nextTick(function() {
+                    res.statusCode = 200;
+                    res.emit('finish');
+                });
             });
         });
 
