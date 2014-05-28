@@ -36,7 +36,7 @@
   "devDependencies": {
     "chdir": "0.0.0",
     "jasmine-node": "1.8.0",
-    "supertest": "0.8.3"
+    "supertest": "0.13.0"
   },
   "optionalDependencies": {
   },

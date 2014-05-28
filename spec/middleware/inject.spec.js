@@ -24,7 +24,6 @@ describe('inject middleware', function() {
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).not.toMatch('Hammer.JS');
-                this.app.close();
                 done();
             });
         });
@@ -38,7 +37,6 @@ describe('inject middleware', function() {
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('Go to app\'s homepage on a three-finger tap.');
-                this.app.close();
                 done();
             });
         });
@@ -52,7 +50,6 @@ describe('inject middleware', function() {
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('Refresh the app on a four-finger tap.');
-                this.app.close();
                 done();
             });
         });
@@ -66,7 +63,6 @@ describe('inject middleware', function() {
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('// Reload');
-                this.app.close();
                 done();
             });
         });
@@ -80,7 +76,6 @@ describe('inject middleware', function() {
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('// Proxy');
-                this.app.close();
                 done();
             });
         });

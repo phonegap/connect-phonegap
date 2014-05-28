@@ -29,7 +29,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    this.app.close();
                     done();
                 });
             });
@@ -44,7 +43,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    this.app.close();
                     done();
                 });
             });
@@ -59,7 +57,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    this.app.close();
                     done();
                 });
             });
@@ -73,7 +70,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).error).not.toBeDefined();
-                    this.app.close();
                     done();
                 });
             });
@@ -88,7 +84,6 @@ describe('register middleware', function() {
                         platform: 'android',
                         version: '3.4.0'
                     });
-                    this.app.close();
                     done();
                 });
             });
@@ -100,7 +95,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).available).toEqual(jasmine.any(Object));
-                    this.app.close();
                     done();
                 });
             });
@@ -118,7 +112,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    this.app.close();
                     done();
                 });
             });
@@ -133,7 +126,6 @@ describe('register middleware', function() {
                         platform: data.platform,
                         version: data.version
                     });
-                    this.app.close();
                     done();
                 });
             });
@@ -145,7 +137,6 @@ describe('register middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(JSON.parse(res.text).available).toEqual(jasmine.any(Object));
-                    this.app.close();
                     done();
                 });
             });

@@ -24,7 +24,6 @@ describe('cordova.js middleware', function() {
                 request(phonegap()).get('/cordova.js').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('i am cordova');
-                    this.app.close();
                     done();
                 });
             });
@@ -42,7 +41,6 @@ describe('cordova.js middleware', function() {
                     request(phonegap()).get('/cordova.js').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('// Platform: android');
-                        this.app.close();
                         done();
                     });
                 });
@@ -55,7 +53,6 @@ describe('cordova.js middleware', function() {
                     request(phonegap()).get('/cordova.js').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('// Platform: ios');
-                        this.app.close();
                         done();
                     });
                 });
@@ -69,7 +66,6 @@ describe('cordova.js middleware', function() {
                 request(phonegap()).get('/phonegap.js').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('i am phonegap');
-                    this.app.close();
                     done();
                 });
             });
@@ -82,7 +78,6 @@ describe('cordova.js middleware', function() {
                 request(phonegap()).get('/phonegap.js').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('// Platform: ios');
-                    this.app.close();
                     done();
                 });
             });

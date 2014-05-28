@@ -23,7 +23,6 @@ describe('cordova_plugins.js middleware', function() {
                 request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('i am cordova plugins');
-                    this.app.close();
                     done();
                 });
             });
@@ -41,7 +40,6 @@ describe('cordova_plugins.js middleware', function() {
                     request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('www/android');
-                        this.app.close();
                         done();
                     });
                 });
@@ -54,7 +52,6 @@ describe('cordova_plugins.js middleware', function() {
                     request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(res.text).toMatch('www/ios');
-                        this.app.close();
                         done();
                     });
                 });

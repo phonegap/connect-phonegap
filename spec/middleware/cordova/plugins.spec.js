@@ -22,7 +22,6 @@ describe('plugins/**/*.js middleware', function() {
         .end(function(e, res) {
             expect(res.statusCode).toEqual(200);
             expect(res.text).toMatch(' * An interface representing a directory on the file system.');
-            this.app.close();
             done();
         });
     });
@@ -37,7 +36,6 @@ describe('plugins/**/*.js middleware', function() {
             .get('/plugins/org.apache.cordova.dialogs/www/android/notification.js')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
-                this.app.close();
                 done();
             });
         });
@@ -53,7 +51,6 @@ describe('plugins/**/*.js middleware', function() {
             .get('/plugins/org.apache.cordova.file/www/ios/Entry.js')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
-                this.app.close();
                 done();
             });
         });

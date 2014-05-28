@@ -24,7 +24,6 @@ describe('proxy middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('i am cordova');
-                    this.app.close();
                     done();
                 });
             });
@@ -42,7 +41,6 @@ describe('proxy middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('PhoneGap');
-                    this.app.close();
                     done();
                 });
             });
@@ -55,7 +53,6 @@ describe('proxy middleware', function() {
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     expect(res.text).toMatch('GsearchResultClass');
-                    this.app.close();
                     done();
                 });
             });

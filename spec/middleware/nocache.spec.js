@@ -14,7 +14,6 @@ describe('no-cache middleware', function() {
     it('should set Cache-Control Header', function(done) {
         request(phonegap()).get('/').end(function(e, res) {
             expect(res.headers['cache-control']).toMatch('no-cache');
-            this.app.close();
             done();
         });
     });

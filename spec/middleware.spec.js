@@ -13,7 +13,6 @@ describe('phonegap-connect()', function() {
     it('should return a request listener', function(done) {
         request(phonegap()).get('/').end(function(e, res) {
             expect(res.statusCode).toEqual(404);
-            this.app.close();
             done();
         });
     });

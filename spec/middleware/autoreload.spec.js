@@ -58,13 +58,13 @@ describe('autoreload middleware', function() {
         describe('GET /autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .get('/autoreload')
-                    .end(function(e, res) {
-                        expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":false}');
-                        this.app.close();
-                        done();
+                    var agent = request.agent(phonegap());
+                    agent.get('/index.html').end(function(e, res) {
+                        agent.get('/autoreload').end(function(e, res) {
+                            expect(res.statusCode).toEqual(200);
+                            expect(JSON.parse(res.text).outdated).toMatch(false);
+                            done();
+                        });
                     });
                 });
             });
@@ -73,13 +73,13 @@ describe('autoreload middleware', function() {
         describe('GET /__api__/autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .get('/__api__/autoreload')
-                    .end(function(e, res) {
-                        expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":false}');
-                        this.app.close();
-                        done();
+                    var agent = request.agent(phonegap());
+                    agent.get('/index.html').end(function(e, res) {
+                        agent.get('/__api__/autoreload').end(function(e, res) {
+                            expect(res.statusCode).toEqual(200);
+                            expect(JSON.parse(res.text).outdated).toMatch(false);
+                            done();
+                        });
                     });
                 });
             });
@@ -92,8 +92,7 @@ describe('autoreload middleware', function() {
                     .post('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":false}');
-                        this.app.close();
+                        expect(JSON.parse(res.text).outdated).toMatch(false);
                         done();
                     });
                 });
@@ -107,8 +106,7 @@ describe('autoreload middleware', function() {
                     .post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":false}');
-                        this.app.close();
+                        expect(JSON.parse(res.text).outdated).toMatch(false);
                         done();
                     });
                 });
@@ -135,7 +133,6 @@ describe('autoreload middleware', function() {
                 request(pg)
                 .post('/autoreload')
                 .end(function(e, res) {
-                    this.app.close();
                 });
             });
         });
@@ -147,8 +144,7 @@ describe('autoreload middleware', function() {
                     .get('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":true}');
-                        this.app.close();
+                        expect(JSON.parse(res.text).outdated).toMatch(true);
                         done();
                     });
                 });
@@ -162,8 +158,7 @@ describe('autoreload middleware', function() {
                     .get('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":true}');
-                        this.app.close();
+                        expect(JSON.parse(res.text).outdated).toMatch(true);
                         done();
                     });
                 });
@@ -177,8 +172,7 @@ describe('autoreload middleware', function() {
                     .post('/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":false}');
-                        this.app.close();
+                        expect(JSON.parse(res.text).outdated).toMatch(false);
                         done();
                     });
                 });
@@ -192,8 +186,7 @@ describe('autoreload middleware', function() {
                     .post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(res.text).toMatch('{"outdated":false}');
-                        this.app.close();
+                        expect(JSON.parse(res.text).outdated).toMatch(false);
                         done();
                     });
                 });
