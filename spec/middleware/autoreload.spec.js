@@ -69,6 +69,26 @@ describe('autoreload middleware', function() {
                 });
             });
         });
+
+        describe('after a resource request', function() {
+            beforeEach(function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    agent.get('/index.html').end(function(e, res) {
+                        done();
+                    });
+                });
+            });
+
+            it('should be up-to-date', function(done) {
+                chdir('spec/fixture/app-with-cordova', function() {
+                    agent.get('/__api__/autoreload').end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).content.outdated).toMatch(false);
+                        done();
+                    });
+                });
+            });
+        });
     });
 
     describe('when up-to-date', function() {
