@@ -64,7 +64,7 @@ describe('autoreload middleware', function() {
             chdir('spec/fixture/app-with-cordova', function() {
                 agent.get('/__api__/autoreload').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).outdated).toMatch(true);
+                    expect(JSON.parse(res.text).content.outdated).toMatch(true);
                     done();
                 });
             });
@@ -86,7 +86,7 @@ describe('autoreload middleware', function() {
                     agent.get('/index.html').end(function(e, res) {
                         agent.get('/__api__/autoreload').end(function(e, res) {
                             expect(res.statusCode).toEqual(200);
-                            expect(JSON.parse(res.text).outdated).toMatch(false);
+                            expect(JSON.parse(res.text).content.outdated).toMatch(false);
                             done();
                         });
                     });
@@ -100,7 +100,7 @@ describe('autoreload middleware', function() {
                     agent.post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).outdated).toMatch(false);
+                        expect(JSON.parse(res.text).content.outdated).toMatch(false);
                         done();
                     });
                 });
@@ -124,7 +124,7 @@ describe('autoreload middleware', function() {
                 chdir('spec/fixture/app-with-cordova', function() {
                     agent.get('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).outdated).toMatch(true);
+                        expect(JSON.parse(res.text).content.outdated).toMatch(true);
                         done();
                     });
                 });
@@ -136,7 +136,7 @@ describe('autoreload middleware', function() {
                 chdir('spec/fixture/app-with-cordova', function() {
                     agent.post('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).outdated).toMatch(false);
+                        expect(JSON.parse(res.text).content.outdated).toMatch(false);
                         done();
                     });
                 });
@@ -154,14 +154,14 @@ describe('autoreload middleware', function() {
                 // agent1 make a request and reports up-to-date
                 agent1.post('/__api__/autoreload').end(function(e, res) {
                     agent1.get('/__api__/autoreload').end(function(e, res) {
-                        expect(JSON.parse(res.text).outdated).toEqual(false);
+                        expect(JSON.parse(res.text).content.outdated).toEqual(false);
                         // agent2 makes no request and reports out-of-date
                         agent2.get('/__api__/autoreload').end(function(e, res) {
-                            expect(JSON.parse(res.text).outdated).toEqual(true);
+                            expect(JSON.parse(res.text).content.outdated).toEqual(true);
                             // agent2 makes request and becomes up-to-date
                             agent2.post('/__api__/autoreload').end(function(e, res) {
                                 agent2.get('/__api__/autoreload').end(function(e, res) {
-                                    expect(JSON.parse(res.text).outdated).toEqual(false);
+                                    expect(JSON.parse(res.text).content.outdated).toEqual(false);
                                     done();
                                 });
                             });

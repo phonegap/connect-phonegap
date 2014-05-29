@@ -24,7 +24,7 @@
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
                 var response = JSON.parse(this.responseText);
-                if (response.outdated) {
+                if (response.content.outdated) {
                     postStatus();
                     window.location.reload();
                 }
