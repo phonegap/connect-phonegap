@@ -193,4 +193,32 @@ describe('autoreload middleware', function() {
             });
         });
     });
+
+    describe('with multiple devices', function() {
+        it('should keep the outdated states independent', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                var server = phonegap(),
+                    agent1 = request.agent(server),
+                    agent2 = request.agent(server);
+
+                // agent1 make a request and is up-to-date
+                agent1.get('/index.html').end(function(e, res) {
+                    agent1.get('/autoreload').end(function(e, res) {
+                        expect(JSON.parse(res.text).outdated).toEqual(false);
+                        // agent2 has not made a request and is outdated
+                        agent2.get('/autoreload').end(function(e, res) {
+                            expect(JSON.parse(res.text).outdated).toEqual(true);
+                            // now let agent2 make a request and become up-to-date
+                            agent2.get('/index.html').end(function(e, res) {
+                                agent2.get('/autoreload').end(function(e, res) {
+                                    expect(JSON.parse(res.text).outdated).toEqual(false);
+                                    done();
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 });
