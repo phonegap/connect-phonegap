@@ -55,21 +55,6 @@ describe('autoreload middleware', function() {
     });
 
     describe('when up-to-date', function() {
-        describe('GET /autoreload', function() {
-            it('should return false', function(done) {
-                chdir('spec/fixture/app-with-cordova', function() {
-                    var agent = request.agent(phonegap());
-                    agent.get('/index.html').end(function(e, res) {
-                        agent.get('/autoreload').end(function(e, res) {
-                            expect(res.statusCode).toEqual(200);
-                            expect(JSON.parse(res.text).outdated).toMatch(false);
-                            done();
-                        });
-                    });
-                });
-            });
-        });
-
         describe('GET /__api__/autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
@@ -80,20 +65,6 @@ describe('autoreload middleware', function() {
                             expect(JSON.parse(res.text).outdated).toMatch(false);
                             done();
                         });
-                    });
-                });
-            });
-        });
-
-        describe('POST /autoreload', function() {
-            it('should return false', function(done) {
-                chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .post('/autoreload')
-                    .end(function(e, res) {
-                        expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).outdated).toMatch(false);
-                        done();
                     });
                 });
             });
@@ -131,22 +102,8 @@ describe('autoreload middleware', function() {
                     done();
                 });
                 request(pg)
-                .post('/autoreload')
+                .post('/__api__/autoreload')
                 .end(function(e, res) {
-                });
-            });
-        });
-
-        describe('GET /autoreload', function() {
-            it('should return true', function(done) {
-                chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .get('/autoreload')
-                    .end(function(e, res) {
-                        expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).outdated).toMatch(true);
-                        done();
-                    });
                 });
             });
         });
@@ -159,20 +116,6 @@ describe('autoreload middleware', function() {
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(JSON.parse(res.text).outdated).toMatch(true);
-                        done();
-                    });
-                });
-            });
-        });
-
-        describe('POST /autoreload', function() {
-            it('should return false', function(done) {
-                chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .post('/autoreload')
-                    .end(function(e, res) {
-                        expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).outdated).toMatch(false);
                         done();
                     });
                 });
@@ -203,14 +146,14 @@ describe('autoreload middleware', function() {
 
                 // agent1 make a request and is up-to-date
                 agent1.get('/index.html').end(function(e, res) {
-                    agent1.get('/autoreload').end(function(e, res) {
+                    agent1.get('/__api__/autoreload').end(function(e, res) {
                         expect(JSON.parse(res.text).outdated).toEqual(false);
                         // agent2 has not made a request and is outdated
-                        agent2.get('/autoreload').end(function(e, res) {
+                        agent2.get('/__api__/autoreload').end(function(e, res) {
                             expect(JSON.parse(res.text).outdated).toEqual(true);
                             // now let agent2 make a request and become up-to-date
                             agent2.get('/index.html').end(function(e, res) {
-                                agent2.get('/autoreload').end(function(e, res) {
+                                agent2.get('/__api__/autoreload').end(function(e, res) {
                                     expect(JSON.parse(res.text).outdated).toEqual(false);
                                     done();
                                 });

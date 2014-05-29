@@ -4,9 +4,11 @@
 //
 (function() {
 
+    var url = 'http://' + document.location.host + '/__api__/autoreload';
+
     function postStatus(){
         var xhr = new XMLHttpRequest;
-        xhr.open('post', 'http://' + document.location.host + '/autoreload', false);
+        xhr.open('post', url, false);
         xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
@@ -17,7 +19,7 @@
 
     function checkForReload(){
         var xhr = new XMLHttpRequest;
-        xhr.open('get', 'http://' + document.location.host + '/autoreload', true);
+        xhr.open('get', url, true);
         xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
