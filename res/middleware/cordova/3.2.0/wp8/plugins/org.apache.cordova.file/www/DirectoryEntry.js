@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.DirectoryEntry", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.file.DirectoryEntry", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -106,5 +106,4 @@ DirectoryEntry.prototype.getFile = function(path, options, successCallback, erro
 };
 
 module.exports = DirectoryEntry;
-
 });

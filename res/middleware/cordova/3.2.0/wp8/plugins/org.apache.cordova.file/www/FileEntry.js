@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileEntry", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.file.FileEntry", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -78,5 +78,4 @@ FileEntry.prototype.file = function(successCallback, errorCallback) {
 
 
 module.exports = FileEntry;
-
 });

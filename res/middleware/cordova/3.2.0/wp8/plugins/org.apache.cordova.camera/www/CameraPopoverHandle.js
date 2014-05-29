@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.camera.CameraPopoverHandle", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.camera.CameraPopoverHandle", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,5 +31,4 @@ var CameraPopoverHandle = function() {
 };
 
 module.exports = CameraPopoverHandle;
-
 });
