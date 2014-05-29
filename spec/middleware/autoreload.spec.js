@@ -8,6 +8,7 @@ var chdir = require('chdir'),
     http = require('http'),
     phonegap = require('../../lib'),
     request = require('supertest'),
+    agent,
     options,
     watchSpy;
 
@@ -54,11 +55,34 @@ describe('autoreload middleware', function() {
         });
     });
 
+    describe('default state', function() {
+        beforeEach(function() {
+            agent = request.agent(phonegap());
+        });
+
+        it('should be out-of-date', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                agent.get('/__api__/autoreload').end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    expect(JSON.parse(res.text).outdated).toMatch(true);
+                    done();
+                });
+            });
+        });
+    });
+
     describe('when up-to-date', function() {
+        beforeEach(function(done) {
+            // tell the API that we're up-to-date
+            agent = request.agent(phonegap());
+            agent.post('/__api__/autoreload').end(function(e, res) {
+                done();
+            });
+        });
+
         describe('GET /__api__/autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    var agent = request.agent(phonegap());
                     agent.get('/index.html').end(function(e, res) {
                         agent.get('/__api__/autoreload').end(function(e, res) {
                             expect(res.statusCode).toEqual(200);
@@ -73,8 +97,7 @@ describe('autoreload middleware', function() {
         describe('POST /__api__/autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .post('/__api__/autoreload')
+                    agent.post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(JSON.parse(res.text).outdated).toMatch(false);
@@ -85,8 +108,9 @@ describe('autoreload middleware', function() {
         });
     });
 
-    describe('when outdated', function() {
+    describe('when out-of-date', function() {
         beforeEach(function() {
+            agent = request.agent(phonegap());
             gaze.Gaze.andCallFake(function() {
                 process.nextTick(function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
@@ -95,25 +119,10 @@ describe('autoreload middleware', function() {
             });
         });
 
-        it('should emit log event', function(done) {
-            chdir('spec/fixture/app-with-cordova', function() {
-                var pg = phonegap().on('log', function() {
-                    expect(arguments[1]).toMatch('/path/to/file.js');
-                    done();
-                });
-                request(pg)
-                .post('/__api__/autoreload')
-                .end(function(e, res) {
-                });
-            });
-        });
-
         describe('GET /__api__/autoreload', function() {
             it('should return true', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .get('/__api__/autoreload')
-                    .end(function(e, res) {
+                    agent.get('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(JSON.parse(res.text).outdated).toMatch(true);
                         done();
@@ -125,9 +134,7 @@ describe('autoreload middleware', function() {
         describe('POST /__api__/autoreload', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
-                    request(phonegap())
-                    .post('/__api__/autoreload')
-                    .end(function(e, res) {
+                    agent.post('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(JSON.parse(res.text).outdated).toMatch(false);
                         done();
@@ -144,15 +151,15 @@ describe('autoreload middleware', function() {
                     agent1 = request.agent(server),
                     agent2 = request.agent(server);
 
-                // agent1 make a request and is up-to-date
-                agent1.get('/index.html').end(function(e, res) {
+                // agent1 make a request and reports up-to-date
+                agent1.post('/__api__/autoreload').end(function(e, res) {
                     agent1.get('/__api__/autoreload').end(function(e, res) {
                         expect(JSON.parse(res.text).outdated).toEqual(false);
-                        // agent2 has not made a request and is outdated
+                        // agent2 makes no request and reports out-of-date
                         agent2.get('/__api__/autoreload').end(function(e, res) {
                             expect(JSON.parse(res.text).outdated).toEqual(true);
-                            // now let agent2 make a request and become up-to-date
-                            agent2.get('/index.html').end(function(e, res) {
+                            // agent2 makes request and becomes up-to-date
+                            agent2.post('/__api__/autoreload').end(function(e, res) {
                                 agent2.get('/__api__/autoreload').end(function(e, res) {
                                     expect(JSON.parse(res.text).outdated).toEqual(false);
                                     done();
@@ -164,4 +171,26 @@ describe('autoreload middleware', function() {
             });
         });
     });
+
+    describe('log changed files', function() {
+        beforeEach(function() {
+            gaze.Gaze.andCallFake(function() {
+                process.nextTick(function() {
+                    watchSpy.emit('all', 'eventType', '/path/to/file.js');
+                });
+                return watchSpy;
+            });
+        });
+
+        it('should emit log event', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                // gaze will trigger the log event
+                var server = phonegap().on('log', function() {
+                    expect(arguments[1]).toMatch('/path/to/file.js');
+                    done();
+                });
+            });
+        });
+    });
+
 });
