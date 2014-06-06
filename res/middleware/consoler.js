@@ -1,5 +1,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
+(function(window) {
     var socket = io('http://' + document.location.host);
     var previousConsole = window.console || {};
     window.console = {
@@ -16,4 +17,5 @@
             socket.emit('console','error', msg);
         }
     }
+})(window);
 </script>
