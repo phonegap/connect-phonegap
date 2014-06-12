@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.geolocation.Position", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.file.fileSystems", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,16 +19,9 @@ cordova.define("org.apache.cordova.geolocation.Position", function(require, expo
  *
 */
 
-var Coordinates = require('./Coordinates');
-
-var Position = function(coords, timestamp) {
-    if (coords) {
-        this.coords = new Coordinates(coords.latitude, coords.longitude, coords.altitude, coords.accuracy, coords.heading, coords.velocity, coords.altitudeAccuracy);
-    } else {
-        this.coords = new Coordinates();
-    }
-    this.timestamp = (timestamp !== undefined) ? timestamp : new Date();
+// Overridden by Android, BlackBerry 10 and iOS to populate fsMap.
+module.exports.getFs = function(name, callback) {
+    callback(null);
 };
 
-module.exports = Position;
 });

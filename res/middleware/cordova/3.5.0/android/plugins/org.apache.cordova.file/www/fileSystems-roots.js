@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.geolocation.PositionError", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.file.fileSystems-roots", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,21 +19,28 @@ cordova.define("org.apache.cordova.geolocation.PositionError", function(require,
  *
 */
 
-/**
- * Position error object
- *
- * @constructor
- * @param code
- * @param message
- */
-var PositionError = function(code, message) {
-    this.code = code || null;
-    this.message = message || '';
+// Map of fsName -> FileSystem.
+var fsMap = null;
+var FileSystem = require('./FileSystem');
+var exec = require('cordova/exec');
+
+// Overridden by Android, BlackBerry 10 and iOS to populate fsMap.
+require('./fileSystems').getFs = function(name, callback) {
+    if (fsMap) {
+        callback(fsMap[name]);
+    } else {
+        exec(success, null, "File", "requestAllFileSystems", []);
+        function success(response) {
+            fsMap = {};
+            for (var i = 0; i < response.length; ++i) {
+                var fsRoot = response[i];
+                var fs = new FileSystem(fsRoot.filesystemName, fsRoot);
+                fsMap[fs.name] = fs;
+            }
+            callback(fsMap[name]);
+        }
+    }
 };
 
-PositionError.PERMISSION_DENIED = 1;
-PositionError.POSITION_UNAVAILABLE = 2;
-PositionError.TIMEOUT = 3;
 
-module.exports = PositionError;
 });
