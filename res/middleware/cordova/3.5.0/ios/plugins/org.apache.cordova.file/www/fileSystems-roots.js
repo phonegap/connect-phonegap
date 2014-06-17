@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.globalization.GlobalizationError", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.file.fileSystems-roots", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,25 +19,28 @@ cordova.define("org.apache.cordova.globalization.GlobalizationError", function(r
  *
 */
 
+// Map of fsName -> FileSystem.
+var fsMap = null;
+var FileSystem = require('./FileSystem');
+var exec = require('cordova/exec');
 
-/**
- * Globalization error object
- *
- * @constructor
- * @param code
- * @param message
- */
-var GlobalizationError = function(code, message) {
-    this.code = code || null;
-    this.message = message || '';
+// Overridden by Android, BlackBerry 10 and iOS to populate fsMap.
+require('./fileSystems').getFs = function(name, callback) {
+    if (fsMap) {
+        callback(fsMap[name]);
+    } else {
+        exec(success, null, "File", "requestAllFileSystems", []);
+        function success(response) {
+            fsMap = {};
+            for (var i = 0; i < response.length; ++i) {
+                var fsRoot = response[i];
+                var fs = new FileSystem(fsRoot.filesystemName, fsRoot);
+                fsMap[fs.name] = fs;
+            }
+            callback(fsMap[name]);
+        }
+    }
 };
 
-// Globalization error codes
-GlobalizationError.UNKNOWN_ERROR = 0;
-GlobalizationError.FORMATTING_ERROR = 1;
-GlobalizationError.PARSING_ERROR = 2;
-GlobalizationError.PATTERN_ERROR = 3;
-
-module.exports = GlobalizationError;
 
 });

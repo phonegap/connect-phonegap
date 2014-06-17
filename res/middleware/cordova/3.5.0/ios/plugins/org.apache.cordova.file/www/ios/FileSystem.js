@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.file.iosFileSystem", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,13 +19,14 @@ cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exp
  *
 */
 
-/**
- * FileUploadResult
- * @constructor
- */
-module.exports = function FileUploadResult(size, code, content) {
-	this.bytesSent = size;
-	this.responseCode = code;
-	this.response = content;
- };
+FILESYSTEM_PROTOCOL = "cdvfile";
+
+module.exports = {
+    __format__: function(fullPath) {
+        var path = ('/'+this.name+(fullPath[0]==='/'?'':'/')+encodeURI(fullPath)).replace('//','/');
+        return FILESYSTEM_PROTOCOL + '://localhost' + path;
+    }
+};
+
+
 });
