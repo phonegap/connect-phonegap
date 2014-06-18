@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.file-transfer.FileTransferError", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,12 +20,22 @@ cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exp
 */
 
 /**
- * FileUploadResult
+ * FileTransferError
  * @constructor
  */
-module.exports = function FileUploadResult(size, code, content) {
-	this.bytesSent = size;
-	this.responseCode = code;
-	this.response = content;
- };
+var FileTransferError = function(code, source, target, status, body) {
+    this.code = code || null;
+    this.source = source || null;
+    this.target = target || null;
+    this.http_status = status || null;
+    this.body = body || null;
+};
+
+FileTransferError.FILE_NOT_FOUND_ERR = 1;
+FileTransferError.INVALID_URL_ERR = 2;
+FileTransferError.CONNECTION_ERR = 3;
+FileTransferError.ABORT_ERR = 4;
+
+module.exports = FileTransferError;
+
 });

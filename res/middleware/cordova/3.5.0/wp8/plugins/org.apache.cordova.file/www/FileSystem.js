@@ -29,10 +29,20 @@ var DirectoryEntry = require('./DirectoryEntry');
  * {DirectoryEntry} root directory of the file system (readonly)
  */
 var FileSystem = function(name, root) {
-    this.name = name || null;
+    this.name = name;
     if (root) {
-        this.root = new DirectoryEntry(root.name, root.fullPath, this);
+        this.root = new DirectoryEntry(root.name, root.fullPath, this, root.nativeURL);
+    } else {
+        this.root = new DirectoryEntry(this.name, '/', this);
     }
+};
+
+FileSystem.prototype.__format__ = function(fullPath) {
+    return fullPath;
+};
+
+FileSystem.prototype.toJSON = function() {
+    return "<FileSystem: " + this.name + ">";
 };
 
 module.exports = FileSystem;
