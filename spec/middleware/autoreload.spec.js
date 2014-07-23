@@ -8,6 +8,7 @@ var chdir = require('chdir'),
     http = require('http'),
     phonegap = require('../../lib'),
     request = require('supertest'),
+    io = require('socket.io'),
     agent,
     options,
     watchSpy;
@@ -45,7 +46,9 @@ describe('autoreload middleware', function() {
         beforeEach(function() {
             spyOn(http, 'createServer').andReturn({
                 on: function() {},
-                listen: function() {}
+                listen: function() {},
+                listeners:function(){return []},
+                removeAllListeners:function(){}
             });
         });
 
