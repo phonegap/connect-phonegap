@@ -4,12 +4,13 @@ var getIP = require('../lib/getIP'),
     ip = require('ip');
 
 describe("module getIP", function() {
-    console.log(socket);
-    var socket = {address:function() {},on:function(){} };
+    var socket = {address:function() {},on:function(){} },
+        default_port = 80,
+        default_domain = 'www.google.com';
 
     beforeEach(function() {
-        spyOn(socket, 'address').and.returnValue({address:'0.0.0.0'});
-        spyOn(net, 'createConnection').and.returnValue(socket); 
+        spyOn(socket, 'address').andReturn({address:'0.0.0.0'});
+        spyOn(net, 'createConnection').andReturn(socket); 
     });
 
     it("should export a function", function () {
@@ -23,7 +24,7 @@ describe("module getIP", function() {
         });
 
         it("should call net.createConnection", function () {
-            expect(net.createConnection).toHaveBeenCalledWith(80, 'www.google.com');
+            expect(net.createConnection).toHaveBeenCalledWith(default_port, default_domain);
         });
 
         
