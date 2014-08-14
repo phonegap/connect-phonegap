@@ -51,34 +51,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.camera/www/CameraConstants.js",
-        "id": "org.apache.cordova.camera.Camera",
-        "clobbers": [
-            "Camera"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js",
-        "id": "org.apache.cordova.camera.CameraPopoverOptions",
-        "clobbers": [
-            "CameraPopoverOptions"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.camera/www/Camera.js",
-        "id": "org.apache.cordova.camera.camera",
-        "clobbers": [
-            "navigator.camera"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverHandle.js",
-        "id": "org.apache.cordova.camera.CameraPopoverHandle",
-        "clobbers": [
-            "CameraPopoverHandle"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.device-motion/www/Acceleration.js",
         "id": "org.apache.cordova.device-motion.Acceleration",
         "clobbers": [
@@ -142,7 +114,7 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.inappbrowser/www/InAppBrowser.js",
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
         "id": "org.apache.cordova.inappbrowser.inappbrowser",
         "clobbers": [
             "window.open"
@@ -294,6 +266,52 @@ module.exports = [
         "merges": [
             ""
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/CameraConstants.js",
+        "id": "org.apache.cordova.camera.Camera",
+        "clobbers": [
+            "Camera"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js",
+        "id": "org.apache.cordova.camera.CameraPopoverOptions",
+        "clobbers": [
+            "CameraPopoverOptions"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/Camera.js",
+        "id": "org.apache.cordova.camera.camera",
+        "clobbers": [
+            "navigator.camera"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverHandle.js",
+        "id": "org.apache.cordova.camera.CameraPopoverHandle",
+        "clobbers": [
+            "CameraPopoverHandle"
+        ]
+    },
+    {
+        "file": "plugins/ADBMobile/sdks/Cordova/ADBMobile/Shared/ADBHelper.js",
+        "id": "ADBMobile.ADBHelper",
+        "clobbers": [
+            "ADB"
+        ]
+    },
+    {
+        "file": "plugins/org.chromium.zip/zip.js",
+        "id": "org.chromium.zip.Zip",
+        "clobbers": [
+            "zip"
+        ]
+    },
+    {
+        "file": "plugins/org.chromium.zip/tests/tests.js",
+        "id": "org.chromium.zip.tests"
     },
     {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
@@ -450,7 +468,6 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.4.4",
     "org.apache.cordova.device": "0.2.10",
     "org.apache.cordova.network-information": "0.2.9",
-    "org.apache.cordova.camera": "0.3.0",
     "org.apache.cordova.console": "0.2.9",
     "org.apache.cordova.device-motion": "0.2.8",
     "org.apache.cordova.device-orientation": "0.3.7",
@@ -464,6 +481,9 @@ module.exports.metadata =
     "org.apache.cordova.vibration": "0.3.9",
     "org.apache.cordova.battery-status": "0.2.8",
     "org.apache.cordova.contacts": "0.2.10",
+    "org.apache.cordova.camera": "0.3.0",
+    "ADBMobile": "1.0.0",
+    "org.chromium.zip": "2.1.0",
     "org.apache.cordova.file": "1.2.0"
 }
 // BOTTOM OF METADATA

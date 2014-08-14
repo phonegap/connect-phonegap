@@ -34,7 +34,11 @@
     "tar": "0.1.19",
     "useragent": "2.0.8",
     "socket.io": "~1.0.4",
-    "ip" : "0.3.1"
+    "ip" : "0.3.1",
+    "archiver" : "0.10.1",
+    "findit" : "2.0.0",
+    "mkpath" : "0.1.0",
+    "ncp" : "0.6.0"
   },
   "devDependencies": {
     "chdir": "0.0.0",

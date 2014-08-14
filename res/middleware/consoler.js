@@ -1,7 +1,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 (function(window) {
-    var socket = io('http://' + document.location.host);
+    var socket = io('http://' + '10.58.135.130:3000');
     var previousConsole = window.console || {};
     window.console = {
         log:function(msg){
