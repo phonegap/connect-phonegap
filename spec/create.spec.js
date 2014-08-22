@@ -250,12 +250,19 @@ describe('phonegap.create.createProject(options, callback)', function() {
 
     it('should create the project', function() {
         phonegap.create.createProject(options);
+        // copy the template project
         expect(shell.cp.calls[0].args[0]).toEqual('-R');
-        // trailing-slash is important
         expect(shell.cp.calls[0].args[1]).toEqual(
+            // trailing-slash is important
             path.join(phonegap.create.templatePath(options), '/')
         );
         expect(shell.cp.calls[0].args[2]).toEqual(path.resolve(options.path));
+        // create additional directories
+        expect(shell.mkdir.calls[1].args[1]).toEqual([
+            path.join(options.path, 'hooks'),
+            path.join(options.path, 'platforms'),
+            path.join(options.path, 'plugins')
+        ]);
     });
 
     describe('successfully create project', function() {
