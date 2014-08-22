@@ -259,6 +259,7 @@ describe('phonegap.create.createProject(options, callback)', function() {
         expect(shell.cp.calls[0].args[2]).toEqual(path.resolve(options.path));
         // create additional directories
         expect(shell.mkdir.calls[1].args[1]).toEqual([
+            path.join(options.path, '.cordova'),
             path.join(options.path, 'hooks'),
             path.join(options.path, 'platforms'),
             path.join(options.path, 'plugins')
