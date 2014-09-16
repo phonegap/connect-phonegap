@@ -4,38 +4,38 @@
 //
 (function() {
 
-    var url = 'http://' + '10.58.135.130:3000' + '/__api__/autoreload';
+    var url = 'http://' + '10.0.1.3:3000' + '/__api__/autoreload';
 
-    function clearAppDir(callback){
-        window.requestFileSystem(
-            LocalFileSystem.PERSISTENT,
-            0,
-            function(fileSystem) {
-                console.log('got file system');
-                fileSystem.root.getDirectory(fileSystem.root.toURL() +'/app' , {}, function(dirEntry){
-                    console.log('got dir');
-                    dirEntry.removeRecursively(function() {
-                        console.log('Directory removed.');
-                        callback();
-                    }, function(e){
-                        console.log('err' + e);
-                    });                    
-                });
+    //function clearAppDir(callback){
+    //    window.requestFileSystem(
+    //        LocalFileSystem.PERSISTENT,
+    //        0,
+    //        function(fileSystem) {
+    //            console.log('got file system');
+    //            fileSystem.root.getDirectory(fileSystem.root.toURL() +'/app' , {}, function(dirEntry){
+    //                console.log('got dir');
+    //                dirEntry.removeRecursively(function() {
+    //                    console.log('Directory removed.');
+    //                    callback();
+    //                }, function(e){
+    //                    console.log('err' + e);
+    //                });                    
+    //            });
 
-            },
-            function(e) {
-                callback(e);
-            }
-        );    
-    }
-    
-    function downloadZip(){
+    //        },
+    //        function(e) {
+    //            callback(e);
+    //        }
+    //    );    
+    //}
+
+    function downloadZip() {
         window.requestFileSystem(
             LocalFileSystem.PERSISTENT,
             0,
             function(fileSystem) {
                 var fileTransfer = new FileTransfer();
-                var uri = encodeURI('http://10.58.135.130:3000' + '/__api__/zip');
+                var uri = encodeURI('http://10.0.1.3:3000' + '/__api__/zip');
                 var timeStamp = Math.round(+new Date()/1000);
                 console.log('file system ' + fileSystem.root.toInternalURL() );
                 var downloadPath = fileSystem.root.toInternalURL() + 'app' + timeStamp + '.zip';
@@ -44,16 +44,15 @@
                     uri,
                     downloadPath,
                     function(entry) {
-                        console.log("download complete: " + downloadPath);
-                        
+                        console.log('download complete: ' + downloadPath);
+
                         zip.unzip(downloadPath, dirPath, function(statusCode) {
-                            console.log(statusCode);
+                            console.log('statusCode: ' + statusCode);
                             if (statusCode === 0) {
                                 console.log('[fileUtils] successfully extracted the update payload');
                                 //clearAppDir(function(){
                                     window.location.href = dirPath + 'index.html';
                                 //});
-                                
                             }
                             else {
                                 console.error('[fileUtils] error: failed to extract update payload');
@@ -62,12 +61,12 @@
                         });
                     },
                     function(error) {
-                        console.log("download error source " + error.source);
-                        console.log("download error target " + error.target);
-                        console.log("upload error code" + error.code);
+                        console.log('download error source ' + error.source);
+                        console.log('download error target ' + error.target);
+                        console.log('upload error code' + error.code);
                     },
                     false
-                );        
+                );
             },
             function(e) {
                 callback(e);
