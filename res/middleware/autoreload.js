@@ -74,10 +74,10 @@
         );
     }
 
-    function postStatus(){
-        var xhr = new XMLHttpRequest;
-        xhr.open('post', url, false);
-        xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+    function postStatus() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
             }
@@ -85,10 +85,10 @@
         xhr.send();
     }
 
-    function checkForReload(){
-        var xhr = new XMLHttpRequest;
-        xhr.open('get', url, true);
-        xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+    function checkForReload() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
                 var response = JSON.parse(this.responseText);
