@@ -4,7 +4,7 @@
 //
 (function() {
 
-    var url = 'http://' + '10.0.1.3:3000' + '/__api__/autoreload';
+    var url = 'http://127.0.0.1:3000/__api__/autoreload';
 
     //function clearAppDir(callback){
     //    window.requestFileSystem(
@@ -35,7 +35,7 @@
             0,
             function(fileSystem) {
                 var fileTransfer = new FileTransfer();
-                var uri = encodeURI('http://10.0.1.3:3000' + '/__api__/zip');
+                var uri = encodeURI('http://127.0.0.1:3000/__api__/zip');
                 var timeStamp = Math.round(+new Date()/1000);
                 console.log('file system ' + fileSystem.root.toURL() );
                 var downloadPath = fileSystem.root.toURL() + 'app' + timeStamp + '.zip';
