@@ -1,5 +1,5 @@
-<script src="/socket.io/socket.io.js"></script>
-<script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
 (function(window) {
     var socket = io('http://127.0.0.1:3000');
     var previousConsole = window.console || {};
