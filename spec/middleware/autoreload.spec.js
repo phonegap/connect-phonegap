@@ -133,18 +133,19 @@ describe('autoreload middleware', function() {
 
     describe('when out-of-date', function() {
         beforeEach(function() {
-            agent = request.agent(phonegap());
             gaze.Gaze.andCallFake(function() {
                 process.nextTick(function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 });
                 return watchSpy;
             });
+            agent = request.agent(phonegap());
         });
 
         describe('GET /__api__/autoreload', function() {
             it('should return true', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
+                    watchSpy.emit('all', 'eventType', '/path/to/file.js');
                     agent.get('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
                         expect(JSON.parse(res.text).content.outdated).toMatch(true);
