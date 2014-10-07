@@ -1,6 +1,8 @@
 language: node_js
-node_js:
-  - "0.10"
 notifications:
+  slack:
+    secure: nAxJiGQd+zWwncQ0OKxWVs2xJx3fH8tCZOYtEe7Hwozb9Q0NR2/xLH/L7GYBOOZnFGno4QwjkJLM/GMLMYa534ErkXsjniBdUmGJrA8hnkvnJwImTb1LnvuxZUyfE0ySCzN5oZEskZT8KNt/v57WYjUzOFN5rL/C0OP4BzyR72M=
   email:
-    - PhoneGapCI@adobe.com
+  - PhoneGapCI@adobe.com
+node_js:
+- "0.10"
