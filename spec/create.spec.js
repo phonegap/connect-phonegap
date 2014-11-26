@@ -241,6 +241,8 @@ describe('phonegap.create.createProject(options, callback)', function() {
         };
         spyOn(shell, 'mkdir');
         spyOn(shell, 'cp');
+        spyOn(fs, 'existsSync').andReturn(false); // do not move config.xml
+        spyOn(fs, 'renameSync'); // disable moving config.xml
     });
 
     it('should create path containing the project', function() {
@@ -264,6 +266,30 @@ describe('phonegap.create.createProject(options, callback)', function() {
             path.join(options.path, 'platforms'),
             path.join(options.path, 'plugins')
         ]);
+    });
+
+    describe('when my-app/www/config.xml exists', function() {
+        beforeEach(function() {
+            fs.existsSync.andReturn(true);
+        });
+
+        it('should move the file to my-app/config.xml', function() {
+            phonegap.create.createProject(options);
+            expect(fs.existsSync).toHaveBeenCalled();
+            expect(fs.renameSync).toHaveBeenCalled();
+        });
+    });
+
+    describe('when my-app/www/config.xml is missing', function() {
+        beforeEach(function() {
+            fs.existsSync.andReturn(false);
+        });
+
+        it('should not move the file to my-app/config.xml', function() {
+            phonegap.create.createProject(options);
+            expect(fs.existsSync).toHaveBeenCalled();
+            expect(fs.renameSync).not.toHaveBeenCalled();
+        });
     });
 
     describe('successfully create project', function() {
