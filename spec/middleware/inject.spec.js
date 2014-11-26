@@ -55,15 +55,32 @@ describe('inject middleware', function() {
         });
     });
 
-    it('should inject autoreload logic', function(done) {
-        chdir('spec/fixture/app-with-cordova', function() {
-            request(phonegap())
-            .get('/')
-            .set('accept', 'text/html')
-            .end(function(e, res) {
-                expect(res.statusCode).toEqual(200);
-                expect(res.text).toMatch('// Reload');
-                done();
+    describe('when autoreload is enabled', function() {
+        it('should inject autoreload logic', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                request(phonegap())
+                .get('/')
+                .set('accept', 'text/html')
+                .end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    expect(res.text).toMatch('// Reload');
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('when autoreload is diabled', function() {
+        it('should not inject autoreload logic', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                request(phonegap({ autoreload: false }))
+                .get('/')
+                .set('accept', 'text/html')
+                .end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    expect(res.text).not.toMatch('// Reload');
+                    done();
+                });
             });
         });
     });
