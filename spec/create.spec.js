@@ -255,8 +255,8 @@ describe('phonegap.create.createProject(options, callback)', function() {
         // copy the template project
         expect(shell.cp.calls[0].args[0]).toEqual('-R');
         expect(shell.cp.calls[0].args[1]).toEqual(
-            // trailing-slash is important
-            path.join(phonegap.create.templatePath(options), '/')
+            // tested on OS X and Windows
+            path.join(phonegap.create.templatePath(options), 'www')
         );
         expect(shell.cp.calls[0].args[2]).toEqual(path.resolve(options.path));
         // create additional directories
