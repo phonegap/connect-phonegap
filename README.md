@@ -150,9 +150,10 @@ Example:
         if (state.percentage) {
             console.log('downloaded: ' + state.percentage + '%');
         }
-    }
+    })
     .on('error', function(e) {
         // handle error
+        console.log('error:', e);
     })
     .on('complete', function(data) {
         // data.path is the app path
