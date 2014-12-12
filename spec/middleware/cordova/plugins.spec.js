@@ -48,7 +48,7 @@ describe('plugins/**/*.js middleware', function() {
 
         it('should serve ios-specific files', function(done) {
             request(phonegap())
-            .get('/plugins/org.apache.cordova.file/www/ios/Entry.js')
+            .get('/plugins/org.apache.cordova.file/www/ios/FileSystem.js')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 done();

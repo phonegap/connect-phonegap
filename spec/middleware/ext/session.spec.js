@@ -35,9 +35,11 @@ describe('session', function() {
                 expect(req.session.device.platform).toEqual('android');
             });
 
-            it('should set version to 3.4.0', function() {
+            it('should set version to defined default', function() {
                 session.device.init(req);
-                expect(req.session.device.version).toEqual('3.4.0');
+                expect(req.session.device.version).toEqual(
+                    session.device.available()['default'].android
+                );
             });
 
             describe('wp8', function() {
@@ -52,9 +54,11 @@ describe('session', function() {
                     expect(req.session.device.platform).toEqual('wp8');
                 });
 
-                it('should set version to 3.2.0', function() {
+                it('should set version to defined default', function() {
                     session.device.init(req);
-                    expect(req.session.device.version).toEqual('3.2.0');
+                    expect(req.session.device.version).toEqual(
+                        session.device.available()['default'].wp8
+                    );
                 });
             });
         });
