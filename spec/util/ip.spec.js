@@ -2,36 +2,35 @@
  * Module dependencies.
  */
 
-var getIP = require('../../lib/util/ip'),
+var ip = require('../../lib/util/ip'),
     net = require('net');
 
 /*!
  * Specification.
  */
 
-describe("module getIP", function() {
-    var socket = {address:function() {},on:function(){} },
-        default_port = 80,
-        default_domain = 'www.google.com';
-
+describe('IP Address', function() {
     beforeEach(function() {
-        spyOn(socket, 'address').andReturn({address:'0.0.0.0'});
-        spyOn(net, 'createConnection').andReturn(socket); 
+        spyOn(net, 'createConnection').andReturn({
+            address: function() {
+                return '0.0.0.0';
+            },
+            on: function() {}
+        });
     });
 
-    it("should export a function", function () {
-        expect(getIP).toEqual(jasmine.any(Function));
+    it('should be a function', function () {
+        expect(ip).toEqual(jasmine.any(Function));
     });
 
-    describe("execution", function() {
-        var cb = function(){};
+    describe('execution', function() {
         beforeEach(function() {
-            getIP.ipAddress = null;
-            getIP(cb);
+            ip.ipAddress = null;
+            ip(function() {});
         });
 
         it("should call net.createConnection", function () {
-            expect(net.createConnection).toHaveBeenCalledWith(default_port, default_domain);
+            expect(net.createConnection).toHaveBeenCalledWith(80, 'www.google.com');
         });
     });
 });
