@@ -6,7 +6,7 @@ var events = require('events'),
     gaze = require('gaze'),
     http = require('http'),
     phonegap = require('../lib'),
-    getIP = require('../lib/util/ip'),
+    ip = require('../lib/util/ip'),
     options,
     serverSpy,
     watchSpy;
@@ -67,11 +67,12 @@ describe('phonegap.serve(options, [callback])', function() {
 
         it('should emit a "complete" event', function(done) {
             phonegap.serve(options).on('complete', function(data) {
-                getIP(function(err,ip) {
-                    expect(err).toEqual(null);
+                ip.address(function(e, address) {
+                    expect(e).toBeNull();
                     expect(data.port).toEqual(3000);
                     expect(data.server).toEqual(serverSpy);
-                    expect(data.address).toEqual(ip);
+                    expect(data.address).toEqual(address);
+                    expect(data.address).not.toEqual('unknown');
                     done();
                 });
             });
