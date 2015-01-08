@@ -6,7 +6,7 @@ var events = require('events'),
     gaze = require('gaze'),
     http = require('http'),
     phonegap = require('../lib'),
-    getIP = require('../lib/util/getIP'),
+    getIP = require('../lib/util/ip'),
     options,
     serverSpy,
     watchSpy;

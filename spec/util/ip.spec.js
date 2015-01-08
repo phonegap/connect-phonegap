@@ -1,7 +1,6 @@
 
-var getIP = require('../../lib/util/getIP'),
-    net = require('net'),
-    ip = require('ip');
+var getIP = require('../../lib/util/ip'),
+    net = require('net');
 
 describe("module getIP", function() {
     var socket = {address:function() {},on:function(){} },
