@@ -1,5 +1,5 @@
 
-var getIP = require('../lib/getIP'),
+var getIP = require('../../lib/util/getIP'),
     net = require('net'),
     ip = require('ip');
 
@@ -20,6 +20,7 @@ describe("module getIP", function() {
     describe("execution", function() {
         var cb = function(){};
         beforeEach(function() {
+            getIP.ipAddress = null;
             getIP(cb);
         });
 
