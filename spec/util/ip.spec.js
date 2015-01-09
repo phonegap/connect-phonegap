@@ -3,34 +3,71 @@
  */
 
 var ip = require('../../lib/util/ip'),
-    net = require('net');
+    request = require('request');
 
 /*!
  * Specification.
  */
 
-describe('IP Address', function() {
+describe('ip', function() {
     beforeEach(function() {
-        spyOn(net, 'createConnection').andReturn({
-            address: function() {
-                return '0.0.0.0';
-            },
-            on: function() {}
-        });
+        spyOn(request, 'get');
     });
 
-    it('should be a function', function () {
-        expect(ip).toEqual(jasmine.any(Function));
-    });
-
-    describe('execution', function() {
-        beforeEach(function() {
-            ip.ipAddress = null;
-            ip(function() {});
+    describe('.address(callback)', function() {
+        it('should be a function', function () {
+            expect(ip.address).toEqual(jasmine.any(Function));
         });
 
-        it("should call net.createConnection", function () {
-            expect(net.createConnection).toHaveBeenCalledWith(80, 'www.google.com');
+        describe('when external host is reachable', function() {
+            beforeEach(function() {
+                request.get.andCallFake(function(options, callback) {
+                    var res = {
+                        req: {
+                            connection: {
+                                localAddress: '10.0.1.4'
+                            }
+                        }
+                    };
+                    callback(null, res, 'data');
+                });
+            });
+
+            it('should not return an error', function(done) {
+                ip.address(function(e, address) {
+                    expect(e).toBeNull();
+                    done();
+                });
+            });
+
+            it('should return an ip address from request', function(done) {
+                ip.address(function(e, address) {
+                    expect(address).toEqual('10.0.1.4');
+                    done();
+                });
+            });
+        });
+
+        describe('when external host is not reachable', function() {
+            beforeEach(function() {
+                request.get.andCallFake(function(options, callback) {
+                    callback(new Error('getaddrinfo ENOTFOUND'));
+                });
+            });
+
+            it('should not return an error', function(done) {
+                ip.address(function(e, address) {
+                    expect(e).toBeNull();
+                    done();
+                });
+            });
+
+            it('should return ip address from adapter', function(done) {
+                ip.address(function(e, address) {
+                    expect(address).toEqual(require('ip').address());
+                    done();
+                });
+            });
         });
     });
 });

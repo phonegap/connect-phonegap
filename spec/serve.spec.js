@@ -5,8 +5,9 @@
 var events = require('events'),
     gaze = require('gaze'),
     http = require('http'),
-    phonegap = require('../lib'),
     ip = require('../lib/util/ip'),
+    phonegap = require('../lib'),
+    request = require('request'),
     options,
     serverSpy,
     watchSpy;
@@ -21,6 +22,10 @@ describe('phonegap.serve(options, [callback])', function() {
         serverSpy = new events.EventEmitter();
         serverSpy.listen = jasmine.createSpy('listen').andReturn(serverSpy);
         spyOn(http, 'createServer').andReturn(serverSpy);
+        spyOn(request, 'get').andCallFake(function(options, callback) {
+            var res = { req: { connection: { localAddress: '10.0.1.4' } } };
+            callback(null, res, 'data');
+        });
     });
 
     it('should not require options', function() {
