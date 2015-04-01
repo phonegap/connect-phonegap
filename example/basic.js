@@ -1,7 +1,8 @@
-var phonegap = require('./lib');
+var phonegap = require('../lib'),
+    path = require('path');
 
 phonegap.create({
-    path: '_testapp',
+    path: path.join(__dirname, 'basic-app'),
     version: '3.3.0'
 })
 .on('progress', function(state) {
