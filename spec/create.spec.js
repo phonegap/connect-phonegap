@@ -229,6 +229,64 @@ describe('phonegap.create.templateExists(options)', function() {
     });
 });
 
+describe('phonegap.create.fetchTemplate(options, callback)', function() {
+    beforeEach(function() {
+        options = {
+            path: 'path/to/app',
+            version: '3.3.0'
+        };
+    });
+
+    describe('template exists', function() {
+        beforeEach(function() {
+            spyOn(phonegap.create, 'templateExists').andReturn(true);
+            spyOn(phonegap.create, 'downloadTemplate');
+        });
+
+        it('should trigger the callback without an error', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(e).toEqual(null);
+                done();
+            });
+        });
+
+        it('should not download the template', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(phonegap.create.downloadTemplate).not.toHaveBeenCalled();
+                done();
+            });
+        });
+    });
+
+    describe('template is missing', function() {
+        beforeEach(function() {
+            spyOn(phonegap.create, 'templateExists').andReturn(false);
+            spyOn(phonegap.create, 'deleteInvalidTemplate');
+            spyOn(phonegap.create, 'downloadTemplate').andCallFake(function(opts, cb) {
+                cb();
+            });
+        });
+
+        it('should trigger the callback without an error', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(e).toEqual(null);
+                done();
+            });
+        });
+
+        it('should delete corrupt templates and download new template', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(phonegap.create.deleteInvalidTemplate).toHaveBeenCalled();
+                expect(phonegap.create.downloadTemplate).toHaveBeenCalledWith(
+                    options,
+                    jasmine.any(Function)
+                );
+                done();
+            });
+        });
+    });
+});
+
 describe('phonegap.create.downloadTemplate(options, callback)', function() {
     // find a nice way to test request
 });
