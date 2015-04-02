@@ -229,6 +229,104 @@ describe('phonegap.create.templateExists(options)', function() {
     });
 });
 
+describe('phonegap.create.fetchTemplate(options, callback)', function() {
+    beforeEach(function() {
+        options = {
+            path: 'path/to/app',
+            version: '3.3.0'
+        };
+    });
+
+    describe('template exists', function() {
+        beforeEach(function() {
+            spyOn(phonegap.create, 'templateExists').andReturn(true);
+            spyOn(phonegap.create, 'downloadTemplate');
+        });
+
+        it('should trigger the callback without an error', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(e).toEqual(null);
+                done();
+            });
+        });
+
+        it('should not download the template', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(phonegap.create.downloadTemplate).not.toHaveBeenCalled();
+                done();
+            });
+        });
+    });
+
+    describe('template is missing', function() {
+        beforeEach(function() {
+            spyOn(phonegap.create, 'templateExists').andReturn(false);
+            spyOn(phonegap.create, 'deleteInvalidTemplate');
+            spyOn(phonegap.create, 'downloadTemplate').andCallFake(function(opts, cb) {
+                cb();
+            });
+        });
+
+        it('should trigger the callback without an error', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(e).toEqual(null);
+                done();
+            });
+        });
+
+        it('should delete corrupt templates and download new template', function(done) {
+            phonegap.create.fetchTemplate(options, function(e) {
+                expect(phonegap.create.deleteInvalidTemplate).toHaveBeenCalled();
+                expect(phonegap.create.downloadTemplate).toHaveBeenCalledWith(
+                    options,
+                    jasmine.any(Function)
+                );
+                done();
+            });
+        });
+    });
+});
+
+describe('phonegap.create.deleteInvalidTemplate(options)', function() {
+    beforeEach(function() {
+        options = {
+            path: 'path/to/app',
+            version: '3.3.0'
+        };
+        spyOn(shell, 'rm');
+        spyOn(fs, 'existsSync');
+        spyOn(phonegap.create, 'templatePath').andReturn('path/to/template');
+        spyOn(phonegap.create, 'configXMLExists');
+    });
+    
+    describe('when template does not exist', function() {
+        it('should do nothing', function() {
+            fs.existsSync.andReturn(false);
+            phonegap.create.configXMLExists.andReturn(false);
+            phonegap.create.deleteInvalidTemplate(options);
+            expect(shell.rm).not.toHaveBeenCalled();
+        });
+    });
+    
+    describe('when valid template exists', function() {
+        it('should do nothing', function() {
+            fs.existsSync.andReturn(true);
+            phonegap.create.configXMLExists.andReturn(true);
+            phonegap.create.deleteInvalidTemplate(options);
+            expect(shell.rm).not.toHaveBeenCalled();
+        });        
+    });
+    
+    describe('when invalid template exists', function() {
+        it('should delete invalid template', function() {
+            fs.existsSync.andReturn(true);
+            phonegap.create.configXMLExists.andReturn(false);
+            phonegap.create.deleteInvalidTemplate(options);
+            expect(shell.rm).toHaveBeenCalledWith('-r', 'path/to/template');
+        });          
+    });
+});
+
 describe('phonegap.create.downloadTemplate(options, callback)', function() {
     // find a nice way to test request
 });
