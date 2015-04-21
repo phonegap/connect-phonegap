@@ -160,7 +160,7 @@ Example:
         console.log('created project at: ' + data.path);
     });
 
-[travis-ci-img]: https://travis-ci.org/phonegap/connect-phonegap.png?branch=master
+[travis-ci-img]: https://travis-ci.org/phonegap/connect-phonegap.svg?branch=master
 [travis-ci-url]: http://travis-ci.org/phonegap/connect-phonegap
 [bithound-img]: https://www.bithound.io/github/phonegap/connect-phonegap/badges/score.svg
 [bithound-url]: https://www.bithound.io/github/phonegap/connect-phonegap
