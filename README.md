@@ -1,4 +1,4 @@
-# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url]
+# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url] [![bitHound Score][bithound-img]][bithound-url]
 
 > Connect middleware to serve a PhoneGap app.
 
@@ -45,7 +45,7 @@ Options:
 
   - `[options]` {Object}
   - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
-  - `[localtunnel]` {Boolean} toggle localtunnel (default: false). 
+  - `[localtunnel]` {Boolean} toggle localtunnel (default: false).
 
 Events:
 
@@ -162,4 +162,5 @@ Example:
 
 [travis-ci-img]: https://travis-ci.org/phonegap/connect-phonegap.png?branch=master
 [travis-ci-url]: http://travis-ci.org/phonegap/connect-phonegap
-
+[bithound-img]: https://www.bithound.io/github/phonegap/connect-phonegap/badges/score.svg
+[bithound-url]: https://www.bithound.io/github/phonegap/connect-phonegap
