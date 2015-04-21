@@ -1,6 +1,6 @@
 {
-  'ignore': [
-    'res/middleware/cordova/**',
-    'res/middleware/hammer/**'
+  "ignore": [
+    "res/middleware/cordova/**",
+    "res/middleware/hammer/**"
   ]
 }
