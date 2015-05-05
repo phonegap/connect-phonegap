@@ -9,7 +9,7 @@ var events = require('events'),
     phonegap = require('../../lib'),
     request = require('supertest'),
     shell = require('shelljs'),
-    zip = require('../../lib/middleware/ext/generate-zip'),
+    zip = require('../../lib/middleware/zip'),
     url = '/__api__/zip';
 
 /*!
