@@ -4,7 +4,7 @@
 
 var events = require('events'),
     fs = require('fs'),
-    gaze = require('gaze'),
+    archiver = require('archiver'),
     path = require('path'),
     phonegap = require('../../lib'),
     request = require('supertest'),
@@ -18,26 +18,22 @@ var events = require('events'),
 
 describe('zip middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
-        spyOn(zip, 'archive').andCallFake(function(options, callback){
-            callback(null, {
-                zipPath: path.resolve(__dirname, '../fixture/app.zip'),
-                appPath: path.resolve(__dirname, '../fixture/app-without-cordova')
-            });
-        });
-        spyOn(shell, 'rm');
+        spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/app-without-cordova'));
     });
 
     describe('GET /__api__/zip', function() {
-        it('should generate the zip', function(done) {
+        it('should generate a zip', function(done) {
+            createSpy = jasmine.createSpy('create');
+            spyOn(archiver, 'create').andCallFake(createSpy);
+
             request(phonegap())
             .get('/__api__/zip')
             .end(function(e, res) {
-                expect(zip.archive).toHaveBeenCalled();
+                expect(createSpy).toHaveBeenCalled()
                 done();
             });
         });
-
+    
         describe('successfully generated zip', function() {
             it('should have a 200 response code', function(done) {
                 request(phonegap())
@@ -81,19 +77,21 @@ describe('zip middleware', function() {
 
         describe('failed to generate zip', function() {
             beforeEach(function() {
-                zip.archive.andCallFake(function(options, callback){
-                    callback(new Error('failed to generate zip'));
+                spyOn(archiver, 'create').andCallFake(function() {
+                    throw new Error();
                 });
             });
 
-            it('should have a 404 response code', function(done) {
+            it('should have a 500 response code', function(done) {
                 request(phonegap())
                 .get('/__api__/zip')
                 .end(function(e, res) {
-                    expect(res.statusCode).toEqual(404);
+                    expect(res.statusCode).toEqual(500);
                     done();
                 });
             });
         });
+
     });
+
 });
