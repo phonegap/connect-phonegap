@@ -10,7 +10,7 @@ var events = require('events'),
     request = require('supertest'),
     shell = require('shelljs'),
     zip = require('../../lib/middleware/zip'),
-    url = '/__api__/zip';
+    url = '/__api__/appzip';
 
 /*!
  * Specification: Middleware for /zip route
@@ -21,13 +21,13 @@ describe('zip middleware', function() {
         spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/app-without-cordova'));
     });
 
-    describe('GET /__api__/zip', function() {
+    describe('GET /__api__/appzip', function() {
         it('should generate a zip', function(done) {
             createSpy = jasmine.createSpy('create');
             spyOn(archiver, 'create').andCallFake(createSpy);
 
             request(phonegap())
-            .get('/__api__/zip')
+            .get('/__api__/appzip')
             .end(function(e, res) {
                 expect(createSpy).toHaveBeenCalled()
                 done();
@@ -37,7 +37,7 @@ describe('zip middleware', function() {
         describe('successfully generated zip', function() {
             it('should have a 200 response code', function(done) {
                 request(phonegap())
-                .get('/__api__/zip')
+                .get('/__api__/appzip')
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
                     done();
@@ -46,7 +46,7 @@ describe('zip middleware', function() {
 
             it('should have application/zip Content-Type', function(done) {
                 request(phonegap())
-                .get('/__api__/zip')
+                .get('/__api__/appzip')
                 .end(function(e, res) {
                     expect(res.headers['content-type']).toEqual('application/zip');
                     done();
@@ -55,7 +55,7 @@ describe('zip middleware', function() {
 
             it('should respond with the zip content', function(done) {
                 request(phonegap())
-                .get('/__api__/zip')
+                .get('/__api__/appzip')
                 // custom application/zip parser for supertest
                 .parse(function(res, callback) {
                     res.setEncoding('binary');
@@ -84,7 +84,7 @@ describe('zip middleware', function() {
 
             it('should have a 500 response code', function(done) {
                 request(phonegap())
-                .get('/__api__/zip')
+                .get('/__api__/appzip')
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(500);
                     done();
