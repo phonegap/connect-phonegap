@@ -11,6 +11,8 @@ var events = require('events'),
     request = require('supertest'),
     shell = require('shelljs'),
     zip = require('../../lib/middleware/zip'),
+    checksum = require('checksum'),
+    AdmZip = require('adm-zip'),
     url = '/__api__/appzip';
 
 /*!
@@ -18,13 +20,18 @@ var events = require('events'),
  */
 
 describe('zip middleware', function() {
+
+    function setApp(app) {
+        spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/' + app));
+    }
+
     beforeEach(function() {
         spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
-        spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/app-without-cordova'));
     });
 
     describe('GET /__api__/appzip', function() {
         it('should generate a zip', function(done) {
+            setApp("app-without-cordova");
             createSpy = jasmine.createSpy('create');
             spyOn(archiver, 'create').andCallFake(createSpy);
 
@@ -35,9 +42,43 @@ describe('zip middleware', function() {
                 done();
             });
         });
+
+        it('should zip files for app with symlinks', function(done) {
+            setApp("app-with-symlinks");
+
+            request(phonegap())
+            .get('/__api__/appzip')
+            .parse(function(res, callback) {
+                res.setEncoding('binary');
+                res.data = '';
+                res.on('data', function(chunk) {
+                    res.data += chunk;
+                });
+                res.on('end', function() {
+                    callback(null, new Buffer(res.data, 'binary'));
+                });
+            })
+            .end(function(e, res) {
+                var zip = new AdmZip(res.body);
+                expect(zip.getEntries().length).toEqual(5);
+                expect(zip.readFile('www/index.html').length).toBeGreaterThan(0);
+                var jsFiles = ['cordova.js', 'cordova_plugins.js', 'phonegap.js'];
+                for (var i = 0; i < jsFiles.length; i++) {
+                    var file = jsFiles[i];
+                    var expectedChecksum = checksum(fs.readFileSync(path.resolve(__dirname, '../fixture/app-with-symlinks/dist/' + file)));
+                    var actualChecksum = checksum(zip.readFile('www/' + file));
+                    expect(actualChecksum).toEqual(expectedChecksum);
+                }
+                expect(checksum(zip.readFile('www/assets/icon-40.png'))).toEqual(
+                    checksum(fs.readFileSync(path.resolve(__dirname, '../fixture/images/icon-40.png')))
+                );
+                done();
+            });
+        });
     
         describe('successfully generated zip', function() {
             it('should have a 200 response code', function(done) {
+                setApp("app-without-cordova");
                 request(phonegap())
                 .get('/__api__/appzip')
                 .end(function(e, res) {
@@ -47,6 +88,7 @@ describe('zip middleware', function() {
             });
 
             it('should have application/zip Content-Type', function(done) {
+                setApp("app-without-cordova");
                 request(phonegap())
                 .get('/__api__/appzip')
                 .end(function(e, res) {
@@ -56,6 +98,7 @@ describe('zip middleware', function() {
             });
 
             it('should respond with the zip content', function(done) {
+                setApp("app-without-cordova");
                 request(phonegap())
                 .get('/__api__/appzip')
                 // custom application/zip parser for supertest
@@ -85,6 +128,7 @@ describe('zip middleware', function() {
             });
 
             it('should have a 500 response code', function(done) {
+                setApp("app-without-cordova");
                 request(phonegap())
                 .get('/__api__/appzip')
                 .end(function(e, res) {

@@ -40,7 +40,9 @@
     "walkdir": "0.0.8"
   },
   "devDependencies": {
+    "adm-zip": "0.4.7",
     "chdir": "0.0.0",
+    "checksum": "0.1.1",
     "jasmine-node": "1.14.5",
     "supertest": "0.13.0"
   },
