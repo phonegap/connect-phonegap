@@ -5,6 +5,7 @@
 var events = require('events'),
     fs = require('fs'),
     archiver = require('archiver'),
+    gaze = require('gaze'),
     path = require('path'),
     phonegap = require('../../lib'),
     request = require('supertest'),
@@ -18,6 +19,7 @@ var events = require('events'),
 
 describe('zip middleware', function() {
     beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
         spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/app-without-cordova'));
     });
 
@@ -29,7 +31,7 @@ describe('zip middleware', function() {
             request(phonegap())
             .get('/__api__/appzip')
             .end(function(e, res) {
-                expect(createSpy).toHaveBeenCalled()
+                expect(createSpy).toHaveBeenCalled();
                 done();
             });
         });
