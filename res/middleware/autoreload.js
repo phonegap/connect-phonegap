@@ -31,7 +31,8 @@
                     if(response.content.lastUpdated != 0){
                         window.phonegap.app.config.load(function(config){
                             window.phonegap.app.downloadZip({
-                                address: 'http://' + config.address
+                                address: 'http://' + config.address,
+                                update: true
                             });
                         });
                     }
