@@ -37,8 +37,7 @@
     "socket.io": "1.0.4",
     "tar": "0.1.19",
     "useragent": "2.0.8",
-    "walkdir": "0.0.8",
-    "dict": "1.4.0"
+    "walkdir": "0.0.8"
   },
   "devDependencies": {
     "chdir": "0.0.0",
