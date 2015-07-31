@@ -142,7 +142,7 @@
 
     window.phonegap.app.downloadZip = function(options) {
         var uri = encodeURI(options.address + '/__api__/update');
-        var sync = ContentSync.sync({ src: uri, id: 'phonegapdevapp', type: 'merge', copyCordovaAssets: true });
+        var sync = ContentSync.sync({ src: uri, id: 'phonegapdevapp', type: 'merge', copyCordovaAssets: false });
         
         sync.on('complete', function(data){
             window.location.reload();
