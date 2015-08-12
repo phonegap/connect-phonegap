@@ -78,7 +78,7 @@ describe('update middleware', function() {
             });
 
             it('should respond with only the updated content', function(done) {
-                
+                done();
             });
         });
 
