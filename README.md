@@ -46,6 +46,7 @@ Options:
   - `[options]` {Object}
   - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
   - `[localtunnel]` {Boolean} toggle localtunnel (default: false).
+  - `[pushState]` {Boolean} toggle pushState (default: true)
 
 Events:
 
