@@ -46,7 +46,7 @@ describe('browser middleware', function() {
 
                 phonegap.serve(options);
                 expect(options.phonegap.cordova)
-                    .toHaveBeenCalledWith({ cmd: 'cordova platform add browser' });
+                    .toHaveBeenCalledWith({ cmd: 'cordova platform add browser@4.0.0' });
                 done();
             });
     });
