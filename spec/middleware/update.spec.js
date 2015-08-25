@@ -3,6 +3,7 @@
  */
 
 var admzip = require('adm-zip'),
+    archiver = require('archiver'),
     events = require('events'),
     fs = require('fs'),
     gaze = require('gaze'),
@@ -10,7 +11,6 @@ var admzip = require('adm-zip'),
     phonegap = require('../../lib'),
     request = require('supertest'),
     shell = require('shelljs'),
-    zip = require('../../lib/middleware/zip'),
     url = '/__api__/update',
     watchSpy,
     agent;
@@ -28,17 +28,55 @@ describe('update middleware', function() {
     });
 
     describe('GET /__api__/update', function() {
+        it('should generate a zip', function(done) {
+            createSpy = jasmine.createSpy('create');
+            spyOn(archiver, 'create').andCallFake(createSpy);
+
+            agent.get('/__api__/update').end(function(e, res) {
+                expect(createSpy).toHaveBeenCalled();
+                done();
+            });
+        });
 
         describe('successfully generated zip', function() {
-            beforeEach(function() {
-                update = require('../../lib/middleware/update');
-                archive = update.archiver();
-                agent = request.agent(phonegap());
+            it('should have a 200 response code', function(done) {
+                agent.get('/__api__/update').end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    done();
+                });
+            });
+
+            it('should have application/zip Content-Type', function(done) {
+                agent.get('/__api__/update').end(function(e, res) {
+                    expect(res.headers['content-type']).toEqual('application/zip');
+                    done();
+                });
+            });
+
+            it('should respond with the zip content', function(done) {
+                agent.get('/__api__/update')
+                // custom application/zip parser for supertest
+                .parse(function(res, callback) {
+                    res.setEncoding('binary');
+                    res.data = '';
+                    res.on('data', function (chunk) {
+                        res.data += chunk;
+                    });
+                    res.on('end', function () {
+                        callback(null, new Buffer(res.data, 'binary'));
+                    });
+                })
+                .end(function(e, res) {
+                    expect(Buffer.isBuffer(res.body)).toBe(true);
+                    expect(res.body.length).toBeGreaterThan(0);
+                    done();
+                });
             });
 
             it('should respond with only the updated content', function(done) {
-                agent.get('/__api__/update').end(function(e, res) {
+                agent.get('/__api__/autoreload').end(function(e, res) {
                     watchSpy.emit('all', 'eventType', path.join(process.cwd(),'www/index.html'));
+
                     agent.get('/__api__/update')
                     // custom application/zip parser for supertest
                     .parse(function(res, callback) {
@@ -61,10 +99,5 @@ describe('update middleware', function() {
                 });
             });
         });
-
-        describe('failed to generate zip', function() {
-
-        });
     });
-
 });
