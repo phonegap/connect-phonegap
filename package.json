@@ -22,6 +22,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "adm-zip":  "0.4.7",
     "archiver": "0.14.3",
     "connect": "2.12.0",
     "connect-inject": "0.3.2",

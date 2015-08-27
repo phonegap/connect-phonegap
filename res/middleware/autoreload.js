@@ -4,7 +4,8 @@
 //
 (function() {
     var host = 'http://127.0.0.1:3000',
-        url = host + '/__api__/autoreload';
+        url = host + '/__api__/autoreload',
+        timer;
 
     function postStatus() {
         var xhr = new XMLHttpRequest();
@@ -29,9 +30,11 @@
 
                     // this is ensure we don't duplicate a download when we first launch the app on device
                     if(response.content.lastUpdated != 0){
+                        window.clearTimeout(timer);
                         window.phonegap.app.config.load(function(config){
                             window.phonegap.app.downloadZip({
-                                address: 'http://' + config.address
+                                address: 'http://' + config.address,
+                                update: true
                             });
                         });
                     }
@@ -42,7 +45,7 @@
     }
 
     document.addEventListener("deviceready", function(){
-        setInterval(checkForReload, 1000 * 3);
+        timer = setInterval(checkForReload, 1000 * 3);
     }, false);
 })(window);
 </script>
