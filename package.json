@@ -1,7 +1,7 @@
 {
   "name": "connect-phonegap",
   "description": "Connect middleware to serve a PhoneGap app.",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "homepage": "https://github.com/phonegap/connect-phonegap",
   "repository": {
     "type": "git",
@@ -66,6 +66,10 @@
     {
       "name": "Herm Wong",
       "email": "herm.wong@gmail.com"
+    },
+    {
+      "name": "Suraj Pindoria",
+      "email": "suraj.pindoria@yahoo.com"
     }
   ]
 }
