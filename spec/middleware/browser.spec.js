@@ -20,6 +20,7 @@ describe('browser middleware', function() {
         spyOn(gaze, 'Gaze').andReturn(gazeSpy);
 
         options = {
+            browser: false,
             phonegap: {
                 cordova: jasmine.createSpy('cordova')
             }
@@ -27,7 +28,19 @@ describe('browser middleware', function() {
     });
 
     describe('on file change', function() {
-        it('should call cordova prepare', function(done) {
+        it('should not call cordova prepare when flag is not set', function(done) {
+            pg = phonegap(options);
+
+            gazeSpy.emit('all', 'eventType', '/path/to/file.js');
+            process.nextTick(function() {
+                expect(options.phonegap.cordova)
+                    .not.toHaveBeenCalled();
+                done();
+            });
+        });
+
+        it('should call cordova prepare when flag is set', function(done) {
+            options.browser = true;
             pg = phonegap(options);
 
             gazeSpy.emit('all', 'eventType', '/path/to/file.js');
@@ -40,14 +53,25 @@ describe('browser middleware', function() {
     });
 
     describe('on phonegap serve', function() {
-            it('should add browser platform', function(done) {
-                gazeSpy.listen = jasmine.createSpy('listen').andReturn(gazeSpy);
-                spyOn(http, 'createServer').andReturn(gazeSpy);
+        it('should not add browser platform when flag is not set', function(done) {
+            gazeSpy.listen = jasmine.createSpy('listen').andReturn(gazeSpy);
+            spyOn(http, 'createServer').andReturn(gazeSpy);
 
-                phonegap.serve(options);
-                expect(options.phonegap.cordova)
-                    .toHaveBeenCalledWith({ cmd: 'cordova platform add browser@4.0.0' });
-                done();
-            });
+            phonegap.serve(options);
+            expect(options.phonegap.cordova)
+                .not.toHaveBeenCalled();
+            done();
+        });
+
+        it('should add browser platform when flag is set', function(done) {
+            gazeSpy.listen = jasmine.createSpy('listen').andReturn(gazeSpy);
+            spyOn(http, 'createServer').andReturn(gazeSpy);
+            options.browser = true;
+
+            phonegap.serve(options);
+            expect(options.phonegap.cordova)
+                .toHaveBeenCalledWith({ cmd: 'cordova platform add browser@4.0.0' });
+            done();
+        });
     });
 });
