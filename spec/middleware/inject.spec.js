@@ -97,4 +97,17 @@ describe('inject middleware', function() {
             });
         });
     });
+
+    it('should inject push logic', function(done) {
+        chdir('spec/fixture/app-with-cordova', function() {
+            request(phonegap())
+            .get('/')
+            .set('accept', 'text/html')
+            .end(function(e, res) {
+                expect(res.statusCode).toEqual(200);
+                expect(res.text).toMatch('// Push');
+                done();
+            });
+        });
+    });
 });
