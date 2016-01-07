@@ -35,7 +35,7 @@
     "request": "2.33.0",
     "request-progress": "0.3.1",
     "shelljs": "0.2.6",
-    "socket.io": "1.0.4",
+    "socket.io": "1.4.0",
     "tar": "0.1.19",
     "useragent": "2.0.8",
     "walkdir": "0.0.8"
