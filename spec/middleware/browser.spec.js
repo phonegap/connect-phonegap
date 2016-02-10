@@ -34,7 +34,8 @@ describe('browser middleware', function() {
             gazeSpy.emit('all', 'eventType', '/path/to/file.js');
             process.nextTick(function() {
                 expect(options.phonegap.cordova)
-                    .toHaveBeenCalledWith({ cmd: 'cordova prepare browser' });
+                    .toHaveBeenCalledWith({ cmd: 'cordova prepare browser' },
+                                            jasmine.any(Function));
                 done();
             });
         });
