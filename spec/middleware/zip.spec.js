@@ -31,7 +31,7 @@ describe('zip middleware', function() {
 
     describe('GET /__api__/appzip', function() {
         it('should generate a zip', function(done) {
-            setApp("app-without-cordova");
+            setApp('app-without-cordova');
             createSpy = jasmine.createSpy('create');
             spyOn(archiver, 'create').andCallFake(createSpy);
 
@@ -44,7 +44,7 @@ describe('zip middleware', function() {
         });
 
         it('should zip files for app with symlinks', function(done) {
-            setApp("app-with-symlinks");
+            setApp('app-with-symlinks');
 
             request(phonegap())
             .get('/__api__/appzip')
@@ -75,10 +75,66 @@ describe('zip middleware', function() {
                 done();
             });
         });
-    
+
+        describe('content-security-policy', function() {
+            describe('when missing', function() {
+                it('should be added to support unsafe scripts', function(done) {
+                    setApp('app-with-cordova');
+
+                    request(phonegap())
+                    .get('/__api__/appzip')
+                    .parse(function(res, callback) {
+                        res.setEncoding('binary');
+                        res.data = '';
+                        res.on('data', function(chunk) {
+                            res.data += chunk;
+                        });
+                        res.on('end', function() {
+                            callback(null, new Buffer(res.data, 'binary'));
+                        });
+                    })
+                    .end(function(e, res) {
+                        var zip = new AdmZip(res.body);
+                        var content = zip.readFile('www/index.html').toString('utf-8');
+                        expect(content).toMatch(
+                            /<meta.+content-security-policy.+script-src 'self' 'unsafe-inline'.+>/i
+                        );
+                        done();
+                    });
+                });
+            });
+
+            describe('when exists', function() {
+                it('should be update to support unsafe scripts', function(done) {
+                    setApp('app-with-csp');
+
+                    request(phonegap())
+                    .get('/__api__/appzip')
+                    .parse(function(res, callback) {
+                        res.setEncoding('binary');
+                        res.data = '';
+                        res.on('data', function(chunk) {
+                            res.data += chunk;
+                        });
+                        res.on('end', function() {
+                            callback(null, new Buffer(res.data, 'binary'));
+                        });
+                    })
+                    .end(function(e, res) {
+                        var zip = new AdmZip(res.body);
+                        var content = zip.readFile('www/index.html').toString('utf-8');
+                        expect(content).toMatch(
+                            /<meta.+content-security-policy.+script-src 'self' 'unsafe-inline'.+>/i
+                        );
+                        done();
+                    });
+                });
+            });
+        });
+
         describe('successfully generated zip', function() {
             it('should have a 200 response code', function(done) {
-                setApp("app-without-cordova");
+                setApp('app-without-cordova');
                 request(phonegap())
                 .get('/__api__/appzip')
                 .end(function(e, res) {
@@ -88,7 +144,7 @@ describe('zip middleware', function() {
             });
 
             it('should have application/zip Content-Type', function(done) {
-                setApp("app-without-cordova");
+                setApp('app-without-cordova');
                 request(phonegap())
                 .get('/__api__/appzip')
                 .end(function(e, res) {
@@ -98,7 +154,7 @@ describe('zip middleware', function() {
             });
 
             it('should respond with the zip content', function(done) {
-                setApp("app-without-cordova");
+                setApp('app-without-cordova');
                 request(phonegap())
                 .get('/__api__/appzip')
                 // custom application/zip parser for supertest
@@ -128,7 +184,7 @@ describe('zip middleware', function() {
             });
 
             it('should have a 500 response code', function(done) {
-                setApp("app-without-cordova");
+                setApp('app-without-cordova');
                 request(phonegap())
                 .get('/__api__/appzip')
                 .end(function(e, res) {
@@ -137,7 +193,5 @@ describe('zip middleware', function() {
                 });
             });
         });
-
     });
-
 });
