@@ -97,7 +97,7 @@ describe('zip middleware', function() {
                         var zip = new AdmZip(res.body);
                         var content = zip.readFile('www/index.html').toString('utf-8');
                         expect(content).toMatch(
-                            /<meta.+content-security-policy.+script-src 'self' 'unsafe-inline'.+>/i
+                            /<meta.+content-security-policy.+script-src \* 'unsafe-inline'.+>/i
                         );
                         done();
                     });
@@ -124,7 +124,7 @@ describe('zip middleware', function() {
                         var zip = new AdmZip(res.body);
                         var content = zip.readFile('www/index.html').toString('utf-8');
                         expect(content).toMatch(
-                            /<meta.+content-security-policy.+script-src 'self' 'unsafe-inline'.+>/i
+                            /<meta.+content-security-policy.+script-src \* 'unsafe-inline'.+>/i
                         );
                         done();
                     });
