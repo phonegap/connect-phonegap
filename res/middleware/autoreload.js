@@ -38,6 +38,8 @@
                             });
                         });
                     }
+                } else if (response.projectChanged) {
+                    window.history.back(window.history.length);
                 }
             }
         }
