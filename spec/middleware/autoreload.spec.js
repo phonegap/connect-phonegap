@@ -218,4 +218,38 @@ describe('autoreload middleware', function() {
         });
     });
 
+    describe('project switching', function() {
+        beforeEach(function(done) {
+            options = {
+                appID: '1234'
+            };
+
+            agent = request.agent(phonegap(options));
+            agent.post('/__api__/autoreload?appID=1234').end(function(e, res) {
+                done();
+            });
+        });
+
+        it('should return false if appIDs match', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                agent.get('/__api__/autoreload?appID=1234').end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    expect(JSON.parse(res.text).projectChanged).toMatch(false);
+                    done();
+                });
+            });
+        });
+
+        it('should return true if appIDs do not match', function(done) {
+            chdir('spec/fixture/app-with-cordova', function() {
+                // poll server with different appID
+                agent.get('/__api__/autoreload?appID=4321').end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    expect(JSON.parse(res.text).projectChanged).toMatch(true);
+                    done();
+                });
+            });
+        });
+    });
+
 });
