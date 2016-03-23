@@ -7,6 +7,7 @@ var events = require('events'),
     http = require('http'),
     ip = require('../lib/util/ip'),
     phonegap = require('../lib'),
+    socketServer = require('../lib/util/socket-server'),
     request = require('request'),
     options,
     serverSpy,
@@ -26,6 +27,7 @@ describe('phonegap.serve(options, [callback])', function() {
             var res = { req: { connection: { localAddress: '10.0.1.4' } } };
             callback(null, res, 'data');
         });
+        spyOn(socketServer, 'attachConsole');
     });
 
     it('should not require options', function() {
