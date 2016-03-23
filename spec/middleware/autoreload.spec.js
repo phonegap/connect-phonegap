@@ -8,7 +8,7 @@ var chdir = require('chdir'),
     http = require('http'),
     phonegap = require('../../lib'),
     request = require('supertest'),
-    io = require('socket.io'),
+    socketServer = require('../../lib/util/socket-server'),
     agent,
     options,
     watchSpy;
@@ -50,6 +50,7 @@ describe('autoreload middleware', function() {
                 listeners:function(){return []},
                 removeAllListeners:function(){}
             });
+            spyOn(socketServer, 'attachConsole');
         });
 
         it('should pass the autoreload option', function() {
