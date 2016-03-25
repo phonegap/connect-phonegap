@@ -11,6 +11,7 @@ var events = require('events'),
     request = require('request'),
     options,
     serverSpy,
+    socket,
     watchSpy;
 
 /*!
@@ -136,6 +137,40 @@ describe('phonegap.serve(options, [callback])', function() {
                     expect(e).toEqual(jasmine.any(Error));
                     done();
                 });
+            });
+        });
+
+        describe('on connection', function() {
+            beforeEach(function() {
+                socket = require('net').Socket();
+            });
+
+            it('sockets list should be non-empty', function(done) {
+                var server = phonegap.serve(options).on('connection', function() {
+                    expect(options.sockets).not.toEqual({});
+                    expect(options.sockets[0]).toEqual(socket);
+                    done();
+                });
+
+                serverSpy.emit('connection', socket);
+            });
+
+            it('sockets list should be empty when server is closed', function(done) {
+                spyOn(socket, 'destroy').andCallFake(function() {
+                    socket._events.close();
+                });
+
+                var server = phonegap.serve(options).on('close', function() {
+                    expect(options.sockets).toEqual({});
+                    done();
+                });
+
+                serverSpy.emit('connection', socket);
+
+                server.close = function() {
+                    serverSpy.emit('close');
+                };
+                server.closeServer();
             });
         });
     });
