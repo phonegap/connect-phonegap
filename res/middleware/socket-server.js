@@ -23,6 +23,24 @@
         'onMessage' : function(conn, msg) {
             console.log(conn);
             console.log(msg);
+            req = JSON.parse(msg);
+
+            if(!req || !req.service || !req.action || !req.args) {
+              throw new Error("Request needs to have service, action and args attributes");
+            }
+
+            var success = function(res) {
+              wsserver.send(conn, JSON.stringify(res));
+            };
+
+            var error = function(e) {
+              wsserver.send(conn, JSON.stringify(e));
+            };
+            if(cordova && cordova.exec) {
+              cordova.exec(success, error, req.service, req.action, req.args);
+            } else {
+              throw new Error("Cordova is undefined or exec is not available");
+            }
         },
         'onClose' : function(conn) {
             console.log('A user disconnected from '+conn.remoteAddr);
