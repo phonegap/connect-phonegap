@@ -30,11 +30,16 @@
             }
 
             var success = function(res) {
+              console.log("sending success res ", res);
               wsserver.send(conn, JSON.stringify(res));
             };
 
             var error = function(e) {
-              wsserver.send(conn, JSON.stringify(e));
+              console.log("sending error", e);
+              var err = {
+                error: e
+              }
+              wsserver.send(conn, JSON.stringify(err));
             };
             if(cordova && cordova.exec) {
               cordova.exec(success, error, req.service, req.action, req.args);

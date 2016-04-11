@@ -1,11 +1,11 @@
 <script type="text/javascript">
+var phonegap = phonegap || {};
 (function() {
-    var phonegap = phonegap || {};
 
     phonegap.getSelectedDevice = function() {
       var devicesEm = document.getElementById("phonegap_devices");
       if(devicesEm) {
-        return devicesEm.options[devicesEm.selectedIndex].value;
+        return devicesEm.options[devicesEm.selectedIndex].value || null;
       };
       return null;
     };
@@ -28,12 +28,24 @@
             deviceEm.style["background-color"] = "green";
             devicesEm.add(deviceEm);
           }
+          var deviceEm = document.createElement("option");
+          deviceEm.text = "local";
+          deviceEm.value = "";
+          deviceEm.style["background-color"] = "green";
+          devicesEm.add(deviceEm);
           var exDevicesEm = document.getElementById("phonegap_devices");
           if(exDevicesEm) {
             var exDevicesParentEm = exDevicesEm.parentNode;
+            devicesEm.value = exDevicesEm.value;
             exDevicesParentEm.replaceChild(devicesEm, exDevicesEm);
           } else {
             document.body.appendChild(devicesEm);
+          }
+        } else {
+          var devicesEm = document.getElementById("phonegap_devices");
+          if(devicesEm) {
+            var devicesParentEm = devicesEm.parentNode;
+            devicesParentEm.removeChild(devicesEm);
           }
         }
     }
@@ -74,22 +86,27 @@
 
                 try {
                     if(phonegap.getSelectedDevice() !== null) {
+                      console.log("Running cordova call remotely on "+phonegap.getSelectedDevice());
                       var socket = new WebSocket("ws://"+phonegap.getSelectedDevice());
                       var data = {
                         service: service,
                         action: action,
-                        args: []
+                        args: args 
                       };
                       socket.onmessage = function(event) {
                         var res = JSON.parse(event.data);
                         console.log(res);
-                        success(event.data);
+                        if(res.error) {
+                          fail(res.error);
+                        } else {
+                          success(res);
+                        }
                       };
                       socket.onopen = function(event) {
                         socket.send(JSON.stringify(data));
                       };
                     } else {
-                      console.log("no FUCKING socket");
+                      console.log("Running cordova call locally");
                       proxy(success, fail, args);
                     }
                 }
