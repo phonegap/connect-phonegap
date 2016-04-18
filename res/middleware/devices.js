@@ -86,7 +86,6 @@ var phonegap = phonegap || {};
 
                 try {
                     if(phonegap.getSelectedDevice() !== null) {
-                      console.log("Running cordova call remotely on "+phonegap.getSelectedDevice());
                       var socket = new WebSocket("ws://"+phonegap.getSelectedDevice());
                       var data = {
                         service: service,
@@ -95,7 +94,7 @@ var phonegap = phonegap || {};
                       };
                       socket.onmessage = function(event) {
                         var res = JSON.parse(event.data);
-                        console.log(res);
+                        //console.log(res);
                         if(res.error) {
                           fail(res.error);
                         } else {
@@ -103,6 +102,7 @@ var phonegap = phonegap || {};
                         }
                       };
                       socket.onopen = function(event) {
+                        console.log("Running cordova call remotely on "+phonegap.getSelectedDevice() + " " + service + "." + action);
                         socket.send(JSON.stringify(data));
                       };
                     } else {
