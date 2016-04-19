@@ -18,6 +18,7 @@ describe('browser middleware', function() {
     beforeEach(function() {
         gazeSpy = new events.EventEmitter();
         spyOn(gaze, 'Gaze').andReturn(gazeSpy);
+        spyOn(global, 'setInterval');
 
         options = {
             browser: true,

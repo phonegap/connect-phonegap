@@ -21,6 +21,7 @@ describe('autoreload middleware', function() {
     beforeEach(function() {
         watchSpy = new events.EventEmitter();
         spyOn(gaze, 'Gaze').andReturn(watchSpy);
+        spyOn(global, 'setInterval');
     });
 
     describe('options', function() {
