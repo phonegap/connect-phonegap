@@ -28,6 +28,7 @@ describe('phonegap.serve(options, [callback])', function() {
             callback(null, res, 'data');
         });
         spyOn(socketServer, 'attachConsole');
+        spyOn(global, 'setInterval');
     });
 
     it('should not require options', function() {
