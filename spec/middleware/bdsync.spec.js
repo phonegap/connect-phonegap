@@ -8,6 +8,7 @@ var chdir = require('chdir'),
     phonegap = require('../../lib'),
     request = require('supertest'),
     url = '/__api__/devices',
+    options = {},
     data;
 
 /*!
@@ -28,7 +29,6 @@ describe('register middleware', function() {
                 .get(url)
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    //expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
                     done();
                 });
             });
@@ -36,10 +36,12 @@ describe('register middleware', function() {
         describe('connected devices', function() {
             it('should return list of devices', function(done) {
                 data = {};
-                request(phonegap())
+                options = {devices: [ { platform: "android", version: "3.4.0" }, { platform: "ios", version: "4.0.0" } ] };
+                request(phonegap(options))
                 .get(url)
                 .end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
+                    expect(JSON.parse(res.text)).toEqual({devices: options.devices});
                     //expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
                     done();
                 });
