@@ -98,6 +98,20 @@ describe('register middleware', function() {
                     done();
                 });
             });
+            it('should save device in options', function(done) {
+                var useragent = require('../../lib/middleware/ext/useragent');
+                var options = {};
+                spyOn(useragent, 'parse').andReturn({
+                    platform: 'android'
+                });
+                request(phonegap(options))
+                .get('/dummy') // this doesn't really matter
+                .end(function(e, res) {
+                    expect(res.statusCode).not.toEqual(200);
+                    expect(options.devices).not.toBe(undefined);
+                    done();
+                });
+            });
         });
 
         describe('failure registering device', function() {
