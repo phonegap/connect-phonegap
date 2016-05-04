@@ -1,4 +1,3 @@
-<script type="text/javascript">
 //
 // Push notification
 //
@@ -21,4 +20,3 @@
     });
 
 })(window);
-</script>

@@ -1,4 +1,3 @@
-<script type="text/javascript">
 //
 // Refresh the app on a four-finger tap.
 //
@@ -30,4 +29,3 @@
     }, false);
 
 })(window);
-</script>
