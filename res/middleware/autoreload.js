@@ -13,7 +13,7 @@
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
             }
-        }
+        };
         xhr.send();
     }
 
@@ -28,7 +28,7 @@
                     postStatus();
 
                     // this is ensure we don't duplicate a download when we first launch the app on device
-                    if(response.content.lastUpdated != 0){
+                    if(response.content.lastUpdated !== 0){
                         window.clearTimeout(timer);
                         window.phonegap.app.config.load(function(config){
                             window.phonegap.app.downloadZip({
@@ -41,7 +41,7 @@
                     window.history.back(window.history.length);
                 }
             }
-        }
+        };
         xhr.send();
     }
 
