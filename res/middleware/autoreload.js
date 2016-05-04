@@ -13,7 +13,7 @@
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
             }
-        }
+        };
         xhr.send();
     }
 
@@ -46,7 +46,7 @@
                     });
                 }
             }
-        }
+        };
         xhr.send();
     }
 
