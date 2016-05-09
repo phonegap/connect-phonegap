@@ -9,7 +9,7 @@
         window.PushNotification.init = function(options) {
             if (options.android) {
                 options.android.senderID = "85075801930";
-                options.android.icon = "phonegap";
+                options.android.icon = "pushicon";
                 options.android.iconColor = "blue";
             }
             var pgdevPush = new oldPushNotification.PushNotification(options);
