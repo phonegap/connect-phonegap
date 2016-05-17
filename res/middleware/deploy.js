@@ -141,9 +141,15 @@
      */
 
     window.phonegap.app.downloadZip = function(options) {
-        var uri = encodeURI(options.address + '/__api__/update');
-        var sync = ContentSync.sync({ src: uri, id: 'phonegapdevapp', type: 'merge', copyCordovaAssets: false });
-        
+        var uri, sync;
+        if (options.update) {
+            uri = encodeURI(options.address + '/__api__/update');
+            sync = ContentSync.sync({ src: uri, id: 'phonegapdevapp', type: 'merge', copyCordovaAssets: false });
+        } else {
+            uri = encodeURI(options.address + '/__api__/appzip');
+            sync = ContentSync.sync({ src: uri, id: 'phonegapdevapp', type: 'replace', copyCordovaAssets: true });
+        }
+
         sync.on('complete', function(data){
             window.location.reload();
         });

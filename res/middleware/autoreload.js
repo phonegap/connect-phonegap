@@ -29,7 +29,7 @@
                     postStatus();
 
                     // this is ensure we don't duplicate a download when we first launch the app on device
-                    if(response.content.lastUpdated != 0){
+                    if(response.content.lastUpdated !== 0){
                         window.clearTimeout(timer);
                         window.phonegap.app.config.load(function(config){
                             window.phonegap.app.downloadZip({
@@ -39,7 +39,12 @@
                         });
                     }
                 } else if (response.projectChanged) {
-                    window.history.back(window.history.length);
+                    window.phonegap.app.config.load(function(config) {
+                        window.phonegap.app.downloadZip({
+                            address: 'http://' + config.address,
+                            update: false
+                        });
+                    });
                 }
             }
         }
