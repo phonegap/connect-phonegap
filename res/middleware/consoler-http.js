@@ -1,7 +1,26 @@
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
-(function(window) {
-    var socket = io('http://' + document.location.host);
+(function (global, factory) {
+    "use strict";
+
+    if (typeof global.define === 'function' && global.define.amd) {
+        global.require(['socket.io/socket.io'], factory);
+    }
+    else if (typeof exports === 'object') {
+        module.exports = factory(require('socket.io'));
+    }
+    else {
+	    var tag = document.createElement('script');
+
+	    tag.src = '/socket.io/socket.io.js';
+
+	    tag.onload = function(){
+		    factory(global.io);
+	    };
+
+	    document.body.appendChild(tag);
+    }
+}(this, function (io) {
+	var socket = io('http://' + document.location.host);
     var previousConsole = window.console || {};
     window.console = {
         log:function(msg){
@@ -23,5 +42,5 @@
             }
         }
     }
-})(window);
+}));
 </script>
