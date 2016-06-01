@@ -1,4 +1,3 @@
-<script type="text/javascript">
 //
 // Proxy
 ///
@@ -26,4 +25,3 @@
         xhr.open.apply(this, arguments);
     };
 })(window);
-</script>

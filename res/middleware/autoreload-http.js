@@ -1,4 +1,3 @@
-<script type="text/javascript">
 //
 // Reload the app if server detects local change
 //
@@ -36,4 +35,3 @@
     setInterval(checkForReload, 1000 * 3);
 
 })(window);
-</script>

@@ -1,5 +1,3 @@
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript">
 (function(window) {
     var socket = io('http://' + document.location.host);
     var previousConsole = window.console || {};
@@ -24,4 +22,3 @@
         }
     }
 })(window);
-</script>
