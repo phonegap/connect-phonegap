@@ -1,4 +1,3 @@
-<script type="text/javascript">
 //
 // Reload the app if server detects local change
 //
@@ -14,7 +13,7 @@
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
             }
-        }
+        };
         xhr.send();
     }
 
@@ -47,7 +46,7 @@
                     });
                 }
             }
-        }
+        };
         xhr.send();
     }
 
@@ -55,4 +54,3 @@
         timer = setInterval(checkForReload, 1000 * 3);
     }, false);
 })(window);
-</script>

@@ -1,4 +1,3 @@
-<script type="text/javascript">
 //
 // Go to app's homepage on a three-finger tap.
 //
@@ -30,4 +29,3 @@
     }, false);
 
 })(window);
-</script>
