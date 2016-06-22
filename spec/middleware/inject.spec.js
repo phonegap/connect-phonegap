@@ -31,7 +31,7 @@ describe('inject middleware', function() {
 
     it('should inject homepage logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(phonegap())
+            request(phonegap({ homepage: true }))
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
@@ -44,7 +44,7 @@ describe('inject middleware', function() {
 
     it('should inject refresh logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(phonegap())
+            request(phonegap({ refresh: true }))
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
@@ -58,7 +58,7 @@ describe('inject middleware', function() {
     describe('when autoreload is enabled', function() {
         it('should inject autoreload logic', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
-                request(phonegap())
+                request(phonegap({ autoreload: true }))
                 .get('/')
                 .set('accept', 'text/html')
                 .end(function(e, res) {
@@ -87,7 +87,7 @@ describe('inject middleware', function() {
 
     it('should inject proxy logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(phonegap())
+            request(phonegap({ proxy: true }))
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
@@ -100,7 +100,7 @@ describe('inject middleware', function() {
 
     it('should inject push logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
-            request(phonegap())
+            request(phonegap({ push: true }))
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
