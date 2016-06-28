@@ -70,7 +70,7 @@ describe('inject middleware', function() {
         });
     });
 
-    describe('when autoreload is diabled', function() {
+    describe('when autoreload is disabled', function() {
         it('should not inject autoreload logic', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap({ autoreload: false }))
@@ -106,6 +106,19 @@ describe('inject middleware', function() {
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
                 expect(res.text).toMatch('// Push');
+                done();
+            });
+        });
+    });
+
+    it('should inject console logic', function(done) {
+        chdir('spec/fixture/app-with-cordova', function() {
+            request(phonegap({ console: true }))
+            .get('/')
+            .set('accept', 'text/html')
+            .end(function(e, res) {
+                expect(res.statusCode).toEqual(200);
+                expect(res.text).toMatch('window.console');
                 done();
             });
         });

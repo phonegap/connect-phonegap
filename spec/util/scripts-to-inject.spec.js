@@ -49,7 +49,7 @@ describe('scripts to inject', function() {
         it('should be a function', function () {
             expect(injectScripts.getScripts).toEqual(jasmine.any(Function));
         });
-        
+
         it('should return browser specific scripts when enabled', function() {
             options.autoreload = true;
             options.isBrowser = true;
