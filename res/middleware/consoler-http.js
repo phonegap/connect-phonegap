@@ -2,13 +2,8 @@
     var socket = io('http://' + document.location.host);
     
     // Copy the functions to avoid stack overflow
-    var previousConsole = {
-        log: window.console.log.bind(this),
-        warn: window.console.warn.bind(this),
-        error: window.console.error.bind(this),
-        assert: window.console.assert.bind(this)
-    };
-    
+    var previousConsole = Object.assign({}, window.console);
+        
     // Overwrite these individually to preserve other log properties
     window.console.log = function(){
         if(previousConsole.log) {
