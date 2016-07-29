@@ -9,6 +9,7 @@ var chdir = require('chdir'),
 
 /*!
  * Specification: inject middleware
+ * note: these tests run like they are on the browser
  */
 
 describe('inject middleware', function() {
@@ -29,27 +30,27 @@ describe('inject middleware', function() {
         });
     });
 
-    it('should inject homepage logic', function(done) {
+    it('should not inject homepage logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
             request(phonegap({ homepage: true }))
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
-                expect(res.text).toMatch('Go to app\'s homepage on a three-finger tap.');
+                expect(res.text).not.toMatch('Go to app\'s homepage on a three-finger tap.');
                 done();
             });
         });
     });
 
-    it('should inject refresh logic', function(done) {
+    it('should not inject refresh logic', function(done) {
         chdir('spec/fixture/app-with-cordova', function() {
             request(phonegap({ refresh: true }))
             .get('/')
             .set('accept', 'text/html')
             .end(function(e, res) {
                 expect(res.statusCode).toEqual(200);
-                expect(res.text).toMatch('Refresh the app on a four-finger tap.');
+                expect(res.text).not.toMatch('Refresh the app on a four-finger tap.');
                 done();
             });
         });
