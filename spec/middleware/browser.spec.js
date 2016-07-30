@@ -6,6 +6,8 @@ var events = require('events'),
     gaze = require('gaze'),
     http = require('http'),
     phonegap = require('../../lib'),
+    cordovaAPI = require('../../lib/util/cordova-API-access'),
+    Q = require('q'),
     gazeSpy,
     options,
     pg;
@@ -30,6 +32,15 @@ describe('browser middleware', function() {
                 }
             }
         };
+
+        var platformSpy = jasmine.createSpy('platform');
+        var prepareSpy = jasmine.createSpy('prepare');
+
+        spyOn(cordovaAPI, 'getCordova').andReturn(
+            Q({
+            platform: platformSpy,
+            prepare: prepareSpy
+        }));
     });
 
     describe('on file change', function() {
@@ -38,7 +49,7 @@ describe('browser middleware', function() {
 
             gazeSpy.emit('all', 'eventType', '/path/to/file.js');
             process.nextTick(function() {
-                expect(options.phonegap.util.cordova.prepare)
+                expect(prepareSpy)
                     .toHaveBeenCalledWith([], jasmine.any(Function));
                 done();
             });
