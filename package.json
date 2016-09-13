@@ -24,7 +24,7 @@
   "dependencies": {
     "adm-zip":  "0.4.7",
     "archiver": "1.1.0",
-    "connect": "2.12.0",
+    "connect": "2.30.2",
     "connect-inject": "0.3.2",
     "gaze": "0.4.3",
     "home-dir": "0.1.2",
