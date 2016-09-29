@@ -14,12 +14,6 @@ describe('connect-phonegap', function() {
         expect(phonegap).toEqual(middleware);
     });
 
-    describe('.create(...)', function() {
-        it('should be a function', function() {
-            expect(phonegap.create).toEqual(jasmine.any(Function));
-        });
-    });
-
     describe('.serve(...)', function() {
         it('should be a function', function() {
             expect(phonegap.serve).toEqual(jasmine.any(Function));

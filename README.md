@@ -113,51 +113,6 @@ Example:
             .on('error', function(e) {
                 // an error occured
             });
-
-### phonegap.create(options)
-
-The project is created from the same app template used by the PhoneGap CLI
-and Cordova CLI. When a template does not exist, it is fetched and saved
-in the common directory:
-
-    ~/.cordova/lib/www/phonegap/VERSION/
-
-Options:
-
-  - `options` {Object}
-    - `path` {String} is the path to create the project.
-    - `version` {String} defines the PhoneGap app version.
-
-Events:
-
-  - `progress` emits state while downloading the app template.
-    - `state` {Object} with `received`, `total`, and `percentage`.
-  - `error` emitted when an error occurs.
-    - `e` {Error}
-  - `complete` emits when the project has been created.
-    - `data` {Object} is indentical to the input `options`.
-
-Example:
-
-    phonegap.create({
-        path: 'path/to/app',
-        version: '3.3.0'
-    })
-    .on('progress', function(state) {
-        // only emitted when downloading a template.
-        // state values are only defined when response supports
-        // content-length header.
-        if (state.percentage) {
-            console.log('downloaded: ' + state.percentage + '%');
-        }
-    })
-    .on('error', function(e) {
-        // handle error
-        console.log('error:', e);
-    })
-    .on('complete', function(data) {
-        // data.path is the app path
-        console.log('created project at: ' + data.path);
     });
 
 [travis-ci-img]: https://travis-ci.org/phonegap/connect-phonegap.svg?branch=master
