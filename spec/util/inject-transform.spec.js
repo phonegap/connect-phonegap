@@ -41,7 +41,7 @@ describe('Injector Transform', function() {
 
     it('should replace CSP', function(done) {
         var cspCordovaStream = fs.createReadStream(path.join(__dirname, '../fixture/app-with-csp/www/index.html'), 'utf-8');
-        var cspTestString = /<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self' data: gap: https:\/\/ssl.gstatic.com 'unsafe-eval' \* ws:;style-src 'self' 'unsafe-inline' data: blob:;media-src \*;script-src \* 'unsafe-inline' 'unsafe-eval' data: blob:;\">/;
+        var cspTestString = /<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self' data: gap: https:\/\/ssl.gstatic.com 'unsafe-eval' \* ws:;style-src 'self' 'unsafe-inline' data: blob:;media-src \*;img-src 'self' data: content:;script-src \* 'unsafe-inline' 'unsafe-eval' data: blob:;\">/;
         var injectorStream = cspCordovaStream.pipe(injectorTransform)
         injectorStream.setEncoding('utf-8');
         injectorStream.on('data', function(chunk) {
@@ -53,7 +53,7 @@ describe('Injector Transform', function() {
 
     it('should add CSP when none is present', function(done) {
         var cspCordovaStream = fs.createReadStream(path.join(__dirname, '../fixture/app-without-csp/www/index.html'), 'utf-8');
-        var cspTestString = /<meta http-equiv=\"Content-Security-Policy\" content=\"default-src \* gap: ws: https:\/\/ssl.gstatic.com;style-src 'self' 'unsafe-inline' data: blob:;script-src \* 'unsafe-inline' 'unsafe-eval' data: blob:;\"/;
+        var cspTestString = /<meta http-equiv=\"Content-Security-Policy\" content=\"default-src \* gap: ws: https:\/\/ssl.gstatic.com;img-src 'self' data: content:;style-src 'self' 'unsafe-inline' data: blob:;script-src \* 'unsafe-inline' 'unsafe-eval' data: blob:;\"/;
         var injectorStream = cspCordovaStream.pipe(injectorTransform)
         injectorStream.setEncoding('utf-8');
         injectorStream.on('data', function(chunk) {
