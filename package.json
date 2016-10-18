@@ -32,7 +32,7 @@
     "localtunnel": "1.8.1",
     "shelljs": "0.2.6",
     "socket.io": "1.5.0",
-    "useragent": "2.0.8",
+    "useragent": "2.1.9",
     "walkdir": "0.0.11"
   },
   "devDependencies": {
