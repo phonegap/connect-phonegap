@@ -19,6 +19,10 @@ var events = require('events'),
 
 describe('phonegap.serve(options, [callback])', function() {
     beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({
+            on: function() {},
+            close: function() {}
+        });
         options = {};
         serverSpy = new events.EventEmitter();
         serverSpy.listen = jasmine.createSpy('listen').andReturn(serverSpy);
@@ -109,34 +113,6 @@ describe('phonegap.serve(options, [callback])', function() {
             });
         });
 
-        describe('on middleware event', function() {
-            beforeEach(function() {
-                watchSpy = new events.EventEmitter();
-                // use gaze as tester but can be any event-emitting middleware
-                spyOn(gaze, 'Gaze').andCallFake(function() {
-                    process.nextTick(function() {
-                        watchSpy.emit('all', 'eventType', '/path/to/file.js');
-                        watchSpy.emit('error', new Error('an error'));
-                    });
-                    return watchSpy;
-                });
-            });
-
-            it('should receive log event', function(done) {
-                var server = phonegap.serve(options).on('log', function() {
-                    expect(arguments[1]).toMatch('/path/to/file.js');
-                    done();
-                });
-            });
-
-            it('should receive error event', function(done) {
-                var server = phonegap.serve(options).on('error', function(e) {
-                    expect(e).toEqual(jasmine.any(Error));
-                    done();
-                });
-            });
-        });
-
         describe('on connection', function() {
             beforeEach(function() {
                 socket = require('net').Socket();
@@ -179,6 +155,43 @@ describe('phonegap.serve(options, [callback])', function() {
                 done();
             });
             serverSpy.emit('error', new Error('port in use'));
+        });
+    });
+});
+
+// Had to separate these tests out because they require a different
+// spyOn(gaze, 'Gaze') than the tests above
+describe('phonegap.serve(options, [callback]) on middleware event', function() {
+    beforeEach(function() {
+        watchSpy = new events.EventEmitter();
+        // use gaze as tester but can be any event-emitting middleware
+        spyOn(gaze, 'Gaze').andCallFake(function() {
+            process.nextTick(function() {
+                watchSpy.emit('all', 'eventType', '/path/to/file.js');
+                watchSpy.emit('error', new Error('an error'));
+            });
+            return watchSpy;
+        });
+        serverSpy = new events.EventEmitter();
+        serverSpy.listen = jasmine.createSpy('listen').andReturn(serverSpy);
+        spyOn(http, 'createServer').andReturn(serverSpy);
+        spyOn(request, 'get').andCallFake(function(options, callback) {
+            var res = { req: { connection: { localAddress: '10.0.1.4' } } };
+            callback(null, res, 'data');
+        });
+    });
+
+    it('should receive log event', function(done) {
+        var server = phonegap.serve(options).on('log', function() {
+            expect(arguments[1]).toMatch('/path/to/file.js');
+            done();
+        });
+    });
+
+    it('should receive error event', function(done) {
+        var server = phonegap.serve(options).on('error', function(e) {
+            expect(e).toEqual(jasmine.any(Error));
+            done();
         });
     });
 });

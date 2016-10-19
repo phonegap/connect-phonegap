@@ -3,6 +3,7 @@
  */
 
 var chdir = require('chdir'),
+    gaze = require('gaze'),
     phonegap = require('../../../lib'),
     request = require('supertest'),
     useragent = require('../../../lib/middleware/ext/useragent');
@@ -13,6 +14,7 @@ var chdir = require('chdir'),
 
 describe('plugins/**/*.js middleware', function() {
     beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
         spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });
     });
 

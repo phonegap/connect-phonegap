@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 
-var phonegap = require('../lib'),
+var gaze = require('gaze'),
+    phonegap = require('../lib'),
     request = require('supertest');
 
 /*!
@@ -10,6 +11,10 @@ var phonegap = require('../lib'),
  */
 
 describe('phonegap-connect()', function() {
+    beforeEach(function() {
+        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+    });
+
     it('should return a request listener', function(done) {
         request(phonegap()).get('/').end(function(e, res) {
             expect(res.statusCode).toEqual(404);
