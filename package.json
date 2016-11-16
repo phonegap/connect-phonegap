@@ -31,7 +31,7 @@
     "ip": "1.1.3",
     "localtunnel": "1.8.1",
     "request": "2.76.0",
-    "shelljs": "0.2.6",
+    "shelljs": "0.7.5",
     "socket.io": "1.5.0",
     "useragent": "2.1.9",
     "walkdir": "0.0.11"

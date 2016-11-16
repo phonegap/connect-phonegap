@@ -22,9 +22,9 @@ describe('browser middleware', function() {
         options = {
             browser: true,
             phonegap: {
+                cordova: jasmine.createSpy('cordova'),
                 util: {
                     cordova: {
-                        platform: jasmine.createSpy('platform'),
                         prepare: jasmine.createSpy('prepare')
                     }
                 }
@@ -63,8 +63,8 @@ describe('browser middleware', function() {
             spyOn(http, 'createServer').andReturn(gazeSpy);
 
             phonegap.serve(options);
-            expect(options.phonegap.util.cordova.platform)
-                .toHaveBeenCalledWith('add', 'browser', jasmine.any(Function));
+            expect(options.phonegap.cordova)
+                .toHaveBeenCalledWith({ cmd: 'cordova platform add browser' }, jasmine.any(Function));
             done();
         });
 
@@ -74,8 +74,7 @@ describe('browser middleware', function() {
             options.browser = false;
 
             phonegap.serve(options);
-            expect(options.phonegap.util.cordova.platform)
-                .not.toHaveBeenCalled();
+            expect(options.phonegap.cordova).not.toHaveBeenCalled();
             done();
         });
     });
