@@ -32,7 +32,7 @@
                         window.clearTimeout(timer);
                         window.phonegap.app.config.load(function(config){
                             window.phonegap.app.downloadZip({
-                                address: 'http://' + config.address,
+                                address: (config.address.match(/^(.*:\/\/)/)) ? config.address : 'http://' + config.address,
                                 update: true
                             });
                         });
@@ -40,7 +40,7 @@
                 } else if (response.projectChanged) {
                     window.phonegap.app.config.load(function(config) {
                         window.phonegap.app.downloadZip({
-                            address: 'http://' + config.address,
+                            address: (config.address.match(/^(.*:\/\/)/)) ? config.address : 'http://' + config.address,
                             update: false
                         });
                     });
