@@ -16,7 +16,7 @@
   "preferGlobal": "false",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "jasmine-node --color spec"
+    "test": "jasmine-node --color spec; node_modules/eslint/bin/eslint.js ./"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -39,6 +39,7 @@
   "devDependencies": {
     "chdir": "0.0.0",
     "checksum": "0.1.1",
+    "eslint": "^3.12.2",
     "jasmine-node": "1.14.5",
     "supertest": "2.0.0"
   },
