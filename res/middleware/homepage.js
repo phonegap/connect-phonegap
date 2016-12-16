@@ -2,7 +2,6 @@
 // Go to app's homepage on a three-finger tap.
 //
 (function() {
-
     var currentTouches = {},
         eventName = { touchstart: 'touchstart', touchend: 'touchend' };
 
@@ -27,5 +26,4 @@
             window.history.back(window.history.length);
         }
     }, false);
-
 })(window);

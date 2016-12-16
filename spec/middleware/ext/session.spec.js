@@ -121,6 +121,5 @@ describe('session', function() {
                 expect(session.device.set(req, query).available).toEqual(jasmine.any(Object));
             });
         });
-
     });
 });

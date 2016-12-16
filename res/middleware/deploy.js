@@ -1,5 +1,4 @@
 (function() {
-
     /*!
      * Create export namespace.
      */
@@ -60,7 +59,7 @@
                     null,
                     function gotFileEntry(fileEntry) {
                         fileEntry.file(
-                            function gotFile(file){
+                            function gotFile(file) {
                                 var reader = new FileReader();
                                 reader.onloadend = function(evt) {
                                     // #72 - Fix WP8 loading of config.json
@@ -149,11 +148,11 @@
             sync = ContentSync.sync({ src: uri, id: 'phonegapdevapp', type: 'replace', copyCordovaAssets: true });
         }
 
-        sync.on('complete', function(data){
+        sync.on('complete', function(data) {
             window.location.reload();
         });
 
-        sync.on('error', function(e){
+        sync.on('error', function(e) {
             if (options.onDownloadError) {
                 setTimeout(function() {
                     options.onDownloadError(e);
@@ -162,5 +161,4 @@
             console.log('download error', e.message);
         });
     };
-
 })();

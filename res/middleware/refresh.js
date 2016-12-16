@@ -2,7 +2,6 @@
 // Refresh the app on a four-finger tap.
 //
 (function() {
-
     var currentTouches = {},
         eventName = { touchstart: 'touchstart', touchend: 'touchend' };
 
@@ -27,5 +26,4 @@
             window.location.reload(true);
         }
     }, false);
-
 })(window);

@@ -2,7 +2,6 @@
 // Reload the app if server detects local change
 //
 (function() {
-
     var url = 'http://' + document.location.host + '/__api__/autoreload';
 
     function postStatus() {
@@ -12,7 +11,7 @@
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
             }
-        }
+        };
         xhr.send();
     }
 
@@ -28,10 +27,9 @@
                     window.location.reload();
                 }
             }
-        }
+        };
         xhr.send();
     }
 
     setInterval(checkForReload, 1000 * 3);
-
 })(window);
