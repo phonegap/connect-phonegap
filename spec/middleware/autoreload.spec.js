@@ -47,8 +47,8 @@ describe('autoreload middleware', function() {
             spyOn(http, 'createServer').andReturn({
                 on: function() {},
                 listen: function() {},
-                listeners:function(){return []},
-                removeAllListeners:function(){}
+                listeners:function() {return [];},
+                removeAllListeners:function() {}
             });
         });
 
@@ -250,5 +250,4 @@ describe('autoreload middleware', function() {
             });
         });
     });
-
 });

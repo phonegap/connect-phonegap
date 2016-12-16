@@ -17,7 +17,7 @@ describe('cordova_plugins.js middleware', function() {
         spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });
     });
 
-    describe('when cordova_plugins.js exists', function (){
+    describe('when cordova_plugins.js exists', function () {
         it('should do nothing', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap()).get('/cordova_plugins.js').end(function(e, res) {
@@ -29,7 +29,7 @@ describe('cordova_plugins.js middleware', function() {
         });
     });
 
-    describe('when cordova_plugins.js not exists', function (){
+    describe('when cordova_plugins.js not exists', function () {
         describe('on Android', function() {
             beforeEach(function() {
                 useragent.parse.andReturn({ android: true, platform: 'android' });

@@ -2,7 +2,6 @@
 // Push notification
 //
 (function() {
-
     document.addEventListener('deviceready', function() {
         var oldPushNotification;
         if (window.PushNotification) {
@@ -21,5 +20,4 @@
             };
         }
     });
-
 })(window);

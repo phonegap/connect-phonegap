@@ -28,9 +28,9 @@
                     postStatus();
 
                     // this is ensure we don't duplicate a download when we first launch the app on device
-                    if(response.content.lastUpdated !== 0){
+                    if(response.content.lastUpdated !== 0) {
                         window.clearTimeout(timer);
-                        window.phonegap.app.config.load(function(config){
+                        window.phonegap.app.config.load(function(config) {
                             window.phonegap.app.downloadZip({
                                 address: (config.address.match(/^(.*:\/\/)/)) ? config.address : 'http://' + config.address,
                                 update: true
@@ -50,7 +50,7 @@
         xhr.send();
     }
 
-    document.addEventListener("deviceready", function(){
+    document.addEventListener("deviceready", function() {
         timer = setInterval(checkForReload, 1000 * 3);
     }, false);
 })(window);

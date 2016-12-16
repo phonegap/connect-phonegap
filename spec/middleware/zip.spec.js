@@ -20,7 +20,6 @@ var events = require('events'),
  */
 
 describe('zip middleware', function() {
-
     function setApp(app) {
         spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/' + app));
     }
