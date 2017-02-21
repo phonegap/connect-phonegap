@@ -51,6 +51,7 @@ Events:
 
   - `error` is emitted when an error occurs.
   - `log` is emitted with log info.
+  - `deviceConnected` is emitted whenever a new device connects to the server.
 
 Return:
 
