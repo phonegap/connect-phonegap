@@ -19,7 +19,7 @@
     "test": "jasmine-node --color spec; node_modules/eslint/bin/eslint.js ./"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.0.0"
   },
   "dependencies": {
     "adm-zip":  "0.4.7",
