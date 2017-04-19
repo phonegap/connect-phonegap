@@ -1,7 +1,7 @@
 {
   "name": "connect-phonegap",
   "description": "Connect middleware to serve a PhoneGap app.",
-  "version": "0.24.5",
+  "version": "1.0.0",
   "homepage": "https://github.com/phonegap/connect-phonegap",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "preferGlobal": "false",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "jasmine-node --color spec; node_modules/eslint/bin/eslint.js ./"
+    "test": "jasmine-node --color spec && eslint ./"
   },
   "engines": {
     "node": ">=4.0.0"
