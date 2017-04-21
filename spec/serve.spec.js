@@ -163,6 +163,7 @@ describe('phonegap.serve(options, [callback])', function() {
 // spyOn(gaze, 'Gaze') than the tests above
 describe('phonegap.serve(options, [callback]) on middleware event', function() {
     beforeEach(function() {
+        options = {};
         watchSpy = new events.EventEmitter();
         // use gaze as tester but can be any event-emitting middleware
         spyOn(gaze, 'Gaze').andCallFake(function() {
