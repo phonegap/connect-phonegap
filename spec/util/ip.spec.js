@@ -18,7 +18,7 @@ describe('ip', function() {
 
         describe('when one public IPv4 address is present', function() {
             beforeEach(function() {
-                spyOn(os, 'networkInterfaces').andReturn({
+                spyOn(os, 'networkInterfaces').and.returnValue({
                     en0: [{
                         family: 'IPv4',
                         internal: false,
@@ -46,7 +46,7 @@ describe('ip', function() {
 
         describe('when two or more public IPv4 addresses are present', function() {
             beforeEach(function() {
-                spyOn(os, 'networkInterfaces').andCallFake(function() {
+                spyOn(os, 'networkInterfaces').and.callFake(function() {
                     return {
                         en0: [{
                             family: 'IPv4',

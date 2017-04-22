@@ -16,8 +16,8 @@
   "preferGlobal": "false",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "jasmine-node --color spec && eslint ./",
-    "cover": "istanbul cover --print detail -x **/spec/** jasmine-node --color spec"
+    "test": "jasmine && eslint .",
+    "cover": "istanbul cover --print detail -x **/spec/** jasmine"
   },
   "engines": {
     "node": ">=4.0.0"
@@ -41,8 +41,8 @@
     "chdir": "0.0.0",
     "checksum": "0.1.1",
     "eslint": "^3.12.2",
-    "jasmine-node": "1.14.5",
     "istanbul": "0.4.5",
+    "jasmine": "2.5.3",
     "supertest": "2.0.0"
   },
   "contributors": [

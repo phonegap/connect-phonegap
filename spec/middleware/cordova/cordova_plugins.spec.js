@@ -13,8 +13,8 @@ var chdir = require('chdir'),
 
 describe('cordova_plugins.js middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
-        spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(useragent, 'parse').and.returnValue({ ios: true, platform: 'ios' });
     });
 
     describe('when cordova_plugins.js exists', function () {
@@ -32,7 +32,7 @@ describe('cordova_plugins.js middleware', function() {
     describe('when cordova_plugins.js not exists', function () {
         describe('on Android', function() {
             beforeEach(function() {
-                useragent.parse.andReturn({ android: true, platform: 'android' });
+                useragent.parse.and.returnValue({ android: true, platform: 'android' });
             });
 
             it('should serve cordova_plugins.js', function(done) {

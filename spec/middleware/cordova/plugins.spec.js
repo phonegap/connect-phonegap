@@ -14,8 +14,8 @@ var chdir = require('chdir'),
 
 describe('plugins/**/*.js middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
-        spyOn(useragent, 'parse').andReturn({ ios: true, platform: 'ios' });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(useragent, 'parse').and.returnValue({ ios: true, platform: 'ios' });
     });
 
     it('should load a plugin given a valid path', function(done) {
@@ -30,7 +30,7 @@ describe('plugins/**/*.js middleware', function() {
 
     describe('on Android', function() {
         beforeEach(function() {
-            useragent.parse.andReturn({ android: true, platform: 'android' });
+            useragent.parse.and.returnValue({ android: true, platform: 'android' });
         });
 
         it('should serve android-specific files', function(done) {
@@ -45,7 +45,7 @@ describe('plugins/**/*.js middleware', function() {
 
     describe('on iOS', function() {
         beforeEach(function() {
-            useragent.parse.andReturn({ ios: true, platform: 'ios' });
+            useragent.parse.and.returnValue({ ios: true, platform: 'ios' });
         });
 
         it('should serve ios-specific files', function(done) {

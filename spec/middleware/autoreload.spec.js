@@ -20,7 +20,7 @@ var chdir = require('chdir'),
 describe('autoreload middleware', function() {
     beforeEach(function() {
         watchSpy = new events.EventEmitter();
-        spyOn(gaze, 'Gaze').andReturn(watchSpy);
+        spyOn(gaze, 'Gaze').and.returnValue(watchSpy);
     });
 
     describe('options', function() {
@@ -44,7 +44,7 @@ describe('autoreload middleware', function() {
 
     describe('phonegap.serve', function() {
         beforeEach(function() {
-            spyOn(http, 'createServer').andReturn({
+            spyOn(http, 'createServer').and.returnValue({
                 on: function() {},
                 listen: function() {},
                 listeners:function() {return [];},
@@ -67,7 +67,7 @@ describe('autoreload middleware', function() {
             chdir('spec/fixture/app-with-cordova', function() {
                 agent.get('/__api__/autoreload').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).content.outdated).toMatch(true);
+                    expect(JSON.parse(res.text).content.outdated).toEqual(true);
                     done();
                 });
             });
@@ -86,7 +86,7 @@ describe('autoreload middleware', function() {
                 chdir('spec/fixture/app-with-cordova', function() {
                     agent.get('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).content.outdated).toMatch(false);
+                        expect(JSON.parse(res.text).content.outdated).toEqual(false);
                         done();
                     });
                 });
@@ -109,7 +109,7 @@ describe('autoreload middleware', function() {
                     agent.get('/index.html').end(function(e, res) {
                         agent.get('/__api__/autoreload').end(function(e, res) {
                             expect(res.statusCode).toEqual(200);
-                            expect(JSON.parse(res.text).content.outdated).toMatch(false);
+                            expect(JSON.parse(res.text).content.outdated).toEqual(false);
                             done();
                         });
                     });
@@ -123,7 +123,7 @@ describe('autoreload middleware', function() {
                     agent.post('/__api__/autoreload')
                     .end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).content.outdated).toMatch(false);
+                        expect(JSON.parse(res.text).content.outdated).toEqual(false);
                         done();
                     });
                 });
@@ -133,7 +133,7 @@ describe('autoreload middleware', function() {
 
     describe('when out-of-date', function() {
         beforeEach(function() {
-            gaze.Gaze.andCallFake(function() {
+            gaze.Gaze.and.callFake(function() {
                 process.nextTick(function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 });
@@ -148,7 +148,7 @@ describe('autoreload middleware', function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
                     agent.get('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).content.outdated).toMatch(true);
+                        expect(JSON.parse(res.text).content.outdated).toEqual(true);
                         done();
                     });
                 });
@@ -160,7 +160,7 @@ describe('autoreload middleware', function() {
                 chdir('spec/fixture/app-with-cordova', function() {
                     agent.post('/__api__/autoreload').end(function(e, res) {
                         expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).content.outdated).toMatch(false);
+                        expect(JSON.parse(res.text).content.outdated).toEqual(false);
                         done();
                     });
                 });
@@ -198,7 +198,7 @@ describe('autoreload middleware', function() {
 
     describe('log changed files', function() {
         beforeEach(function() {
-            gaze.Gaze.andCallFake(function() {
+            gaze.Gaze.and.callFake(function() {
                 process.nextTick(function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 });
@@ -233,7 +233,7 @@ describe('autoreload middleware', function() {
             chdir('spec/fixture/app-with-cordova', function() {
                 agent.get('/__api__/autoreload?appID=1234').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).projectChanged).toMatch(false);
+                    expect(JSON.parse(res.text).projectChanged).toEqual(false);
                     done();
                 });
             });
@@ -244,7 +244,7 @@ describe('autoreload middleware', function() {
                 // poll server with different appID
                 agent.get('/__api__/autoreload?appID=4321').end(function(e, res) {
                     expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).projectChanged).toMatch(true);
+                    expect(JSON.parse(res.text).projectChanged).toEqual(true);
                     done();
                 });
             });

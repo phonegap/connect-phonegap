@@ -14,7 +14,7 @@ var chdir = require('chdir'),
 
 describe('inject middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
     });
 
     it('should not inject hammer.js', function(done) {

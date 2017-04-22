@@ -19,15 +19,15 @@ var events = require('events'),
 
 describe('phonegap.serve(options, [callback])', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({
+        spyOn(gaze, 'Gaze').and.returnValue({
             on: function() {},
             close: function() {}
         });
         options = {};
         serverSpy = new events.EventEmitter();
-        serverSpy.listen = jasmine.createSpy('listen').andReturn(serverSpy);
-        spyOn(http, 'createServer').andReturn(serverSpy);
-        spyOn(request, 'get').andCallFake(function(options, callback) {
+        serverSpy.listen = jasmine.createSpy('listen').and.returnValue(serverSpy);
+        spyOn(http, 'createServer').and.returnValue(serverSpy);
+        spyOn(request, 'get').and.callFake(function(options, callback) {
             var res = { req: { connection: { localAddress: '10.0.1.4' } } };
             callback(null, res, 'data');
         });
@@ -129,7 +129,7 @@ describe('phonegap.serve(options, [callback])', function() {
             });
 
             it('sockets list should be empty when server is closed', function(done) {
-                spyOn(socket, 'destroy').andCallFake(function() {
+                spyOn(socket, 'destroy').and.callFake(function() {
                     socket._events.close();
                 });
 
@@ -166,7 +166,7 @@ describe('phonegap.serve(options, [callback]) on middleware event', function() {
         options = {};
         watchSpy = new events.EventEmitter();
         // use gaze as tester but can be any event-emitting middleware
-        spyOn(gaze, 'Gaze').andCallFake(function() {
+        spyOn(gaze, 'Gaze').and.callFake(function() {
             process.nextTick(function() {
                 watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 watchSpy.emit('error', new Error('an error'));
@@ -174,9 +174,9 @@ describe('phonegap.serve(options, [callback]) on middleware event', function() {
             return watchSpy;
         });
         serverSpy = new events.EventEmitter();
-        serverSpy.listen = jasmine.createSpy('listen').andReturn(serverSpy);
-        spyOn(http, 'createServer').andReturn(serverSpy);
-        spyOn(request, 'get').andCallFake(function(options, callback) {
+        serverSpy.listen = jasmine.createSpy('listen').and.returnValue(serverSpy);
+        spyOn(http, 'createServer').and.returnValue(serverSpy);
+        spyOn(request, 'get').and.callFake(function(options, callback) {
             var res = { req: { connection: { localAddress: '10.0.1.4' } } };
             callback(null, res, 'data');
         });

@@ -21,18 +21,23 @@ var events = require('events'),
 
 describe('zip middleware', function() {
     function setApp(app) {
-        spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/' + app));
+        spyOn(process, 'cwd').and.returnValue(path.resolve(__dirname, '../fixture/' + app));
     }
 
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
     });
 
     describe('GET /__api__/appzip', function() {
         it('should generate a zip', function(done) {
             setApp('app-without-cordova');
-            createSpy = jasmine.createSpy('create');
-            spyOn(archiver, 'create').andCallFake(createSpy);
+            createSpy = jasmine.createSpy('create').and.returnValue({
+                on:function() {},
+                append:function() {},
+                finalize:function() {},
+                pipe:function(res) { res.end(); }
+            });
+            spyOn(archiver, 'create').and.callFake(createSpy);
 
             request(phonegap())
             .get('/__api__/appzip')
@@ -177,7 +182,8 @@ describe('zip middleware', function() {
 
         describe('failed to generate zip', function() {
             beforeEach(function() {
-                spyOn(archiver, 'create').andCallFake(function() {
+                spyOn(archiver, 'create').and.callFake(function() {
+                    // TODO: this messes up jasmine2 output. rethink.
                     throw new Error();
                 });
             });

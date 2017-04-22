@@ -17,7 +17,7 @@ describe('session', function() {
             headers: [], // stub for useragent detection
             session: {}  // stub for session management
         };
-        spyOn(useragent, 'parse').andReturn({
+        spyOn(useragent, 'parse').and.returnValue({
             platform: 'android'
         });
     });
@@ -44,7 +44,7 @@ describe('session', function() {
 
             describe('wp8', function() {
                 beforeEach(function() {
-                    useragent.parse.andReturn({
+                    useragent.parse.and.returnValue({
                         platform: 'wp8'
                     });
                 });

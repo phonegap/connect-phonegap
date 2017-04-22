@@ -15,7 +15,7 @@ var chdir = require('chdir'),
 
 describe('register middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
         data = { platform: 'Android', version: '3.4.0' };
     });
 

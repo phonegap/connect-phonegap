@@ -13,7 +13,7 @@ var chdir = require('chdir'),
 
 describe('proxy middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
     });
 
     describe('single-origin request', function() {

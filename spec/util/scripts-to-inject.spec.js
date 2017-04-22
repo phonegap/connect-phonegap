@@ -26,7 +26,7 @@ describe('scripts to inject', function() {
 
     describe('.getScripts(options)', function() {
         beforeEach(function() {
-            fsSpy = spyOn(fs, 'readFileSync').andCallThrough();
+            fsSpy = spyOn(fs, 'readFileSync').and.callThrough();
 
             options = {
                 appID: '1234',

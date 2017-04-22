@@ -12,7 +12,7 @@ var gaze = require('gaze'),
 
 describe('phonegap-connect()', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
     });
 
     it('should return a request listener', function(done) {

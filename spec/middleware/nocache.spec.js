@@ -13,7 +13,7 @@ var gaze = require('gaze'),
 
 describe('no-cache middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').andReturn({ on: function() {} });
+        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
     });
 
     it('should set Cache-Control Header', function(done) {

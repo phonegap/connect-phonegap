@@ -22,15 +22,22 @@ var admzip = require('adm-zip'),
 describe('update middleware', function() {
     beforeEach(function() {
         watchSpy = new events.EventEmitter();
-        spyOn(gaze, 'Gaze').andReturn(watchSpy);
-        spyOn(process, 'cwd').andReturn(path.resolve(__dirname, '../fixture/app-without-cordova'));
+        spyOn(gaze, 'Gaze').and.returnValue(watchSpy);
+        spyOn(process, 'cwd').and.returnValue(path.resolve(__dirname, '../fixture/app-without-cordova'));
         agent = request(phonegap());
     });
 
     describe('GET /__api__/update', function() {
         it('should generate a zip', function(done) {
-            createSpy = jasmine.createSpy('create');
-            spyOn(archiver, 'create').andCallFake(createSpy);
+            createSpy = jasmine.createSpy('create').and.returnValue({
+                on:function() {},
+                append:function() {},
+                finalize:function() {},
+                pipe:function(res) {
+                    res.end();
+                }
+            });
+            spyOn(archiver, 'create').and.callFake(createSpy);
 
             agent.get('/__api__/update').end(function(e, res) {
                 expect(createSpy).toHaveBeenCalled();

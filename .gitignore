@@ -10,3 +10,6 @@ npm-debug.log
 
 #coverage via istanbul
 coverage/
+
+#vim swap files
+**/*.swp
