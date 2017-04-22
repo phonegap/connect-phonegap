@@ -1,4 +1,4 @@
-# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url] [![Build status](https://ci.appveyor.com/api/projects/status/3ka36c9k47vnbi0s/branch/master?svg=true)](https://ci.appveyor.com/project/stevengill/connect-phonegap/branch/master) [![bitHound Score][bithound-img]][bithound-url]
+# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url] [![Build status](https://ci.appveyor.com/api/projects/status/3ka36c9k47vnbi0s/branch/master?svg=true)](https://ci.appveyor.com/project/stevengill/connect-phonegap/branch/master) [![bitHound Score][bithound-img]][bithound-url] [![codecov](https://codecov.io/gh/phonegap/connect-phonegap/branch/master/graph/badge.svg)](https://codecov.io/gh/phonegap/connect-phonegap)
 
 > Connect middleware to serve a PhoneGap app.
 
