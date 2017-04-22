@@ -7,3 +7,6 @@ npm-debug.log
 
 #app
 /example/*-app
+
+#coverage via istanbul
+coverage/
