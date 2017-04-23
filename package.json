@@ -43,6 +43,7 @@
     "eslint": "^3.12.2",
     "istanbul": "0.4.5",
     "jasmine": "2.5.3",
+    "rewire": "2.5.2",
     "supertest": "2.0.0"
   },
   "contributors": [
