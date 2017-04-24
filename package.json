@@ -3,6 +3,7 @@
   "description": "Connect middleware to serve a PhoneGap app.",
   "version": "1.0.0",
   "homepage": "https://github.com/phonegap/connect-phonegap",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:phonegap/connect-phonegap.git"
