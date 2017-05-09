@@ -8,7 +8,7 @@
             oldPushNotification = window.PushNotification;
             window.PushNotification.init = function(options) {
                 if (options.android) {
-                    options.android.senderID = "85075801930";
+                    options.android.senderID = "996231231186";
                     options.android.icon = "pushicon";
                     options.android.iconColor = "blue";
                 }
