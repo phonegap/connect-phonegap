@@ -17,7 +17,7 @@ var events = require('events'),
 describe('browser middleware', function() {
     beforeEach(function() {
         gazeSpy = new events.EventEmitter();
-        spyOn(gaze, 'Gaze').andReturn(gazeSpy);
+        spyOn(gaze, 'Gaze').and.returnValue(gazeSpy);
 
         options = {
             browser: true,
@@ -59,8 +59,8 @@ describe('browser middleware', function() {
 
     describe('on phonegap serve', function() {
         it('should add browser platform by default', function(done) {
-            gazeSpy.listen = jasmine.createSpy('listen').andReturn(gazeSpy);
-            spyOn(http, 'createServer').andReturn(gazeSpy);
+            gazeSpy.listen = jasmine.createSpy('listen').and.returnValue(gazeSpy);
+            spyOn(http, 'createServer').and.returnValue(gazeSpy);
 
             phonegap.serve(options);
             expect(options.phonegap.cordova)
@@ -69,8 +69,8 @@ describe('browser middleware', function() {
         });
 
         it('should not add browser platform when flag is set', function(done) {
-            gazeSpy.listen = jasmine.createSpy('listen').andReturn(gazeSpy);
-            spyOn(http, 'createServer').andReturn(gazeSpy);
+            gazeSpy.listen = jasmine.createSpy('listen').and.returnValue(gazeSpy);
+            spyOn(http, 'createServer').and.returnValue(gazeSpy);
             options.browser = false;
 
             phonegap.serve(options);

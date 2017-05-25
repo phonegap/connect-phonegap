@@ -183,6 +183,8 @@ describe('zip middleware', function() {
 
         describe('failed to generate zip', function() {
             beforeEach(function() {
+                spyOn(console, 'error');
+
                 spyOn(archiver, 'create').and.callFake(function() {
                     // TODO: this messes up jasmine2 output. rethink.
                     throw new Error();
