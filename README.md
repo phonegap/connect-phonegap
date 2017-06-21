@@ -46,6 +46,12 @@ Options:
   - `[options]` {Object}
   - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
   - `[localtunnel]` {Boolean} toggle localtunnel (default: false).
+  - `[console]` {Boolean} toggle console logging injection script (default: true).
+  - `[deploy]` {Boolean} toggle deploy injection script (default: true).
+  - `[homepage]` {Boolean} toggle homepage injection script (default: true).
+  - `[proxy]` {Boolean} toggle proxy injection script (default: true).
+  - `[push]` {Boolean} toggle push injection script (default: true).
+  - `[refresh]` {Boolean} toggle refresh injection script (default: true).
 
 Events:
 
