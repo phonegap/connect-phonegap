@@ -97,7 +97,7 @@ Options:
 
 Events:
 
-   - `complete` is triggered when server starts.
+  - `complete` is triggered when server starts.
     - `data` {Object}
       - `server` {http.Server} is the server running.
       - `address` {String} is the server address.
