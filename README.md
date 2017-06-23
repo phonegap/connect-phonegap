@@ -2,6 +2,13 @@
 
 > Connect middleware to serve a PhoneGap app.
 
+## What is it?
+
+  A fine question for an even finer middleware. `connect-phonegap` is a server that runs on your development machine (typically through the `phonegap-cli`) and serves your PhoneGap app to the accompanying PhoneGap Developer App. `connect-phonegap` does this by watching your PhoneGap project and first sends a zip of the www/ to your app. When you update your project, the differences are then sent to your connected phone to display updates.
+
+  To note: when the server sends content to your phone, the server is also injecting js inline into the .html pages. The injected scripts are for detecting changes on the server, logging, handling three/four finger taps, etc. Sometimes this may interfere with your own js code that you may write. Therefore, we have options in order to toggle these scripts.
+
+
 ## Examples
 
 ### Standalone
@@ -46,12 +53,12 @@ Options:
   - `[options]` {Object}
   - `[autoreload]` {Boolean} toggle AutoReload watch (default: true).
   - `[localtunnel]` {Boolean} toggle localtunnel (default: false).
-  - `[console]` {Boolean} toggle console logging injection script (default: true).
-  - `[deploy]` {Boolean} toggle deploy injection script (default: true).
-  - `[homepage]` {Boolean} toggle homepage injection script (default: true).
-  - `[proxy]` {Boolean} toggle proxy injection script (default: true).
-  - `[push]` {Boolean} toggle push injection script (default: true).
-  - `[refresh]` {Boolean} toggle refresh injection script (default: true).
+  - `[console]` {Boolean} toggle console logging injection script - allows logs to be appears on your terminal(default: true).
+  - `[deploy]` {Boolean} toggle deploy injection script - allows zips to be unzipped and deployed when sent to the client (default: true).
+  - `[homepage]` {Boolean} toggle homepage injection script - allows the ability to three finger tap back to the landing page of the PhoneGap Developer App (default: true).
+  - `[proxy]` {Boolean} toggle proxy injection script - for previewing the app from browser. Allows cors requests to be proxy'd through the server (default: true).
+  - `[push]` {Boolean} toggle push injection script - allows push notifications to be used within the PhoneGap Developer App (default: true).
+  - `[refresh]` {Boolean} toggle refresh injection script - allows four finger tap to hard refresh your app (default: true).
 
 Events:
 
