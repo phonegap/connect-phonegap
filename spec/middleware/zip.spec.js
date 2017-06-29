@@ -48,7 +48,7 @@ describe('zip middleware', function() {
         });
 
         it('should zip files for app with symlinks', function(done) {
-            if (process.platform == 'win32') done(); // skip this test on Windows as symlinks are not supported there!
+            if (process.platform == 'win32') return done(); // skip this test on Windows as symlinks are not supported there!
             setApp('app-with-symlinks');
 
             request(phonegap())
