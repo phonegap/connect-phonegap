@@ -2,7 +2,7 @@
 // Reload the app if server detects local change
 //
 (function() {
-    var url = 'http://' + document.location.host + '/__api__/autoreload';
+    var url = document.location.protocol + '//' + document.location.host + '/__api__/autoreload';
 
     function postStatus() {
         var xhr = new XMLHttpRequest();
