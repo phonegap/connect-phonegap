@@ -1,6 +1,6 @@
 (function(window) {
     var socket = io('http://127.0.0.1:3000');
-    
+
     // Copy the functions to avoid stack overflow
     var previousConsole = Object.assign({}, window.console);
 
