@@ -47,6 +47,24 @@ describe('zip middleware', function() {
             });
         });
 
+        it('should generate a zip with .htm file', function(done) {
+            setApp('app-with-htm');
+            createSpy = jasmine.createSpy('create').and.returnValue({
+                on:function() {},
+                append:function() {},
+                finalize:function() {},
+                pipe:function(res) { res.end(); }
+            });
+            spyOn(archiver, 'create').and.callFake(createSpy);
+
+            request(phonegap())
+            .get('/__api__/appzip')
+            .end(function(e, res) {
+                expect(createSpy).toHaveBeenCalled();
+                done();
+            });
+        });
+
         it('should zip files for app with symlinks', function(done) {
             if (process.platform == 'win32') return done(); // skip this test on Windows as symlinks are not supported there!
             setApp('app-with-symlinks');
