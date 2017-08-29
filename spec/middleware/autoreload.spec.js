@@ -3,8 +3,8 @@
  */
 
 var chdir = require('chdir'),
+    chokidar = require('chokidar'),
     events = require('events'),
-    gaze = require('gaze'),
     http = require('http'),
     phonegap = require('../../lib'),
     request = require('supertest'),
@@ -20,24 +20,24 @@ var chdir = require('chdir'),
 describe('autoreload middleware', function() {
     beforeEach(function() {
         watchSpy = new events.EventEmitter();
-        spyOn(gaze, 'Gaze').and.returnValue(watchSpy);
+        spyOn(chokidar, 'watch').and.returnValue(watchSpy);
     });
 
     describe('options', function() {
         describe('autoreload', function() {
             it('should be enabled by default', function() {
                 phonegap();
-                expect(gaze.Gaze).toHaveBeenCalled();
+                expect(chokidar.watch).toHaveBeenCalled();
             });
 
             it('should be enabled when true', function() {
                 phonegap({ autoreload: true });
-                expect(gaze.Gaze).toHaveBeenCalled();
+                expect(chokidar.watch).toHaveBeenCalled();
             });
 
             it('should be disabled when false', function() {
                 phonegap({ autoreload: false });
-                expect(gaze.Gaze).not.toHaveBeenCalled();
+                expect(chokidar.watch).not.toHaveBeenCalled();
             });
         });
     });
@@ -54,7 +54,7 @@ describe('autoreload middleware', function() {
 
         it('should pass the autoreload option', function() {
             phonegap.serve({ autoreload: true });
-            expect(gaze.Gaze).toHaveBeenCalled();
+            expect(chokidar.watch).toHaveBeenCalled();
         });
     });
 
@@ -133,7 +133,7 @@ describe('autoreload middleware', function() {
 
     describe('when out-of-date', function() {
         beforeEach(function() {
-            gaze.Gaze.and.callFake(function() {
+            chokidar.watch.and.callFake(function() {
                 process.nextTick(function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 });
@@ -198,7 +198,7 @@ describe('autoreload middleware', function() {
 
     describe('log changed files', function() {
         beforeEach(function() {
-            gaze.Gaze.and.callFake(function() {
+            chokidar.watch.and.callFake(function() {
                 process.nextTick(function() {
                     watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 });
@@ -208,7 +208,7 @@ describe('autoreload middleware', function() {
 
         it('should emit log event', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
-                // gaze will trigger the log event
+                // chokidar will trigger the log event
                 var server = phonegap().on('log', function() {
                     expect(arguments[1]).toMatch('/path/to/file.js');
                     done();

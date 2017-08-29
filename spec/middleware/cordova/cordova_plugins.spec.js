@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var chdir = require('chdir'),
-    gaze = require('gaze'),
+    chokidar = require('chokidar'),
     phonegap = require('../../../lib'),
     request = require('supertest'),
     useragent = require('../../../lib/middleware/ext/useragent');
@@ -13,7 +13,7 @@ var chdir = require('chdir'),
 
 describe('cordova_plugins.js middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
         spyOn(useragent, 'parse').and.returnValue({ ios: true, platform: 'ios' });
     });
 

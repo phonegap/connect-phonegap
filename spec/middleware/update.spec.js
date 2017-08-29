@@ -4,9 +4,9 @@
 
 var admzip = require('adm-zip'),
     archiver = require('archiver'),
+    chokidar = require('chokidar'),
     events = require('events'),
     fs = require('fs'),
-    gaze = require('gaze'),
     path = require('path'),
     phonegap = require('../../lib'),
     request = require('supertest'),
@@ -22,7 +22,7 @@ var admzip = require('adm-zip'),
 describe('update middleware', function() {
     beforeEach(function() {
         watchSpy = new events.EventEmitter();
-        spyOn(gaze, 'Gaze').and.returnValue(watchSpy);
+        spyOn(chokidar, 'watch').and.returnValue(watchSpy);
         spyOn(process, 'cwd').and.returnValue(path.resolve(__dirname, '../fixture/app-without-cordova'));
         agent = request(phonegap());
     });

@@ -2,8 +2,8 @@
  * Module dependencies.
  */
 
-var events = require('events'),
-    gaze = require('gaze'),
+var chokidar = require('chokidar'),
+    events = require('events'),
     http = require('http'),
     ip = require('../lib/util/ip'),
     phonegap = require('../lib'),
@@ -19,7 +19,7 @@ var events = require('events'),
 
 describe('phonegap.serve(options, [callback])', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({
+        spyOn(chokidar, 'watch').and.returnValue({
             on: function() {},
             close: function() {}
         });
@@ -160,12 +160,12 @@ describe('phonegap.serve(options, [callback])', function() {
 });
 
 // Had to separate these tests out because they require a different
-// spyOn(gaze, 'Gaze') than the tests above
+// spyOn(chokidar, 'watch') than the tests above
 describe('phonegap.serve(options, [callback]) on middleware event', function() {
     beforeEach(function() {
         watchSpy = new events.EventEmitter();
-        // use gaze as tester but can be any event-emitting middleware
-        spyOn(gaze, 'Gaze').and.callFake(function() {
+        // use chokidar as tester but can be any event-emitting middleware
+        spyOn(chokidar, 'watch').and.callFake(function() {
             process.nextTick(function() {
                 watchSpy.emit('all', 'eventType', '/path/to/file.js');
                 watchSpy.emit('error', new Error('an error'));

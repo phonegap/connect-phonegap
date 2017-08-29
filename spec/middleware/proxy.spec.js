@@ -3,7 +3,7 @@
  */
 
 var chdir = require('chdir'),
-    gaze = require('gaze'),
+    chokidar = require('chokidar'),
     phonegap = require('../../lib'),
     request = require('supertest'),
     rewire = require('rewire'),
@@ -19,7 +19,7 @@ var chdir = require('chdir'),
 describe('proxy middleware', function() {
     describe('single-origin request', function() {
         beforeEach(function() {
-            spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+            spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
         });
         it('should be served normally', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
@@ -97,7 +97,7 @@ describe('proxy middleware', function() {
     });
     describe('integration test with a separate server', function() {
         beforeEach(function() {
-            spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+            spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
         });
         afterEach(function() {
             test_server.close();

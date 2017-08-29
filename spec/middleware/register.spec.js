@@ -3,7 +3,7 @@
  */
 
 var chdir = require('chdir'),
-    gaze = require('gaze'),
+    chokidar = require('chokidar'),
     phonegap = require('../../lib'),
     request = require('supertest'),
     url = '/__api__/register',
@@ -15,7 +15,7 @@ var chdir = require('chdir'),
 
 describe('register middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
         data = { platform: 'Android', version: '3.4.0' };
     });
 

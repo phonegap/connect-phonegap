@@ -3,7 +3,7 @@
  */
 
 var chdir = require('chdir'),
-    gaze = require('gaze'),
+    chokidar = require('chokidar'),
     phonegap = require('../../lib'),
     request = require('supertest');
 
@@ -14,7 +14,7 @@ var chdir = require('chdir'),
 
 describe('inject middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
     });
 
     it('should not inject hammer.js', function(done) {

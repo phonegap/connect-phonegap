@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var events = require('events'),
-    gaze = require('gaze'),
+var chokidar = require('chokidar'),
+    events = require('events'),
     http = require('http'),
     phonegap = require('../../lib'),
-    gazeSpy,
+    chokidarSpy,
     options,
     pg;
 
@@ -16,8 +16,8 @@ var events = require('events'),
 
 describe('browser middleware', function() {
     beforeEach(function() {
-        gazeSpy = new events.EventEmitter();
-        spyOn(gaze, 'Gaze').and.returnValue(gazeSpy);
+        chokidarSpy = new events.EventEmitter();
+        spyOn(chokidar, 'watch').and.returnValue(chokidarSpy);
 
         options = {
             browser: true,
@@ -36,7 +36,7 @@ describe('browser middleware', function() {
         it('should call cordova prepare by default', function(done) {
             pg = phonegap(options);
 
-            gazeSpy.emit('all', 'eventType', '/path/to/file.js');
+            chokidarSpy.emit('all', 'eventType', '/path/to/file.js');
             process.nextTick(function() {
                 expect(options.phonegap.util.cordova.prepare)
                     .toHaveBeenCalledWith([], jasmine.any(Function));
@@ -48,7 +48,7 @@ describe('browser middleware', function() {
             options.browser = false;
             pg = phonegap(options);
 
-            gazeSpy.emit('all', 'eventType', '/path/to/file.js');
+            chokidarSpy.emit('all', 'eventType', '/path/to/file.js');
             process.nextTick(function() {
                 expect(options.phonegap.util.cordova.prepare)
                     .not.toHaveBeenCalled();
@@ -59,8 +59,8 @@ describe('browser middleware', function() {
 
     describe('on phonegap serve', function() {
         it('should add browser platform by default', function(done) {
-            gazeSpy.listen = jasmine.createSpy('listen').and.returnValue(gazeSpy);
-            spyOn(http, 'createServer').and.returnValue(gazeSpy);
+            chokidarSpy.listen = jasmine.createSpy('listen').and.returnValue(chokidarSpy);
+            spyOn(http, 'createServer').and.returnValue(chokidarSpy);
 
             phonegap.serve(options);
             expect(options.phonegap.cordova)
@@ -69,8 +69,8 @@ describe('browser middleware', function() {
         });
 
         it('should not add browser platform when flag is set', function(done) {
-            gazeSpy.listen = jasmine.createSpy('listen').and.returnValue(gazeSpy);
-            spyOn(http, 'createServer').and.returnValue(gazeSpy);
+            chokidarSpy.listen = jasmine.createSpy('listen').and.returnValue(chokidarSpy);
+            spyOn(http, 'createServer').and.returnValue(chokidarSpy);
             options.browser = false;
 
             phonegap.serve(options);

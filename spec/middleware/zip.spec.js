@@ -5,7 +5,7 @@
 var events = require('events'),
     fs = require('fs'),
     archiver = require('archiver'),
-    gaze = require('gaze'),
+    chokidar = require('chokidar'),
     path = require('path'),
     phonegap = require('../../lib'),
     request = require('supertest'),
@@ -25,7 +25,7 @@ describe('zip middleware', function() {
     }
 
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
     });
 
     describe('GET /__api__/appzip', function() {

@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var gaze = require('gaze'),
+var chokidar = require('chokidar'),
     phonegap = require('../lib'),
     request = require('supertest');
 
@@ -12,7 +12,7 @@ var gaze = require('gaze'),
 
 describe('phonegap-connect()', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
     });
 
     it('should return a request listener', function(done) {

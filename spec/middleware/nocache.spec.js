@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var gaze = require('gaze'),
+var chokidar = require('chokidar'),
     phonegap = require('../../lib'),
     request = require('supertest');
 
@@ -13,7 +13,7 @@ var gaze = require('gaze'),
 
 describe('no-cache middleware', function() {
     beforeEach(function() {
-        spyOn(gaze, 'Gaze').and.returnValue({ on: function() {} });
+        spyOn(chokidar, 'watch').and.returnValue({ on: function() {} });
     });
 
     it('should set Cache-Control Header', function(done) {
