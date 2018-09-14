@@ -8,7 +8,6 @@ var chdir = require('chdir'),
     http = require('http'),
     phonegap = require('../../lib'),
     request = require('supertest'),
-    io = require('socket.io'),
     agent,
     options,
     watchSpy;
@@ -176,7 +175,7 @@ describe('autoreload middleware', function() {
                     agent2 = request.agent(server);
 
                 // agent1 make a request and reports up-to-date
-                agent1.post('/__api__/autoreload').end(function(e, res) {
+                return agent1.post('/__api__/autoreload').end(function(e, res) {
                     agent1.get('/__api__/autoreload').end(function(e, res) {
                         expect(JSON.parse(res.text).content.outdated).toEqual(false);
                         // agent2 makes no request and reports out-of-date
