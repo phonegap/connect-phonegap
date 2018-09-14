@@ -1,4 +1,4 @@
-# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url] [![Build status](https://ci.appveyor.com/api/projects/status/3ka36c9k47vnbi0s/branch/master?svg=true)](https://ci.appveyor.com/project/stevengill/connect-phonegap/branch/master) [![bitHound Score][bithound-img]][bithound-url] [![codecov](https://codecov.io/gh/phonegap/connect-phonegap/branch/master/graph/badge.svg)](https://codecov.io/gh/phonegap/connect-phonegap)
+# connect-phonegap [![Build Status][travis-ci-img]][travis-ci-url] [![Build status](https://ci.appveyor.com/api/projects/status/3ka36c9k47vnbi0s/branch/master?svg=true)](https://ci.appveyor.com/project/stevengill/connect-phonegap/branch/master) [![codecov](https://codecov.io/gh/phonegap/connect-phonegap/branch/master/graph/badge.svg)](https://codecov.io/gh/phonegap/connect-phonegap)
 
 > Connect middleware to serve a PhoneGap app.
 
@@ -13,40 +13,40 @@
 
 ### Standalone
 
-    var phonegap = require('connect-phonegap');
-    phonegap.listen();
+    var pgConnect = require('connect-phonegap');
+    pgConnect.listen();
 
 ### Express
 
-    var phonegap = require('connect-phonegap'),
+    var pgConnect = require('connect-phonegap'),
         express = require('express'),
         app = express();
 
-    app.use(phonegap());
+    app.use(pgConnect());
     app.listen(3000);
 
 ### Connect
 
-    var phonegap = require('connect-phonegap'),
+    var pgConnect = require('connect-phonegap'),
         connect = require('connect'),
         app = connect();
 
-    app.use(phonegap());
+    app.use(pgConnect());
     app.listen(3000);
 
 ### HTTP
 
-    var phonegap = require('connect-phonegap'),
+    var pgConnect = require('connect-phonegap'),
         http = require('http');
 
-    var server = http.createServer(phonegap());
+    var server = http.createServer(pgConnect());
     server.listen(3000);
 
 ## API
 
-    var phonegap = require('connect-phonegap');
+    var pgConnect = require('connect-phonegap');
 
-### phonegap()
+### pgConnect()
 
 Options:
 
@@ -73,8 +73,8 @@ Return:
 
 Example:
 
-    var phonegap = require('connect-phonegap')(),
-        middleware = phonegap();
+    var pgConnect = require('connect-phonegap')(),
+        middleware = pgConnect();
 
     // subscribe to events
     middleware.on('log', function() {
@@ -89,8 +89,8 @@ Example:
     // use as request listener
     http.createServer(middleware).listen(3000);
 
-### phonegap.listen(options, [callback])
-### phonegap.serve(options, [callback])
+### pgConnect.listen(options, [callback])
+### pgConnect.serve(options, [callback])
 
 Creates a local server to serve up the project. The intended
 receiver is the PhoneGap App but any browser can consume the
@@ -120,7 +120,7 @@ Return:
 
 Example:
 
-    phonegap.listen()
+    pgConnect.listen()
             .on('complete', function(data) {
                 // server is now running
             })
@@ -131,5 +131,3 @@ Example:
 
 [travis-ci-img]: https://travis-ci.org/phonegap/connect-phonegap.svg?branch=master
 [travis-ci-url]: http://travis-ci.org/phonegap/connect-phonegap
-[bithound-img]: https://www.bithound.io/github/phonegap/connect-phonegap/badges/score.svg
-[bithound-url]: https://www.bithound.io/github/phonegap/connect-phonegap
