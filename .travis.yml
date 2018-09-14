@@ -5,7 +5,10 @@ notifications:
   email:
   - PhoneGapCI@adobe.com
 node_js:
-- '4.0'
+  - "6"
+  - "8"
+  - "10"
+  
 install:
   - npm install
   - npm install -g codecov
