@@ -10,6 +10,7 @@
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onreadystatechange = function() {
             if (this.readyState === 4 && /^[2]/.test(this.status)) {
+                 window.location.reload();
             }
         };
         xhr.send();
@@ -24,7 +25,6 @@
                 var response = JSON.parse(this.responseText);
                 if (response.content.outdated) {
                     postStatus();
-                    window.location.reload();
                 }
             }
         };
