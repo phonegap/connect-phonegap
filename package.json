@@ -27,7 +27,7 @@
     "adm-zip": "^0.4.11",
     "archiver": "1.1.0",
     "body-parser": "^1.18.3",
-    "chokidar": "^1.7.0",
+    "chokidar": "^3.0.1",
     "connect": "^3.6.6",
     "connect-inject": "0.4.0",
     "cookie-session": "^2.0.0-beta.3",
