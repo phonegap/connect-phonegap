@@ -21,7 +21,7 @@
     "cover": "istanbul cover --print detail -x **/spec/** jasmine"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "adm-zip": "^0.4.11",

@@ -1,15 +1,25 @@
 language: node_js
+sudo: false
+git:
+  depth: 10
+
 notifications:
   slack:
     secure: nYGxlwzjr9j2ALy5u+G1J9kwitTNqfhbqHMeIm0tAe9otFhF0cQWMkcM2rg5XYl7g0iYtN4sU7Kz3fA5BalVIyUE7lkDXmw3ue3dQ/JrOJG1nXGkNvBihOGvJtyYcbxKUqsnmFrLPLqjXtnqkhW402bzA9cKZRYqAhDvTJfdk84=
   email:
   - PhoneGapCI@adobe.com
+
+os:
+ - windows
+ - linux
+
 node_js:
-  - "6"
   - "8"
   - "10"
+  - "12"
   
 install:
+  - npm version
   - npm install
   - npm install -g codecov
 script:
