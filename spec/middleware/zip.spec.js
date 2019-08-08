@@ -40,11 +40,11 @@ describe('zip middleware', function() {
             spyOn(archiver, 'create').and.callFake(createSpy);
 
             request(phonegap())
-            .get('/__api__/appzip')
-            .end(function(e, res) {
-                expect(createSpy).toHaveBeenCalled();
-                done();
-            });
+                .get('/__api__/appzip')
+                .end(function(e, res) {
+                    expect(createSpy).toHaveBeenCalled();
+                    done();
+                });
         });
 
         it('should generate a zip with .htm file', function(done) {
@@ -58,11 +58,11 @@ describe('zip middleware', function() {
             spyOn(archiver, 'create').and.callFake(createSpy);
 
             request(phonegap())
-            .get('/__api__/appzip')
-            .end(function(e, res) {
-                expect(createSpy).toHaveBeenCalled();
-                done();
-            });
+                .get('/__api__/appzip')
+                .end(function(e, res) {
+                    expect(createSpy).toHaveBeenCalled();
+                    done();
+                });
         });
 
         it('should zip files for app with symlinks', function(done) {
@@ -70,33 +70,33 @@ describe('zip middleware', function() {
             setApp('app-with-symlinks');
 
             request(phonegap())
-            .get('/__api__/appzip')
-            .parse(function(res, callback) {
-                res.setEncoding('binary');
-                res.data = '';
-                res.on('data', function(chunk) {
-                    res.data += chunk;
+                .get('/__api__/appzip')
+                .parse(function(res, callback) {
+                    res.setEncoding('binary');
+                    res.data = '';
+                    res.on('data', function(chunk) {
+                        res.data += chunk;
+                    });
+                    res.on('end', function() {
+                        callback(null, new Buffer(res.data, 'binary'));
+                    });
+                })
+                .end(function(e, res) {
+                    var zip = new AdmZip(res.body);
+                    expect(zip.getEntries().length).toEqual(5);
+                    expect(zip.readFile('www/index.html').length).toBeGreaterThan(0);
+                    var jsFiles = ['cordova.js', 'cordova_plugins.js', 'phonegap.js'];
+                    for (var i = 0; i < jsFiles.length; i++) {
+                        var file = jsFiles[i];
+                        var expectedChecksum = checksum(fs.readFileSync(path.resolve(__dirname, '../fixture/app-with-symlinks/dist/' + file)));
+                        var actualChecksum = checksum(zip.readFile('www/' + file));
+                        expect(actualChecksum).toEqual(expectedChecksum);
+                    }
+                    expect(checksum(zip.readFile('www/assets/icon-40.png'))).toEqual(
+                        checksum(fs.readFileSync(path.resolve(__dirname, '../fixture/images/icon-40.png')))
+                    );
+                    done();
                 });
-                res.on('end', function() {
-                    callback(null, new Buffer(res.data, 'binary'));
-                });
-            })
-            .end(function(e, res) {
-                var zip = new AdmZip(res.body);
-                expect(zip.getEntries().length).toEqual(5);
-                expect(zip.readFile('www/index.html').length).toBeGreaterThan(0);
-                var jsFiles = ['cordova.js', 'cordova_plugins.js', 'phonegap.js'];
-                for (var i = 0; i < jsFiles.length; i++) {
-                    var file = jsFiles[i];
-                    var expectedChecksum = checksum(fs.readFileSync(path.resolve(__dirname, '../fixture/app-with-symlinks/dist/' + file)));
-                    var actualChecksum = checksum(zip.readFile('www/' + file));
-                    expect(actualChecksum).toEqual(expectedChecksum);
-                }
-                expect(checksum(zip.readFile('www/assets/icon-40.png'))).toEqual(
-                    checksum(fs.readFileSync(path.resolve(__dirname, '../fixture/images/icon-40.png')))
-                );
-                done();
-            });
         });
 
         describe('content-security-policy', function() {
@@ -105,25 +105,25 @@ describe('zip middleware', function() {
                     setApp('app-with-cordova');
 
                     request(phonegap())
-                    .get('/__api__/appzip')
-                    .parse(function(res, callback) {
-                        res.setEncoding('binary');
-                        res.data = '';
-                        res.on('data', function(chunk) {
-                            res.data += chunk;
+                        .get('/__api__/appzip')
+                        .parse(function(res, callback) {
+                            res.setEncoding('binary');
+                            res.data = '';
+                            res.on('data', function(chunk) {
+                                res.data += chunk;
+                            });
+                            res.on('end', function() {
+                                callback(null, new Buffer(res.data, 'binary'));
+                            });
+                        })
+                        .end(function(e, res) {
+                            var zip = new AdmZip(res.body);
+                            var content = zip.readFile('www/index.html').toString('utf-8');
+                            expect(content).toMatch(
+                                /<meta.+content-security-policy.+script-src \* 'unsafe-inline'.+>/i
+                            );
+                            done();
                         });
-                        res.on('end', function() {
-                            callback(null, new Buffer(res.data, 'binary'));
-                        });
-                    })
-                    .end(function(e, res) {
-                        var zip = new AdmZip(res.body);
-                        var content = zip.readFile('www/index.html').toString('utf-8');
-                        expect(content).toMatch(
-                            /<meta.+content-security-policy.+script-src \* 'unsafe-inline'.+>/i
-                        );
-                        done();
-                    });
                 });
             });
 
@@ -132,25 +132,25 @@ describe('zip middleware', function() {
                     setApp('app-with-csp');
 
                     request(phonegap())
-                    .get('/__api__/appzip')
-                    .parse(function(res, callback) {
-                        res.setEncoding('binary');
-                        res.data = '';
-                        res.on('data', function(chunk) {
-                            res.data += chunk;
+                        .get('/__api__/appzip')
+                        .parse(function(res, callback) {
+                            res.setEncoding('binary');
+                            res.data = '';
+                            res.on('data', function(chunk) {
+                                res.data += chunk;
+                            });
+                            res.on('end', function() {
+                                callback(null, new Buffer(res.data, 'binary'));
+                            });
+                        })
+                        .end(function(e, res) {
+                            var zip = new AdmZip(res.body);
+                            var content = zip.readFile('www/index.html').toString('utf-8');
+                            expect(content).toMatch(
+                                /<meta.+content-security-policy.+script-src \* 'unsafe-inline'.+>/i
+                            );
+                            done();
                         });
-                        res.on('end', function() {
-                            callback(null, new Buffer(res.data, 'binary'));
-                        });
-                    })
-                    .end(function(e, res) {
-                        var zip = new AdmZip(res.body);
-                        var content = zip.readFile('www/index.html').toString('utf-8');
-                        expect(content).toMatch(
-                            /<meta.+content-security-policy.+script-src \* 'unsafe-inline'.+>/i
-                        );
-                        done();
-                    });
                 });
             });
         });
@@ -159,43 +159,43 @@ describe('zip middleware', function() {
             it('should have a 200 response code', function(done) {
                 setApp('app-without-cordova');
                 request(phonegap())
-                .get('/__api__/appzip')
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    done();
-                });
+                    .get('/__api__/appzip')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        done();
+                    });
             });
 
             it('should have application/zip Content-Type', function(done) {
                 setApp('app-without-cordova');
                 request(phonegap())
-                .get('/__api__/appzip')
-                .end(function(e, res) {
-                    expect(res.headers['content-type']).toEqual('application/zip');
-                    done();
-                });
+                    .get('/__api__/appzip')
+                    .end(function(e, res) {
+                        expect(res.headers['content-type']).toEqual('application/zip');
+                        done();
+                    });
             });
 
             it('should respond with the zip content', function(done) {
                 setApp('app-without-cordova');
                 request(phonegap())
-                .get('/__api__/appzip')
+                    .get('/__api__/appzip')
                 // custom application/zip parser for supertest
-                .parse(function(res, callback) {
-                    res.setEncoding('binary');
-                    res.data = '';
-                    res.on('data', function (chunk) {
-                        res.data += chunk;
+                    .parse(function(res, callback) {
+                        res.setEncoding('binary');
+                        res.data = '';
+                        res.on('data', function (chunk) {
+                            res.data += chunk;
+                        });
+                        res.on('end', function () {
+                            callback(null, new Buffer(res.data, 'binary'));
+                        });
+                    })
+                    .end(function(e, res) {
+                        expect(Buffer.isBuffer(res.body)).toBe(true);
+                        expect(res.body.length).toBeGreaterThan(0);
+                        done();
                     });
-                    res.on('end', function () {
-                        callback(null, new Buffer(res.data, 'binary'));
-                    });
-                })
-                .end(function(e, res) {
-                    expect(Buffer.isBuffer(res.body)).toBe(true);
-                    expect(res.body.length).toBeGreaterThan(0);
-                    done();
-                });
             });
         });
 
@@ -210,11 +210,11 @@ describe('zip middleware', function() {
             it('should have a 500 response code', function(done) {
                 setApp('app-without-cordova');
                 request(phonegap())
-                .get('/__api__/appzip')
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(500);
-                    done();
-                });
+                    .get('/__api__/appzip')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(500);
+                        done();
+                    });
             });
         });
     });

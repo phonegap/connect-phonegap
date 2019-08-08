@@ -20,12 +20,12 @@ describe('plugins/**/*.js middleware', function() {
 
     it('should load a plugin given a valid path', function(done) {
         request(phonegap())
-        .get('/plugins/org.apache.cordova.file/www/DirectoryEntry.js')
-        .end(function(e, res) {
-            expect(res.statusCode).toEqual(200);
-            expect(res.text).toMatch(' * An interface representing a directory on the file system.');
-            done();
-        });
+            .get('/plugins/org.apache.cordova.file/www/DirectoryEntry.js')
+            .end(function(e, res) {
+                expect(res.statusCode).toEqual(200);
+                expect(res.text).toMatch(' * An interface representing a directory on the file system.');
+                done();
+            });
     });
 
     describe('on Android', function() {
@@ -35,11 +35,11 @@ describe('plugins/**/*.js middleware', function() {
 
         it('should serve android-specific files', function(done) {
             request(phonegap())
-            .get('/plugins/org.apache.cordova.dialogs/www/android/notification.js')
-            .end(function(e, res) {
-                expect(res.statusCode).toEqual(200);
-                done();
-            });
+                .get('/plugins/org.apache.cordova.dialogs/www/android/notification.js')
+                .end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    done();
+                });
         });
     });
 
@@ -50,11 +50,11 @@ describe('plugins/**/*.js middleware', function() {
 
         it('should serve ios-specific files', function(done) {
             request(phonegap())
-            .get('/plugins/org.apache.cordova.file/www/ios/FileSystem.js')
-            .end(function(e, res) {
-                expect(res.statusCode).toEqual(200);
-                done();
-            });
+                .get('/plugins/org.apache.cordova.file/www/ios/FileSystem.js')
+                .end(function(e, res) {
+                    expect(res.statusCode).toEqual(200);
+                    done();
+                });
         });
     });
 });

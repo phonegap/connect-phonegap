@@ -24,12 +24,12 @@ describe('proxy middleware', function() {
         it('should be served normally', function(done) {
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap())
-                .get('/cordova.js')
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(res.text).toMatch('i am cordova');
-                    done();
-                });
+                    .get('/cordova.js')
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.text).toMatch('i am cordova');
+                        done();
+                    });
             });
         });
     });
@@ -116,12 +116,12 @@ describe('proxy middleware', function() {
             }).listen(9000);
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap())
-                .get('/proxy/' + encodeURIComponent("http://localhost:9000/redirect"))
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(302);
-                    expect(res.headers.location).toContain('/proxy/' + encodeURIComponent('http://localhost:9000/gohereplz'));
-                    done();
-                });
+                    .get('/proxy/' + encodeURIComponent("http://localhost:9000/redirect"))
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(302);
+                        expect(res.headers.location).toContain('/proxy/' + encodeURIComponent('http://localhost:9000/gohereplz'));
+                        done();
+                    });
             });
         });
         it('should handle redirects to different domains appropriately', function(done) {
@@ -133,12 +133,12 @@ describe('proxy middleware', function() {
             }).listen(9000);
             chdir('spec/fixture/app-with-cordova', function() {
                 request(phonegap())
-                .get('/proxy/' + encodeURIComponent("http://localhost:9000/redirect"))
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(302);
-                    expect(res.headers.location).toContain('/proxy/' + encodeURIComponent('http://phonegap.com/robots.txt'));
-                    done();
-                });
+                    .get('/proxy/' + encodeURIComponent("http://localhost:9000/redirect"))
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(302);
+                        expect(res.headers.location).toContain('/proxy/' + encodeURIComponent('http://phonegap.com/robots.txt'));
+                        done();
+                    });
             });
         });
     });

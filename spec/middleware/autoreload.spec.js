@@ -120,11 +120,11 @@ describe('autoreload middleware', function() {
             it('should return false', function(done) {
                 chdir('spec/fixture/app-with-cordova', function() {
                     agent.post('/__api__/autoreload')
-                    .end(function(e, res) {
-                        expect(res.statusCode).toEqual(200);
-                        expect(JSON.parse(res.text).content.outdated).toEqual(false);
-                        done();
-                    });
+                        .end(function(e, res) {
+                            expect(res.statusCode).toEqual(200);
+                            expect(JSON.parse(res.text).content.outdated).toEqual(false);
+                            done();
+                        });
                 });
             });
         });

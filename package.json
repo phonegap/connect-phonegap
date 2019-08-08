@@ -18,6 +18,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "jasmine && eslint .",
+    "lint-fix": "eslint . --fix",
     "cover": "istanbul cover --print detail -x **/spec/** jasmine"
   },
   "engines": {
@@ -44,7 +45,7 @@
   "devDependencies": {
     "chdir": "0.0.0",
     "checksum": "0.1.1",
-    "eslint": "^3.12.2",
+    "eslint": ">=4.18.2",
     "istanbul": "0.4.5",
     "jasmine": "2.5.3",
     "rewire": "2.5.2",

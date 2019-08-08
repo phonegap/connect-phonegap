@@ -63,29 +63,6 @@ describe('update middleware', function() {
             it('should respond with the zip content', function(done) {
                 agent.get('/__api__/update')
                 // custom application/zip parser for supertest
-                .parse(function(res, callback) {
-                    res.setEncoding('binary');
-                    res.data = '';
-                    res.on('data', function (chunk) {
-                        res.data += chunk;
-                    });
-                    res.on('end', function () {
-                        callback(null, new Buffer(res.data, 'binary'));
-                    });
-                })
-                .end(function(e, res) {
-                    expect(Buffer.isBuffer(res.body)).toBe(true);
-                    expect(res.body.length).toBeGreaterThan(0);
-                    done();
-                });
-            });
-
-            it('should respond with only the updated content', function(done) {
-                agent.get('/__api__/autoreload').end(function(e, res) {
-                    watchSpy.emit('all', 'eventType', path.join(process.cwd(),'www/index.html'));
-
-                    agent.get('/__api__/update')
-                    // custom application/zip parser for supertest
                     .parse(function(res, callback) {
                         res.setEncoding('binary');
                         res.data = '';
@@ -97,12 +74,35 @@ describe('update middleware', function() {
                         });
                     })
                     .end(function(e, res) {
-                        var zip = new admzip(res.body);
-                        var zipEntry = zip.getEntries();
-                        expect(zipEntry.length).toEqual(1);
-                        expect(zipEntry[0].entryName).toEqual('www/index.html');
+                        expect(Buffer.isBuffer(res.body)).toBe(true);
+                        expect(res.body.length).toBeGreaterThan(0);
                         done();
                     });
+            });
+
+            it('should respond with only the updated content', function(done) {
+                agent.get('/__api__/autoreload').end(function(e, res) {
+                    watchSpy.emit('all', 'eventType', path.join(process.cwd(),'www/index.html'));
+
+                    agent.get('/__api__/update')
+                    // custom application/zip parser for supertest
+                        .parse(function(res, callback) {
+                            res.setEncoding('binary');
+                            res.data = '';
+                            res.on('data', function (chunk) {
+                                res.data += chunk;
+                            });
+                            res.on('end', function () {
+                                callback(null, new Buffer(res.data, 'binary'));
+                            });
+                        })
+                        .end(function(e, res) {
+                            var zip = new admzip(res.body);
+                            var zipEntry = zip.getEntries();
+                            expect(zipEntry.length).toEqual(1);
+                            expect(zipEntry[0].entryName).toEqual('www/index.html');
+                            done();
+                        });
                 });
             });
         });

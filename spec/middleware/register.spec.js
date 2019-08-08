@@ -24,13 +24,13 @@ describe('register middleware', function() {
             it('should return an error', function(done) {
                 data = {};
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
+                        done();
+                    });
             });
         });
 
@@ -38,13 +38,13 @@ describe('register middleware', function() {
             it('should return an error', function(done) {
                 delete data.platform;
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
+                        done();
+                    });
             });
         });
 
@@ -52,51 +52,51 @@ describe('register middleware', function() {
             it('should return an error', function(done) {
                 delete data.version;
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
+                        done();
+                    });
             });
         });
 
         describe('successfully register device', function() {
             it('should not return an error', function(done) {
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).error).not.toBeDefined();
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).error).not.toBeDefined();
+                        done();
+                    });
             });
 
             it('should return current registered device', function(done) {
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).current).toEqual({
-                        platform: 'android',
-                        version: '3.4.0'
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).current).toEqual({
+                            platform: 'android',
+                            version: '3.4.0'
+                        });
+                        done();
                     });
-                    done();
-                });
             });
 
             it('should return available platforms', function(done) {
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).available).toEqual(jasmine.any(Object));
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).available).toEqual(jasmine.any(Object));
+                        done();
+                    });
             });
         });
 
@@ -107,38 +107,38 @@ describe('register middleware', function() {
 
             it('should return an error', function(done) {
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).error).toEqual(jasmine.any(String));
+                        done();
+                    });
             });
 
             it('should return current registered device', function(done) {
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).current).not.toEqual({
-                        platform: data.platform,
-                        version: data.version
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).current).not.toEqual({
+                            platform: data.platform,
+                            version: data.version
+                        });
+                        done();
                     });
-                    done();
-                });
             });
 
             it('should return available platforms', function(done) {
                 request(phonegap())
-                .post(url)
-                .send(data)
-                .end(function(e, res) {
-                    expect(res.statusCode).toEqual(200);
-                    expect(JSON.parse(res.text).available).toEqual(jasmine.any(Object));
-                    done();
-                });
+                    .post(url)
+                    .send(data)
+                    .end(function(e, res) {
+                        expect(res.statusCode).toEqual(200);
+                        expect(JSON.parse(res.text).available).toEqual(jasmine.any(Object));
+                        done();
+                    });
             });
         });
     });
